@@ -30,6 +30,12 @@ public class ContactResource {
 
     public record ContactRequest(String name, String email, String message, String honeypot) {}
 
+    private static final int MAX_NAME_LENGTH = 200;
+    private static final int MAX_EMAIL_LENGTH = 254;
+    private static final int MAX_MESSAGE_LENGTH = 5000;
+    private static final java.util.regex.Pattern EMAIL_PATTERN =
+            java.util.regex.Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -38,7 +44,6 @@ public class ContactResource {
             return Map.of("status", "error", "error", "Empty request");
         }
 
-        // Honeypot tripped — silently pretend success, don't tell the bot why.
         if (req.honeypot() != null && !req.honeypot().isBlank()) {
             LOG.debug("Honeypot field filled — dropping likely spam submission silently.");
             return Map.of("status", "ok");
@@ -47,9 +52,20 @@ public class ContactResource {
         if (req.message() == null || req.message().isBlank()) {
             return Map.of("status", "error", "error", "Message is required");
         }
+        if (req.message().length() > MAX_MESSAGE_LENGTH) {
+            return Map.of("status", "error", "error", "Message too long (max " + MAX_MESSAGE_LENGTH + " characters)");
+        }
+        if (req.name() != null && req.name().length() > MAX_NAME_LENGTH) {
+            return Map.of("status", "error", "error", "Name too long");
+        }
+        if (req.email() != null && !req.email().isBlank()) {
+            if (req.email().length() > MAX_EMAIL_LENGTH || !EMAIL_PATTERN.matcher(req.email()).matches()) {
+                return Map.of("status", "error", "error", "Invalid email address");
+            }
+        }
 
-        String name = (req.name() == null || req.name().isBlank()) ? "Anonymous" : req.name();
-        String replyEmail = (req.email() == null || req.email().isBlank()) ? "not provided" : req.email();
+        String name = (req.name() == null || req.name().isBlank()) ? "Anonymous" : req.name().strip();
+        String replyEmail = (req.email() == null || req.email().isBlank()) ? "not provided" : req.email().strip();
 
         String body = "New message from the Digital Finance Bootcamp contact form:\n\n"
                 + "Name: " + name + "\n"
