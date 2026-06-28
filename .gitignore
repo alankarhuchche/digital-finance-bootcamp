@@ -1,0 +1,12 @@
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Backend (Maven/Quarkus)
+backend/target/
+
+# OS/editor noise
+.DS_Store
+.idea/
+.vscode/
+*.log
