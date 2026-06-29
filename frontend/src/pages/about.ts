@@ -21,12 +21,12 @@ export function renderAboutPage(
       <section class="about-section">
         <h2 class="block-heading">Why this exists</h2>
         <p class="prose">There is a lot of content on DLT, CBDCs and crypto markets. There is less that explains how these ideas compare with the operational reality of cards, real-time payments, SWIFT, correspondent banking, settlement, controls and reconciliation.</p>
-        <p class="prose">This reference bridges that gap — combining public research, regulatory material and market data with the perspective of someone who works with payment rails and digital asset infrastructure day to day.</p>
+        <p class="prose">This reference is built from that perspective. It uses public research, regulatory material and market data, but it is written by someone who works with payment rails and digital asset infrastructure day to day, not by a journalist or an academic.</p>
       </section>
 
       <section class="about-section">
         <h2 class="block-heading">Methodology</h2>
-        <p class="prose">The content combines public research, regulatory material, market data, real-world payment rail mechanics and practitioner judgement. Sources are cited within each topic. Case studies include verification dates.</p>
+        <p class="prose">Content draws on public research, regulatory publications, market data and operational experience with payment rail mechanics. Sources are cited within each topic. Case studies include verification dates so readers can judge how current the evidence is.</p>
       </section>
 
       <section class="about-section">

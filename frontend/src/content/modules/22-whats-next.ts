@@ -54,7 +54,7 @@ const content: ModuleContent = {
       kind: 'text',
       heading: `Wholesale settlement is the real prize`,
       body: `<p>The highest-value application of tokenised money is not retail payments — it is the cash leg for delivery-versus-payment in tokenised asset markets. When a bond, a fund unit, or a repo is settled on-chain, the cash side must also be on-chain for atomic settlement to work. This is the wholesale CBDC and deposit token use case that central banks from the BIS Innovation Hub to the MAS to the Banque de France are actively piloting.</p>
-<p>Getting the cash leg right unlocks the entire tokenised capital markets thesis. Getting it wrong — or leaving it to stablecoins with uncertain legal finality — risks building a new financial market infrastructure on a fragile monetary foundation.</p>`,
+<p>Getting the cash leg right is what makes the tokenised capital markets thesis. Getting it wrong — or leaving it to stablecoins with uncertain legal finality — risks building a new financial market infrastructure on a fragile monetary foundation.</p>`,
     },
     {
       kind: 'text',

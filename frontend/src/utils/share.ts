@@ -52,8 +52,7 @@ export function buildLinkedInSnippet(title: string, summary: string, url: string
 
 ${summary}
 
-Why it matters:
-This is part of the shift from banking rails that digitised the instruction to digital finance that can digitise the instrument, rules, settlement and audit trail.
+This matters because payments today digitised the instruction but not the money, the settlement or the control layer. Digital finance is changing that.
 
 Read more: ${url}`;
 }

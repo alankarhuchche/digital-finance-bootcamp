@@ -158,7 +158,7 @@ export const FINALITY_RAILS: FinalityRail[] = [
       explanation: 'Both banks see the same central bank ledger entry. Reconciliation is against each bank’s own customer accounts, not against the counterparty.',
     },
     assumptionNote: 'CHAPS operates 06:00–18:00 UK business days. Outside these hours, payments queue until the next operating window.',
-    keyLesson: 'RTGS is the gold standard: all five stages are close together and in central bank money. Every other system is measured against this.',
+    keyLesson: 'RTGS is the benchmark because all five stages happen close together and settle in central bank money. Every other system is compared to this.',
   },
   {
     id: 'swift',
@@ -201,7 +201,7 @@ export const FINALITY_RAILS: FinalityRail[] = [
       explanation: 'Every bank in the chain reconciles its own nostro/vostro positions bilaterally, often with a day’s lag. Mismatches can leave payments in investigation queues.',
     },
     assumptionNote: 'Timings vary significantly by corridor. SWIFT gpi improves transparency but does not change the underlying multi-hop settlement.',
-    keyLesson: 'The instruction arrives in seconds. The money arrives in days. The reconciliation may take longer still. This is the gap digital finance targets.',
+    keyLesson: 'The instruction arrives in seconds. The money arrives in days. The reconciliation may take longer still. This gap between instruction speed and money movement is what digital finance alternatives are trying to close.',
   },
   {
     id: 'cls',

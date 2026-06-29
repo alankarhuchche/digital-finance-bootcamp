@@ -51,7 +51,7 @@ export function renderHomePage(
 
     <section class="finality-section" id="finality-section">
       <h2 class="section-heading">Fast is not always final</h2>
-      <p class="section-intro">Payment speed is not one thing. Customer approval, technical confirmation, legal finality, liquidity availability and reconciliation can happen at different points in time. Select a rail to see the gap.</p>
+      <p class="section-intro">Payment speed is not one thing. Customer approval, technical confirmation, legal finality, liquidity availability and reconciliation happen at different points in time. Pick a rail below to see how wide the gap is between what the customer sees and when money actually settles.</p>
       <div id="finalityMount">
         <p class="finality-loading" style="color: var(--text-dim); font-size: 13px;">Loading visualiser…</p>
       </div>

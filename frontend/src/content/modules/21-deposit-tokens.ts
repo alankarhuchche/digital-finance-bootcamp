@@ -27,7 +27,7 @@ const content: ModuleContent = {
     },
     {
       kind: 'text',
-      heading: 'Why it is not just a stablecoin',
+      heading: 'How deposit tokens differ from stablecoins',
       body: `The distinction matters and is frequently blurred. A stablecoin (like USDC or USDT) is issued by a non-bank entity that holds reserves — typically government securities and cash — in a segregated trust. The holder has a claim on the reserve pool, not on a bank balance sheet. The issuer cannot lend against those reserves; the money is "narrow." A deposit token, by contrast, sits on a bank balance sheet. The bank can lend against it. The holder benefits from deposit insurance. The token participates in fractional reserve banking. This is not a technical difference — it is a fundamental difference in how money creation works. Stablecoins shrink the money multiplier; deposit tokens preserve it.`,
     },
     {

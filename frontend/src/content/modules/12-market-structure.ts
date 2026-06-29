@@ -25,7 +25,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'Hybrid models: CEX-DEX bridges',
-      body: `The CEX/DEX binary is blurring. dYdX runs an order book (like a CEX) but settles on-chain (like a DEX). Coinbase's Base chain and Binance's BNB Chain let their CEX users move seamlessly to on-chain DeFi. Hybrid models try to combine CEX-grade speed and UX with DEX-grade self-custody and transparency.`,
+      body: `The CEX/DEX binary is blurring. dYdX runs an order book (like a CEX) but settles on-chain (like a DEX). Coinbase's Base chain and Binance's BNB Chain let their CEX users move directly into on-chain DeFi. Hybrid models try to combine CEX-grade speed and UX with DEX-grade self-custody and transparency.`,
     },
     {
       kind: 'text',
