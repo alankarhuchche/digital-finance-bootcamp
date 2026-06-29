@@ -2,7 +2,6 @@ import { MODULE_INDEX, CATEGORIES } from '../content/registry';
 import { isComplete } from '../progress';
 import { staggerEntrance } from '../animate';
 import { renderRailExplorer } from '../viz/railExplorer';
-import { renderFinalityVisualiser } from '../viz/finalityVisualiser';
 
 export function renderHomePage(
   app: HTMLElement,
@@ -13,9 +12,8 @@ export function renderHomePage(
 
   app.innerHTML = `
     <div class="landing-header">
-      <span class="eyebrow">Banking Rails to Digital Finance</span>
-      <h1>Today's payments digitised the instruction.</h1>
-      <p class="landing-headline">Digital finance digitises the instrument, the rules, the settlement and the audit trail.</p>
+      <h1 class="landing-title">Banking Rails<br>to Digital Finance</h1>
+      <p class="landing-thesis">Today's payments digitised the instruction. Digital finance digitises the instrument, the rules, the settlement and the audit trail.</p>
     </div>
 
     <div class="hero-contrast">
@@ -39,32 +37,63 @@ export function renderHomePage(
       </div>
     </div>
 
-    <p class="landing-context">Modern payments are already electronic. But most still separate the customer instruction from the underlying movement of money, the settlement asset, the risk checks and the reconciliation process. This reference explains what changes when money, assets, rules and settlement become more programmable and interoperable — and what still has to work for banks to trust it.</p>
+    <nav class="homepage-jump" aria-label="Jump to section">
+      <a href="#rails-section" class="jump-link">Explore rails</a>
+      <a href="#finality-section" class="jump-link">See finality gap</a>
+      <a href="#topics-section" class="jump-link">Browse topics</a>
+    </nav>
 
-    <section class="rail-explorer-section">
+    <section class="rail-explorer-section" id="rails-section">
       <h2 class="section-heading">Explore the rails</h2>
       <p class="section-intro">Select a rail to see what moves, when settlement happens, where reconciliation remains, and why digital finance alternatives matter.</p>
       <div id="railExplorerMount"></div>
     </section>
 
-    <section class="finality-section">
+    <section class="finality-section" id="finality-section">
       <h2 class="section-heading">Fast is not always final</h2>
       <p class="section-intro">Payment speed is not one thing. Customer approval, technical confirmation, legal finality, liquidity availability and reconciliation can happen at different points in time. Select a rail to see the gap.</p>
-      <div id="finalityMount"></div>
+      <div id="finalityMount">
+        <p class="finality-loading" style="color: var(--text-dim); font-size: 13px;">Loading visualiser…</p>
+      </div>
     </section>
 
-    <p class="landing-start">Start with <strong>Payments fundamentals</strong> if you're new, or jump to any topic. Topics build on each other in the order shown, but each one stands on its own.</p>
+    <p class="landing-start" id="topics-section">Start with <strong>Payments fundamentals</strong> if you're new, or jump to any topic. Topics build on each other in the order shown, but each one stands on its own.</p>
 
     <div id="topicIndex">
       ${renderCategoryIndex()}
     </div>
   `;
 
+  // Jump links — smooth scroll to anchors
+  app.querySelectorAll<HTMLElement>('.jump-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = app.querySelector(link.getAttribute('href')!);
+      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Rail Explorer — load immediately (already bundled)
   const explorerMount = app.querySelector<HTMLElement>('#railExplorerMount');
   if (explorerMount) renderRailExplorer(explorerMount);
 
+  // Finality Visualiser — lazy-load when section enters viewport
   const finalityMount = app.querySelector<HTMLElement>('#finalityMount');
-  if (finalityMount) renderFinalityVisualiser(finalityMount);
+  if (finalityMount) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          observer.disconnect();
+          import('../viz/finalityVisualiser').then(({ renderFinalityVisualiser }) => {
+            finalityMount.innerHTML = '';
+            renderFinalityVisualiser(finalityMount);
+          });
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(finalityMount);
+  }
 
   bindTopicCards(app, navigate);
   staggerEntrance(app, '.topic-card', 30);
