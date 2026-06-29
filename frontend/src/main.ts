@@ -51,8 +51,10 @@ function renderSidebar(): void {
   sidebar.innerHTML = `
     <div class="sidebar-header">
       <button class="sidebar-close" id="sidebarClose">✕</button>
-      <p class="sidebar-brand">Banking Rails</p>
-      <h2 class="sidebar-title">to Digital Finance</h2>
+      <a class="sidebar-brand-link" id="sidebarHome" role="link" tabindex="0" aria-label="Go to homepage">
+        <p class="sidebar-brand">Banking Rails</p>
+        <h2 class="sidebar-title">to Digital Finance</h2>
+      </a>
     </div>
     <div class="sidebar-search">
       <input class="search-input" id="sidebarSearch" type="text" placeholder="Search topics…" autocomplete="off" aria-label="Search topics" />
@@ -85,9 +87,14 @@ function renderSidebar(): void {
         <span id="visitCount"></span>
       </div>
       <div class="sidebar-links">
+        <a id="sidebarHomeLink" role="button" tabindex="0">Home</a>
+        <span class="sidebar-link-sep">·</span>
         <a id="sidebarAbout" role="button" tabindex="0">About</a>
         <span class="sidebar-link-sep">·</span>
         <a id="sidebarContact" role="button" tabindex="0">Contact</a>
+      </div>
+      <div class="sidebar-author">
+        Built by <a href="https://www.linkedin.com/in/alankar-huchche" target="_blank" rel="noopener" class="sidebar-author-link">Alankar Huchche</a>
       </div>
     </div>
   `;
@@ -97,6 +104,16 @@ function renderSidebar(): void {
     item.addEventListener('click', handler);
     item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } });
   });
+
+  // Brand → home
+  const brandEl = sidebar.querySelector<HTMLElement>('#sidebarHome')!;
+  brandEl.addEventListener('click', () => navigate('/'));
+  brandEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') navigate('/'); });
+
+  // Footer home link
+  const homeLinkEl = sidebar.querySelector<HTMLElement>('#sidebarHomeLink')!;
+  homeLinkEl.addEventListener('click', () => navigate('/'));
+  homeLinkEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') navigate('/'); });
 
   const aboutEl = sidebar.querySelector<HTMLElement>('#sidebarAbout')!;
   aboutEl.addEventListener('click', () => navigate('/about'));

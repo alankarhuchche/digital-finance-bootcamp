@@ -37,7 +37,13 @@ html, body {
   position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
   transition: transform 0.25s ease;
 }
-.sidebar-header { padding: 24px 20px 16px; }
+.sidebar-header { padding: 24px 20px 16px; position: relative; }
+.sidebar-brand-link {
+  display: block; text-decoration: none; cursor: pointer;
+  transition: opacity 0.12s;
+}
+.sidebar-brand-link:hover { opacity: 0.85; }
+.sidebar-brand-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; border-radius: 4px; }
 .sidebar-brand {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px; letter-spacing: 0.15em;
@@ -233,6 +239,17 @@ h2, .block-heading {
 .sidebar-links a:hover { color: var(--amber); }
 .sidebar-link-sep { color: var(--grid); font-size: 11px; }
 
+/* Author attribution */
+.sidebar-author {
+  margin-top: 6px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  color: var(--text-dim); opacity: 0.6;
+}
+.sidebar-author-link {
+  color: var(--text-dim); text-decoration: none;
+}
+.sidebar-author-link:hover { color: var(--amber); text-decoration: underline; }
+
 /* ============ Rail Explorer ============ */
 .rail-explorer-section { margin: 28px 0 32px; }
 @media (max-width: 600px) { .rail-explorer-section { margin: 20px 0 24px; } }
@@ -343,7 +360,7 @@ h2, .block-heading {
 
 .rail-card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 12px; margin-bottom: 16px;
   background: var(--ink); border-radius: 4px; padding: 14px;
 }
@@ -564,7 +581,7 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible {
   transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center;
   gap: 4px; background: none; border: none; cursor: pointer;
-  padding: 0; min-width: 60px;
+  padding: 0; min-width: 50px;
 }
 .finality-marker:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; border-radius: 4px; }
 .finality-marker-dot {
@@ -751,7 +768,7 @@ nav.tabs {
 .stack-note { margin-top: 14px; font-size: 13px; color: var(--text-dim); line-height: 1.5; text-align: center; }
 
 /* ============ Scatter ============ */
-.quad-wrap { position: relative; margin-top: 6px; padding-left: 20px; }
+.quad-wrap { position: relative; margin-top: 6px; padding-left: 20px; max-width: 100%; overflow: hidden; }
 .axis-label-y {
   position: absolute; left: -8px; top: 50%; transform: translateY(-50%) rotate(-90deg) translateX(-50%);
   font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 0.04em;
@@ -821,7 +838,7 @@ svg.quad { width: 100%; max-width: 500px; height: auto; display: block; }
 }
 
 /* ============ Flow ============ */
-svg.flow { width: 100%; max-width: 700px; height: auto; }
+svg.flow { width: 100%; max-width: 700px; height: auto; display: block; }
 .flow-box-bg { fill: var(--ink2); stroke: var(--grid); stroke-width: 1.5; }
 .flow-text { font-family: 'IBM Plex Mono', monospace; fill: var(--text); }
 .flow-text-big { font-family: 'IBM Plex Mono', monospace; font-weight: 600; }
@@ -877,7 +894,7 @@ table.matrix tbody tr:focus-visible { outline: 2px solid var(--amber); outline-o
 .tl-line-grown { transform: scaleY(1); }
 
 /* ============ Region map ============ */
-.map-wrap { background: var(--ink2); border: 1px solid var(--grid); border-radius: 4px; padding: 8px; }
+.map-wrap { background: var(--ink2); border: 1px solid var(--grid); border-radius: 4px; padding: 8px; max-width: 100%; overflow: hidden; }
 svg.world-map { width: 100%; height: auto; display: block; }
 .map-base { fill: #1C4068; stroke: #244a6e; stroke-width: 0.5; }
 .pin { cursor: pointer; transition: r 0.15s; }
@@ -922,7 +939,7 @@ svg.world-map { width: 100%; height: auto; display: block; }
 .case-card.entered { opacity: 1; transform: translateY(0); }
 
 /* ============ Scale ============ */
-.scale-list { display: flex; flex-direction: column; gap: 16px; margin-top: 8px; }
+.scale-list { display: flex; flex-direction: column; gap: 16px; margin-top: 8px; max-width: 100%; }
 .scale-row { cursor: pointer; }
 .scale-label-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
 .scale-label { font-family: 'Space Grotesk', sans-serif; font-size: 14px; color: var(--text); }
@@ -955,7 +972,7 @@ svg.world-map { width: 100%; height: auto; display: block; }
 }
 .comparison-col {
   background: var(--ink2); border: 1px solid var(--grid);
-  border-radius: 6px; overflow: hidden;
+  border-radius: 6px; overflow: hidden; min-width: 0;
 }
 .comparison-col-header {
   padding: 14px 16px 10px;
@@ -1019,7 +1036,8 @@ svg.world-map { width: 100%; height: auto; display: block; }
 
 /* ============ Topic page ============ */
 .topic-header { margin-bottom: 24px; }
-.topic-body { display: flex; flex-direction: column; gap: 28px; }
+.topic-body { display: flex; flex-direction: column; gap: 28px; min-width: 0; max-width: 100%; }
+.topic-body > .block { min-width: 0; max-width: 100%; }
 
 .back-btn {
   background: none; border: none; color: var(--text-dim);
