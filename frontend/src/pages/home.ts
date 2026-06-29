@@ -70,7 +70,7 @@ function renderCategoryIndex(): string {
     if (topics.length === 0) return '';
 
     return `
-      <div class="category-section">
+      <div class="category-section" data-cat="${cat.label}">
         <div class="category-label">${cat.label}</div>
         <div class="topic-grid">
           ${topics.map(renderTopicCard).join('')}

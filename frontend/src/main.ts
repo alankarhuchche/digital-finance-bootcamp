@@ -62,8 +62,12 @@ function renderSidebar(): void {
       <div class="progress-track-sm"><div class="progress-fill-sm" style="width:${(done / total) * 100}%"></div></div>
     </div>
     <nav class="sidebar-nav" id="sidebarNav" aria-label="Topic navigation">
-      ${CATEGORIES.map(cat => `
-        <div class="nav-category">${cat.label}</div>
+      ${CATEGORIES.map(cat => {
+        const catTotal = cat.ids.filter(id => id !== 'glossary').length;
+        const catDone = cat.ids.filter(id => id !== 'glossary' && isComplete(id)).length;
+        const progress = catTotal > 0 ? `<span class="nav-category-progress">${catDone}/${catTotal}</span>` : '';
+        return `
+        <div class="nav-category">${cat.label}${progress}</div>
         ${cat.ids.map(id => {
           const m = MODULE_INDEX.find(x => x.id === id);
           if (!m) return '';
@@ -73,7 +77,7 @@ function renderSidebar(): void {
             ${checked ? '<span class="nav-item-check">✓</span>' : ''}
           </div>`;
         }).join('')}
-      `).join('')}
+      `;}).join('')}
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-stats">
