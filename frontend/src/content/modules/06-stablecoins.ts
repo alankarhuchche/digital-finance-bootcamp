@@ -52,6 +52,17 @@ const content: ModuleContent = {
         verifiedAsOf: 'June 2026',
       },
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'How does a fiat-backed stablecoin issuer earn revenue?', options: ['Charging transaction fees to token holders', 'Keeping the yield earned on reserve assets (e.g. T-bills) while holders get none', 'Minting new tokens and selling them at a premium', 'Charging a subscription to use the stablecoin'], correctIndex: 1, explanation: 'The issuer invests reserves in T-bills and keeps the yield; token holders receive no interest.' },
+          { question: 'What caused TerraUSD (UST) to collapse?', options: ['Its reserve of T-bills was seized by regulators', 'Its algorithmic mint/burn mechanism accelerated the collapse once trust broke', 'A hack drained the smart contract', 'The collateral crypto assets were liquidated too slowly'], correctIndex: 1, explanation: 'UST had no real asset backing; once confidence broke, the mint/burn mechanism created a death spiral.' },
+          { question: 'What backs a crypto-collateralized stablecoin like DAI?', options: ['Fiat currency held 1:1 in a bank', 'An algorithmic mint/burn mechanism', 'Over-collateralized crypto assets (e.g. $1.50 of ETH per $1 of stablecoin)', 'US Treasury bills and overnight repos'], correctIndex: 2, explanation: 'Crypto-collateralized stablecoins hold more crypto than the value of tokens issued to absorb price swings.' },
+        ],
+      },
+    },
   ],
 };
 

@@ -92,6 +92,17 @@ const content: ModuleContent = {
       heading: 'Why this matters going forward',
       body: `Notice the pattern: stablecoins push risk toward banks/central banks/economies while concentrating benefit on the customer; a well-designed CBDC tends to do the opposite. Every regulation you'll meet later \u2014 MiCA's reserve rules, transaction caps on "significant" tokens, the GENIUS Act's licensing requirements \u2014 is one of these four stakeholders trying to protect their own position. Once you can name which stakeholder a rule is protecting, the rule stops looking arbitrary.`,
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'Which stakeholder faces "dollarization risk" from foreign stablecoins?', options: ['The individual customer', 'The commercial bank', 'The central bank', 'The economy / country'], correctIndex: 3, explanation: 'A foreign stablecoin becoming the de facto medium of exchange is functional dollarization, a risk to the economy’s monetary sovereignty.' },
+          { question: 'Why are CBDC holding caps (e.g. £10,000–£20,000) being discussed?', options: ['To limit government spending', 'To prevent fast bank runs that drain commercial bank deposits', 'To reduce energy consumption', 'To comply with anti-money-laundering rules'], correctIndex: 1, explanation: 'Uncapped CBDC could let depositors move funds out of commercial banks instantly, risking rapid bank runs.' },
+          { question: 'For commercial banks, what is the primary risk of stablecoins?', options: ['Increased regulatory burden', 'Deposits leaving their balance sheet, reducing funds available to lend', 'Higher energy costs', 'Loss of transaction fee income from card networks'], correctIndex: 1, explanation: 'When customers move deposits into stablecoins, those funds leave the bank’s balance sheet.' },
+        ],
+      },
+    },
   ],
 };
 

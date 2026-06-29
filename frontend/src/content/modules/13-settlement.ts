@@ -46,6 +46,17 @@ const content: ModuleContent = {
       heading: 'Why this is still mostly unsolved at scale',
       body: `Atomic settlement requires both legs to live on the same ledger \u2014 but today, tokenized securities and the cash paying for them usually sit on different systems, which is exactly the tokenized-deposit-vs-stablecoin-vs-wholesale-CBDC argument from Modules 02 and 07. Whichever asset becomes the standard "cash leg" for institutional settlement determines who actually solves this problem first. The RLN and Project Agor\u00e1 (Module 11) are direct attempts at exactly this \u2014 building the shared-ledger cash leg that tokenized securities settlement needs.`,
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'What is "Herstatt risk"?', options: ['The risk that a blockchain transaction is reversed after confirmation', 'The risk that one side of a trade delivers but the other side fails before settling, due to timing gaps between systems', 'The risk of a stablecoin losing its peg during settlement', 'The risk of a custodian going bankrupt while holding client assets'], correctIndex: 1, explanation: 'Herstatt risk is the settlement timing gap where one party delivers but the counterparty fails before its leg settles, named after a 1974 bank failure.' },
+          { question: 'What does "atomic settlement" guarantee?', options: ['Settlement within one second', 'Both legs of a trade settle or neither does \u2014 there is no partial execution', 'All trades are publicly visible on a blockchain', 'Settlement is denominated in a single global currency'], correctIndex: 1, explanation: 'Atomic settlement means both the security and cash legs are part of one transaction \u2014 if either would fail, the whole transaction reverts.' },
+          { question: 'Why is atomic DvP still mostly unsolved at institutional scale?', options: ['Blockchains are too slow to handle the transaction volume', 'Tokenized securities and the cash paying for them usually sit on different ledgers', 'Regulators have explicitly banned atomic settlement', 'There are no tokenized securities available yet'], correctIndex: 1, explanation: 'Atomic settlement requires both legs on the same ledger, but tokenized securities and cash typically live on separate systems today.' },
+        ],
+      },
+    },
   ],
 };
 

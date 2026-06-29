@@ -43,6 +43,17 @@ const content: ModuleContent = {
       heading: 'The pattern across this map',
       body: `Notice where activity concentrates: advanced economies outside the eurozone (Canada, Australia, Norway) have generally deprioritized retail CBDC, while emerging markets are pushing harder \u2014 often explicitly as a defensive response to dollar-backed stablecoins eroding local monetary control (the dollarization risk from Module 03). Wholesale infrastructure, not retail, is where the most serious institutional money and effort is concentrated right now.`,
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'What is mBridge?', options: ['A retail CBDC wallet app for consumers', 'A multi-CBDC wholesale cross-border settlement platform led by the BIS', 'A private stablecoin bridge between Ethereum and Solana', 'A European interbank messaging standard replacing SWIFT'], correctIndex: 1, explanation: 'mBridge is a BIS-led multi-CBDC wholesale cross-border settlement platform with roughly $55B in settlement volume as of 2026.' },
+          { question: 'What happened to retail CBDC in the United States under the GENIUS Act (2025)?', options: ['It was launched as a pilot in three states', 'It was explicitly banned, though wholesale research continues via Project Agor\u00e1', 'It was approved but delayed until 2028', 'It was replaced by a federally issued stablecoin'], correctIndex: 1, explanation: 'The GENIUS Act banned retail CBDC in the US, but wholesale research continues through Project Agor\u00e1.' },
+          { question: 'Which country\'s CBDC makes up the large majority of mBridge settlement volume?', options: ['Thailand\'s digital baht', 'The UAE\'s digital dirham', 'China\'s e-CNY', 'Saudi Arabia\'s digital riyal'], correctIndex: 2, explanation: 'China\'s e-CNY makes up the large majority of mBridge\'s roughly $55B settlement volume.' },
+        ],
+      },
+    },
   ],
 };
 

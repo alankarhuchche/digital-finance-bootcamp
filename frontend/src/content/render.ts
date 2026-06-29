@@ -7,6 +7,8 @@ import { renderTimeline } from '../viz/timeline';
 import { renderRegionMap } from '../viz/regionMap';
 import { renderCaseStudy } from '../viz/caseStudy';
 import { renderScale } from '../viz/scale';
+import { renderQuiz } from '../viz/quiz';
+import { renderChatWidget } from '../chat';
 
 export async function renderModule(container: HTMLElement, mod: ModuleContent): Promise<void> {
   container.innerHTML = `
@@ -27,6 +29,29 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
     body.appendChild(section);
     await renderBlock(section, block);
   }
+
+  // Next module button
+  if (mod.number !== '17') {
+    const nextIdx = parseInt(mod.number, 10) + 1;
+    const { MODULE_INDEX } = await import('./registry');
+    const next = MODULE_INDEX[nextIdx];
+    if (next && next.ready) {
+      const nav = document.createElement('div');
+      nav.className = 'module-nav';
+      nav.innerHTML = `
+        <a class="next-module-btn" href="/module/${next.id}" data-id="${next.id}">
+          Next: ${next.title} →
+        </a>
+      `;
+      container.appendChild(nav);
+      nav.querySelector<HTMLElement>('.next-module-btn')!.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.dispatchEvent(new CustomEvent('navigate', { detail: `/module/${next.id}` }));
+      });
+    }
+  }
+
+  renderChatWidget(container, mod.id, mod.title, mod.blocks);
 }
 
 async function renderBlock(section: HTMLElement, block: ContentBlock): Promise<void> {
@@ -67,6 +92,9 @@ async function renderBlock(section: HTMLElement, block: ContentBlock): Promise<v
       break;
     case 'scale':
       renderScale(mount, block.data);
+      break;
+    case 'quiz':
+      renderQuiz(mount, block.data);
       break;
   }
 }

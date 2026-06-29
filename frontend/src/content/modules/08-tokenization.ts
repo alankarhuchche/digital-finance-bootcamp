@@ -49,6 +49,17 @@ const content: ModuleContent = {
         verifiedAsOf: 'June 2026',
       },
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'What fundamentally changes when an asset is tokenized?', options: ['The ownership claim itself', 'Where the ownership record lives (from private database to blockchain)', 'The regulatory status of the asset', 'The issuer of the asset'], correctIndex: 1, explanation: 'Tokenization moves the record of ownership to a blockchain; the underlying claim stays the same.' },
+          { question: 'How is a tokenized deposit regulated compared to an ordinary bank deposit?', options: ['It loses deposit insurance', 'It is regulated as a security', 'It retains the same insured-deposit status', 'It falls outside existing regulation'], correctIndex: 2, explanation: 'A tokenized deposit keeps the same insured-deposit status as an ordinary bank account.' },
+          { question: 'What is BlackRock’s BUIDL?', options: ['A retail CBDC pilot', 'A tokenized money market fund with ownership recorded on-chain', 'An algorithmic stablecoin', 'A wholesale settlement platform'], correctIndex: 1, explanation: 'BUIDL is a conventional money market fund whose ownership tokens live on a blockchain, enabling 24/7 transfer.' },
+        ],
+      },
+    },
   ],
 };
 

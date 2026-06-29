@@ -39,6 +39,17 @@ const content: ModuleContent = {
         verifiedAsOf: 'June 2026',
       },
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'What is the key custody difference between a CEX and a DEX?', options: ['CEXs are faster but DEXs are cheaper', 'On a CEX the exchange holds your funds; on a DEX you hold them in your own wallet', 'DEXs require KYC but CEXs do not', 'CEXs only support Bitcoin while DEXs support all tokens'], correctIndex: 1, explanation: 'CEXs are custodial (the exchange holds your funds), while DEXs are non-custodial (you keep assets in your own wallet).' },
+          { question: 'What was the approximate customer fund shortfall in the FTX collapse?', options: ['$800 million', '$2 billion', '$8 billion', '$25 billion'], correctIndex: 2, explanation: 'FTX\'s shortfall was reported at roughly $8 billion after it secretly lent customer deposits to Alameda Research.' },
+          { question: 'Why are market makers important in crypto market structure?', options: ['They issue new tokens on behalf of exchanges', 'They keep prices aligned between CEXs and DEXs, preventing large price discrepancies across venues', 'They provide KYC verification services for decentralized exchanges', 'They insure customer deposits against exchange failures'], correctIndex: 1, explanation: 'Market makers keep prices aligned across venues, preventing the same asset from trading at meaningfully different prices on different exchanges.' },
+        ],
+      },
+    },
   ],
 };
 

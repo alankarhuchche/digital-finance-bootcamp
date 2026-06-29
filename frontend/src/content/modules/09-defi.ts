@@ -39,6 +39,17 @@ const content: ModuleContent = {
       heading: 'The contagion pattern',
       body: `Module 06's Terra/UST collapse and this module's Euler exploit are different failure types \u2014 a stabilization mechanism breaking versus a smart contract bug \u2014 but both spread further than their origin because DeFi protocols are stacked on top of each other. When Terra fell, the damage reached protocols that had never touched UST directly, simply because they shared liquidity pools or bridges with something that did. That's the structural cost of composability, and it's a recurring theme through Module 16 (Failure modes).`,
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'How does an automated market maker (AMM) determine the price of an asset?', options: ['By matching buyer and seller orders in a limit order book', 'Algorithmically, based on the ratio of assets in a liquidity pool', 'Through a centralized oracle feed from traditional exchanges', 'By polling connected wallets for their latest trade prices'], correctIndex: 1, explanation: 'AMMs replace order books with liquidity pools and set prices algorithmically based on the pool\'s asset ratio.' },
+          { question: 'What made the Euler Finance exploit possible?', options: ['A depeg in the underlying stablecoin collateral', 'A flash loan exploiting a missing liquidity check in the lending protocol', 'A compromised validator key on the Ethereum network', 'An insider transferring funds to an external wallet'], correctIndex: 1, explanation: 'The attacker used a flash loan to exploit a missing liquidity check in Euler\'s smart contract, extracting roughly $197 million.' },
+          { question: 'Why does DeFi composability ("money legos") amplify systemic risk?', options: ['It requires all protocols to use the same programming language', 'It means protocols are stacked on each other, so one failure can cascade through shared liquidity', 'It forces users to deposit funds in a single custodian', 'It prevents protocols from being audited independently'], correctIndex: 1, explanation: 'Composability means protocols are interconnected through shared pools and positions, so damage from one failure spreads to protocols that never directly touched the failing component.' },
+        ],
+      },
+    },
   ],
 };
 

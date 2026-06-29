@@ -18,6 +18,15 @@ export function renderScatter(container: HTMLElement, spec: ScatterSpec): void {
     </div>
   `;
 
+  // Animate dots in
+  const dots = container.querySelectorAll<SVGCircleElement>('.dot');
+  dots.forEach((dot, i) => {
+    setTimeout(() => {
+      dot.setAttribute('r', '9');
+      dot.classList.add('dot-visible');
+    }, 150 + i * 120);
+  });
+
   const detailEl = container.querySelector<HTMLElement>('#scatterDetail')!;
 
   container.querySelectorAll<SVGGElement>('.dotgroup').forEach((g) => {
@@ -26,29 +35,36 @@ export function renderScatter(container: HTMLElement, spec: ScatterSpec): void {
       const point = spec.points.find((p) => p.key === key);
       if (!point) return;
 
-      detailEl.innerHTML = `
-        <span class="tag" style="color:${point.color}">${point.detail.tag}</span>
-        <h3>${point.detail.title}</h3>
-        <div class="money-grid">
-          ${point.detail.fields
-            .map((f) => `<div class="field"><div class="k">${f.k}</div><div class="v">${f.v}</div></div>`)
-            .join('')}
-        </div>
-      `;
+      detailEl.classList.add('detail-swap');
+      setTimeout(() => {
+        detailEl.innerHTML = `
+          <span class="tag" style="color:${point.color}">${point.detail.tag}</span>
+          <h3>${point.detail.title}</h3>
+          <div class="money-grid">
+            ${point.detail.fields
+              .map((f) => `<div class="field"><div class="k">${f.k}</div><div class="v">${f.v}</div></div>`)
+              .join('')}
+          </div>
+        `;
+        detailEl.classList.remove('detail-swap');
+      }, 150);
 
-      container.querySelectorAll('.dot').forEach((c) => c.setAttribute('r', '9'));
+      container.querySelectorAll('.dot').forEach((c) => {
+        c.setAttribute('r', '9');
+        c.classList.remove('dot-active');
+      });
       g.querySelector('.dot')!.setAttribute('r', '12');
+      g.querySelector('.dot')!.classList.add('dot-active');
     });
   });
 }
 
 function renderDot(p: ScatterPoint): string {
-  // map 0-100 data space to the 10-290 plot area
   const cx = 10 + (p.x / 100) * 280;
-  const cy = 10 + ((100 - p.y) / 100) * 280; // invert so higher y = visually higher
+  const cy = 10 + ((100 - p.y) / 100) * 280;
   return `
     <g class="dotgroup" data-key="${p.key}">
-      <circle class="dot" cx="${cx}" cy="${cy}" r="9" fill="${p.color}"/>
+      <circle class="dot" cx="${cx}" cy="${cy}" r="0" fill="${p.color}"/>
       <text x="${cx}" y="${cy + 18}" text-anchor="middle" class="dot-label">${p.label}</text>
     </g>
   `;

@@ -70,6 +70,17 @@ const content: ModuleContent = {
       heading: 'The pattern worth keeping',
       body: `Every row trades off the same three things: who's on the hook if it fails, whether you earn anything for holding it, and how freely you can move it. Nothing on this map is free of all three risks at once \u2014 and almost every "which is safer" question in later modules comes back to that tradeoff.`,
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'Who issues a CBDC?', options: ['A private company', 'A commercial bank', 'A central bank', 'A decentralized protocol'], correctIndex: 2, explanation: 'A CBDC is a direct liability of the central bank, backed by sovereign promise.' },
+          { question: 'What is a stablecoin holder’s claim?', options: ['A direct central bank liability', 'An insured deposit', 'An unsecured claim on a private company', 'A claim on a decentralized protocol'], correctIndex: 2, explanation: 'Stablecoins like USDT/USDC are issued by private companies, making your claim unsecured.' },
+          { question: 'How does a tokenized deposit differ from an ordinary bank deposit?', options: ['It is no longer deposit-insured', 'It is issued by the central bank instead', 'The record lives on blockchain rails but retains the same insured-deposit status', 'It is backed by crypto assets'], correctIndex: 2, explanation: 'A tokenized deposit is the same insured claim, just recorded on the bank’s blockchain rails.' },
+        ],
+      },
+    },
   ],
 };
 

@@ -47,6 +47,17 @@ const content: ModuleContent = {
       heading: 'The friction points worth remembering',
       body: `Five things to keep in your head as you go through later modules, because almost every "why bother" question comes back to one of these: <b>speed</b> (multi-day settlement for cross-border), <b>cost</b> (multiple correspondent fees plus FX spread), <b>operating hours</b> (cut-off times, weekends, holidays), <b>reconciliation</b> (every bank in the chain keeps its own ledger, reconciled after the fact), and <b>finality</b> (a payment can be "sent" without being truly final for some time). Later modules on settlement and DvP come back to this exact list.`,
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'What does a SWIFT message actually carry?', options: ['Physical money between banks', 'Payment instructions, not money itself', 'Cryptocurrency tokens', 'Central bank reserves'], correctIndex: 1, explanation: 'SWIFT messages carry instructions; settlement happens through correspondent banks’ own accounts.' },
+          { question: 'Which rail provides immediate, irrevocable settlement but is domestic only?', options: ['SWIFT / correspondent banking', 'Card networks', 'Domestic RTGS (e.g. CHAPS)', 'ACH / Faster Payments'], correctIndex: 2, explanation: 'RTGS systems like CHAPS settle in near real-time with immediate finality, but only within a single country.' },
+          { question: 'Which of the following is NOT one of the five friction points of today’s payment rails?', options: ['Speed', 'Reconciliation', 'Privacy', 'Operating hours'], correctIndex: 2, explanation: 'The five friction points are speed, cost, operating hours, reconciliation, and finality.' },
+        ],
+      },
+    },
   ],
 };
 

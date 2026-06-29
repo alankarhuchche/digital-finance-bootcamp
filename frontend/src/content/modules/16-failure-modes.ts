@@ -41,6 +41,17 @@ const content: ModuleContent = {
       heading: 'The pattern across all four',
       body: `Every category here is a different answer to the same question: what, exactly, were you trusting, and was that trust justified? An algorithmic stablecoin asks you to trust a mechanism with no real backing. A DeFi protocol asks you to trust its code is bug-free. A CEX asks you to trust a company's custody promises. A bridge asks you to trust a small set of keys. None of these risks is unique to crypto \u2014 traditional finance has analogues for all four \u2014 but the absence of deposit insurance, a central counterparty, or a regulator of last resort means the consequences land faster and harder when trust turns out to be misplaced.`,
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'How much was drained in the Ronin Bridge exploit, and who was it attributed to?', options: ['$197 million, attributed to an internal employee', '$625 million, attributed to North Korea\'s Lazarus Group', '$8 billion, attributed to Alameda Research', '$40 billion, attributed to Terra\'s Luna Foundation Guard'], correctIndex: 1, explanation: 'The Ronin Bridge exploit drained roughly $625 million and was attributed by the US Treasury to North Korea\'s Lazarus Group.' },
+          { question: 'What makes cross-chain bridges uniquely attractive targets for attackers?', options: ['They process the highest transaction volumes of any DeFi protocol', 'They concentrate large pooled assets behind a small set of signing keys', 'They are the only DeFi protocols without smart contract audits', 'They hold assets in unencrypted wallets for faster transfers'], correctIndex: 1, explanation: 'Bridges are attractive targets because they concentrate large pooled assets behind relatively few signing keys \u2014 compromise the keys and the funds are gone.' },
+          { question: 'Which failure category does the FTX collapse represent?', options: ['Algorithmic depeg', 'Smart contract exploit', 'Custodial misuse', 'Bridge exploit'], correctIndex: 2, explanation: 'FTX is classified as custodial misuse \u2014 the exchange misused customer funds it was supposed to merely hold.' },
+        ],
+      },
+    },
   ],
 };
 

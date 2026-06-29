@@ -30,6 +30,17 @@ const content: ModuleContent = {
       heading: 'Why direction matters more than size, for now',
       body: `Stablecoin supply grew from roughly $210B to $320B+ in the first half of 2026 alone \u2014 a genuinely fast trajectory, even from a small base. For a digital assets lab, the size today matters less than the growth rate and where the growth is concentrated (EM remittances, institutional treasury use, DeFi collateral). All figures here will be stale within months \u2014 treat the numbers as a snapshot of June 2026, not a permanent fact.`,
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'Approximately what percentage of US M2 money supply do global stablecoins represent as of mid-2026?', options: ['About 10%', 'About 5%', 'About 1.4%', 'About 0.1%'], correctIndex: 2, explanation: 'The ~$320B stablecoin market cap is roughly 1.4% of the ~$22.8T US M2 money supply.' },
+          { question: 'Which two stablecoins make up the large majority of the global stablecoin market cap?', options: ['DAI and BUSD', 'USDT and USDC', 'USDC and FRAX', 'USDT and DAI'], correctIndex: 1, explanation: 'USDT (~$185-188B) and USDC (~$78B) together dominate the stablecoin market.' },
+          { question: 'What was the approximate DeFi total value locked (TVL) range through H1 2026?', options: ['$10-25 billion', '$72-100 billion', '$150-200 billion', '$300-400 billion'], correctIndex: 1, explanation: 'DeFi TVL ranged roughly $72-100B through H1 2026, down significantly from its $177B all-time high in 2021.' },
+        ],
+      },
+    },
   ],
 };
 

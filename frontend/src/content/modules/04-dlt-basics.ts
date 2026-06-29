@@ -39,6 +39,17 @@ const content: ModuleContent = {
       heading: 'Why finality is the detail that matters most',
       body: `In RTGS systems like CHAPS, settlement is immediate and irrevocable the moment it happens \u2014 that's the whole point of central bank money. On many public blockchains, "finality" is probabilistic: a transaction becomes progressively less likely to be reversed as more blocks are added on top of it, rather than being instantly absolute. This single difference is what makes atomic, simultaneous settlement of two legs of a trade (covered in Module 13) a genuinely hard problem, not a solved one.`,
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'What is the relationship between DLT and blockchain?', options: ['They are identical concepts', 'Blockchain is one specific kind of DLT', 'DLT is a type of blockchain', 'They are unrelated technologies'], correctIndex: 1, explanation: 'A blockchain is a specific type of DLT where transactions are bundled into cryptographically linked blocks.' },
+          { question: 'Which consensus mechanism uses the most energy?', options: ['Proof of Stake', 'Permissioned / consortium voting', 'Proof of Work', 'All use roughly the same amount'], correctIndex: 2, explanation: 'Proof of Work requires significant computing power, making its energy use very high compared to alternatives.' },
+          { question: 'How does finality on many public blockchains differ from RTGS?', options: ['It is faster and more certain', 'It is probabilistic — transactions become progressively harder to reverse', 'There is no finality at all', 'It requires manual confirmation by a central authority'], correctIndex: 1, explanation: 'On many public blockchains, finality is probabilistic: reversal becomes less likely as more blocks are added.' },
+        ],
+      },
+    },
   ],
 };
 

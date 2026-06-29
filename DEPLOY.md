@@ -80,6 +80,20 @@ echo -n "your-new-app-password" | \
 
 ---
 
+## 3b. Store the Gemini API key in Secret Manager
+
+If not already done:
+
+```bash
+echo -n "your-gemini-api-key" | \
+  gcloud secrets create gemini-api-key --data-file=-
+```
+
+The Cloud Run deploy command (step 7) references this as
+`--set-secrets="GEMINI_API_KEY=gemini-api-key:latest"`.
+
+---
+
 ## 4. Create an Artifact Registry repository
 
 This is where the built Docker image actually lives.
@@ -148,7 +162,7 @@ gcloud run deploy "$SERVICE_NAME" \
   --max-instances=2 \
   --memory=512Mi \
   --set-env-vars="GCP_PROJECT_ID=${PROJECT_ID},MAILER_USERNAME=your-gmail@gmail.com" \
-  --set-secrets="MAILER_PASSWORD=mailer-password:latest"
+  --set-secrets="MAILER_PASSWORD=mailer-password:latest,GEMINI_API_KEY=gemini-api-key:latest"
 ```
 
 Notes on the flags:

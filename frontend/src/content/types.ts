@@ -7,6 +7,7 @@ import type {
   RegionMapSpec,
   CaseStudySpec,
   ScaleSpec,
+  QuizSpec,
 } from '../types';
 
 export type ContentBlock =
@@ -18,7 +19,8 @@ export type ContentBlock =
   | { kind: 'timeline'; heading?: string; data: TimelineSpec }
   | { kind: 'map'; heading?: string; data: RegionMapSpec }
   | { kind: 'case'; heading?: string; data: CaseStudySpec }
-  | { kind: 'scale'; heading?: string; data: ScaleSpec };
+  | { kind: 'scale'; heading?: string; data: ScaleSpec }
+  | { kind: 'quiz'; heading?: string; data: QuizSpec };
 
 export interface ModuleMeta {
   id: string;

@@ -38,6 +38,17 @@ const content: ModuleContent = {
       heading: 'The two you\u2019ll hear less about, but matter',
       body: `<b>FATF's Travel Rule</b> requires crypto transfers above a threshold to carry sender/recipient information \u2014 the same idea as wire transfer compliance in traditional banking, and the source of most of DeFi/self-custody's compliance friction, since a peer-to-peer wallet transfer has no natural place to attach that data. <b>Basel III's crypto exposure rules</b> set how much capital a bank must hold against crypto holdings \u2014 punitively high for unbacked crypto assets, which is a major reason banks have been slow to hold crypto directly on balance sheet, even when they're happy to offer customer access to it.`,
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'Under MiCA, what must stablecoin issuers hold as backing?', options: ['At least 50% in government bonds and 50% in gold', '1:1 reserves, with a meaningful share required in EU bank deposits', 'No specific reserve requirement, only periodic audits', 'A mix of cryptocurrencies equal to 150% of issued value'], correctIndex: 1, explanation: 'MiCA requires 1:1 reserve backing for stablecoins, with a meaningful share held in EU bank deposits.' },
+          { question: 'Why does the GENIUS Act explicitly bar stablecoins from paying interest to holders?', options: ['To prevent stablecoins from competing with bank deposit products', 'To reduce money laundering risk', 'To keep stablecoin transaction fees low', 'To comply with FATF Travel Rule requirements'], correctIndex: 0, explanation: 'The GENIUS Act bars interest-bearing stablecoins to limit their competition with traditional bank deposits.' },
+          { question: 'Why have banks been slow to hold crypto directly on their balance sheets?', options: ['Crypto assets are too volatile to price accurately', 'Basel III capital rules impose punitively high capital charges for unbacked crypto holdings', 'Central banks have banned all bank crypto holdings outright', 'There are no qualified custodians available for institutional crypto'], correctIndex: 1, explanation: 'Basel III\'s crypto exposure rules require banks to hold punitively high capital against unbacked crypto assets.' },
+        ],
+      },
+    },
   ],
 };
 

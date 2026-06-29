@@ -38,6 +38,7 @@ export interface FlowBox {
   caption: string;
   value: string;
   valueColor?: string;
+  detail?: string;
 }
 
 export interface FlowPath {
@@ -103,6 +104,17 @@ export interface ScaleSpec {
   unit: string; // e.g. "USD, billions" — for the caption, not per-item formatting
   items: ScaleItem[];
   note?: string;
+}
+
+export interface QuizQuestion {
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+}
+
+export interface QuizSpec {
+  questions: QuizQuestion[];
 }
 
 export interface CaseStudySpec {

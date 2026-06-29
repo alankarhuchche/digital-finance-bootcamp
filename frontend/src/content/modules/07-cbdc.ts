@@ -39,6 +39,17 @@ const content: ModuleContent = {
       heading: 'Where the real momentum is',
       body: `Outside the eurozone, advanced economies have generally been retreating from retail CBDC \u2014 Canada, Australia, and Norway have all deprioritized it \u2014 while emerging markets are doing the opposite, partly as a direct response to dollar-backed stablecoins eroding monetary control. Wholesale infrastructure is where most serious central bank effort is now going, with mBridge in particular settling tens of billions of dollars in transaction volume. Module 11 maps every major initiative by country in full \u2014 this module was the mechanics, that one is the atlas.`,
     },
+    {
+      kind: 'quiz',
+      heading: 'Knowledge check',
+      data: {
+        questions: [
+          { question: 'Who uses a wholesale CBDC?', options: ['Consumers for everyday payments', 'Banks and financial institutions for interbank settlement', 'Merchants for point-of-sale transactions', 'Anyone with a digital wallet'], correctIndex: 1, explanation: 'Wholesale CBDCs are designed for banks and financial institutions to settle large-value interbank and cross-border transactions.' },
+          { question: 'Which country launched the oldest live retail CBDC?', options: ['Nigeria', 'Jamaica', 'The Bahamas', 'China'], correctIndex: 2, explanation: 'The Bahamas Sand Dollar has been live since October 2020, making it the oldest operational retail CBDC.' },
+          { question: 'Where is the most serious central bank effort currently focused?', options: ['Retail CBDC in advanced economies', 'Wholesale CBDC infrastructure', 'Replacing physical cash entirely', 'Regulating private stablecoins only'], correctIndex: 1, explanation: 'Most serious central bank effort is going into wholesale infrastructure, with projects like mBridge settling tens of billions.' },
+        ],
+      },
+    },
   ],
 };
 

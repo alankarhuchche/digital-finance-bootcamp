@@ -17,8 +17,6 @@ const STATUS_LABEL: Record<InitiativeStatus, string> = {
 export async function renderRegionMap(container: HTMLElement, spec: RegionMapSpec): Promise<void> {
   container.innerHTML = `<div class="hint">Loading map…</div>`;
 
-  // Dynamic import: the generated geo data (~165KB) is its own chunk,
-  // only fetched when this tab is opened, not on initial page load.
   const { WORLD_MAP_VIEWBOX, WORLD_MAP_PATH, COUNTRY_CENTROIDS } = await import('../data/worldMap.generated');
   container.innerHTML = `
     <div class="hint">Tap a pin for details.</div>
@@ -58,14 +56,18 @@ export async function renderRegionMap(container: HTMLElement, spec: RegionMapSpe
     g.addEventListener('click', () => {
       const idx = Number(g.getAttribute('data-idx'));
       const init = spec.initiatives[idx];
-      detailEl.innerHTML = `
-        <span class="tag" style="color:${STATUS_COLOR[init.status]}">${STATUS_LABEL[init.status]}</span>
-        <h3>${init.country}${init.name ? ` — ${init.name}` : ''}</h3>
-        <div class="money-grid">
-          <div class="field"><div class="k">Region</div><div class="v">${init.region}</div></div>
-          <div class="field"><div class="k">Status</div><div class="v">${STATUS_LABEL[init.status]}</div></div>
-        </div>
-      `;
+      detailEl.classList.add('detail-swap');
+      setTimeout(() => {
+        detailEl.innerHTML = `
+          <span class="tag" style="color:${STATUS_COLOR[init.status]}">${STATUS_LABEL[init.status]}</span>
+          <h3>${init.country}${init.name ? ` — ${init.name}` : ''}</h3>
+          <div class="money-grid">
+            <div class="field"><div class="k">Region</div><div class="v">${init.region}</div></div>
+            <div class="field"><div class="k">Status</div><div class="v">${STATUS_LABEL[init.status]}</div></div>
+          </div>
+        `;
+        detailEl.classList.remove('detail-swap');
+      }, 150);
       container.querySelectorAll('.pin').forEach((c) => c.setAttribute('r', '5'));
       g.querySelector('.pin')!.setAttribute('r', '8');
     });
@@ -84,8 +86,10 @@ function renderPin(
   }
   const [x, y] = coords;
   const color = STATUS_COLOR[init.status];
+  const shouldPulse = init.status === 'live' || init.status === 'pilot';
   return `
     <g class="pingroup" data-idx="${idx}">
+      ${shouldPulse ? `<circle cx="${x}" cy="${y}" r="5" fill="${color}" opacity="0.3" class="pin-ripple"/>` : ''}
       <circle class="pin" cx="${x}" cy="${y}" r="5" fill="${color}" stroke="#0E2A43" stroke-width="1.2" />
     </g>
   `;
