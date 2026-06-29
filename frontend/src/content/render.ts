@@ -12,7 +12,7 @@ import { renderMoneyCards } from '../viz/moneyCards';
 import { renderChatWidget } from '../chat';
 
 export async function renderModule(container: HTMLElement, mod: ModuleContent): Promise<void> {
-  const { MODULE_INDEX } = await import('./registry');
+  const { MODULE_INDEX, findCategory } = await import('./registry');
   const curIdx = MODULE_INDEX.findIndex(m => m.id === mod.id);
   const category = findCategory(mod.id);
 
@@ -65,21 +65,6 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
   });
 
   renderChatWidget(container, mod.id, mod.title, mod.blocks);
-}
-
-function findCategory(topicId: string): string | null {
-  const cats: Record<string, string[]> = {
-    'How payments work today': ['payments-fundamentals', 'existing-rails', 'forms-of-money', 'risk-benefit'],
-    'The technology underneath': ['dlt-basics', 'crypto-assets'],
-    'The new instruments': ['stablecoins', 'cbdc', 'tokenization'],
-    'Markets & scale': ['defi', 'market-sizing', 'global-initiatives', 'market-structure', 'settlement'],
-    'Rules & reality': ['digital-identity', 'regulation', 'privacy', 'bank-strategy', 'failure-modes'],
-    'Reference': ['glossary'],
-  };
-  for (const [label, ids] of Object.entries(cats)) {
-    if (ids.includes(topicId)) return label;
-  }
-  return null;
 }
 
 async function renderBlock(section: HTMLElement, block: ContentBlock): Promise<void> {

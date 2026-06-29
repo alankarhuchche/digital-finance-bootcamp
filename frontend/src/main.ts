@@ -1,9 +1,10 @@
 import './style.css';
-import { MODULE_INDEX, loadModuleContent } from './content/registry';
+import { MODULE_INDEX, CATEGORIES, loadModuleContent } from './content/registry';
 import { renderModule } from './content/render';
 import { isComplete, toggleComplete, completedCount } from './progress';
-import { staggerEntrance } from './animate';
 import { destroyChatWidget } from './chat';
+import { renderHomePage } from './pages/home';
+import { renderAboutPage } from './pages/about';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const sidebar = document.querySelector<HTMLElement>('#sidebar')!;
@@ -11,22 +12,6 @@ const hamburger = document.querySelector<HTMLElement>('#hamburger')!;
 const overlay = document.querySelector<HTMLElement>('#sidebarOverlay')!;
 
 let sessionStart = Date.now();
-
-// ── Topic categories (narrative order) ───────────────────────
-
-interface Category {
-  label: string;
-  ids: string[];
-}
-
-const CATEGORIES: Category[] = [
-  { label: 'How payments work today', ids: ['payments-fundamentals', 'existing-rails', 'forms-of-money', 'risk-benefit'] },
-  { label: 'The technology underneath', ids: ['dlt-basics', 'crypto-assets'] },
-  { label: 'The new instruments', ids: ['stablecoins', 'cbdc', 'tokenization'] },
-  { label: 'Markets & scale', ids: ['defi', 'market-sizing', 'global-initiatives', 'market-structure', 'settlement'] },
-  { label: 'Rules & reality', ids: ['digital-identity', 'regulation', 'privacy', 'bank-strategy', 'failure-modes'] },
-  { label: 'Reference', ids: ['glossary'] },
-];
 
 // ── Routing ──────────────────────────────────────────────────
 
@@ -39,18 +24,17 @@ function navigate(path: string, pushState = true): void {
 }
 
 function route(path: string): void {
-  // Support both /topic/ and legacy /module/ URLs
   if (path === '/contact') {
     renderContact();
+  } else if (path === '/about') {
+    renderAboutPage(app, navigate);
   } else if (path.startsWith('/topic/')) {
     openTopic(path.slice('/topic/'.length));
   } else if (path.startsWith('/module/')) {
-    // Legacy URL redirect
-    const id = path.slice('/module/'.length);
-    navigate(`/topic/${id}`);
+    navigate(`/topic/${path.slice('/module/'.length)}`);
     return;
   } else {
-    renderIndex();
+    renderHomePage(app, navigate, () => renderSidebar());
   }
   updateSidebarActive(path);
 }
@@ -67,8 +51,8 @@ function renderSidebar(): void {
   sidebar.innerHTML = `
     <div class="sidebar-header">
       <button class="sidebar-close" id="sidebarClose">✕</button>
-      <p class="sidebar-brand">Digital Finance</p>
-      <h2 class="sidebar-title">Knowledge Base</h2>
+      <p class="sidebar-brand">Banking Rails</p>
+      <h2 class="sidebar-title">to Digital Finance</h2>
     </div>
     <div class="sidebar-search">
       <input class="search-input" id="sidebarSearch" type="text" placeholder="Search topics…" autocomplete="off" aria-label="Search topics" />
@@ -96,7 +80,11 @@ function renderSidebar(): void {
         <span>Session: <span id="sessionTime">&lt;1 min</span></span>
         <span id="visitCount"></span>
       </div>
-      <a id="sidebarContact" role="button" tabindex="0">Contact</a>
+      <div class="sidebar-links">
+        <a id="sidebarAbout" role="button" tabindex="0">About</a>
+        <span class="sidebar-link-sep">·</span>
+        <a id="sidebarContact" role="button" tabindex="0">Contact</a>
+      </div>
     </div>
   `;
 
@@ -105,6 +93,10 @@ function renderSidebar(): void {
     item.addEventListener('click', handler);
     item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } });
   });
+
+  const aboutEl = sidebar.querySelector<HTMLElement>('#sidebarAbout')!;
+  aboutEl.addEventListener('click', () => navigate('/about'));
+  aboutEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') navigate('/about'); });
 
   const contactEl = sidebar.querySelector<HTMLElement>('#sidebarContact')!;
   contactEl.addEventListener('click', () => navigate('/contact'));
@@ -153,71 +145,9 @@ hamburger.addEventListener('click', () => {
 });
 overlay.addEventListener('click', closeSidebar);
 
-// ── Index ────────────────────────────────────────────────────
-
-function renderIndex(): void {
-  document.title = 'Banking Rails to Digital Finance';
-  app.innerHTML = `
-    <div class="landing-header">
-      <span class="eyebrow">Digital Finance Guide</span>
-      <h1>Knowledge Base</h1>
-      <p class="landing-intro">A structured guide to digital finance — from the card payment you make every day through to CBDCs, stablecoins, DeFi, and the infrastructure connecting them.</p>
-      <p class="landing-start">Start with <strong>Payments fundamentals</strong> if you're new, or jump to any topic that interests you. Topics build on each other in the order shown, but each one stands on its own.</p>
-    </div>
-    <div id="topicIndex">
-      ${renderCategoryIndex()}
-    </div>
-  `;
-
-  bindTopicCards();
-  staggerEntrance(app, '.topic-card', 30);
-  renderSidebar();
-}
-
-function renderCategoryIndex(): string {
-  return CATEGORIES.map(cat => {
-    const topics = cat.ids
-      .map(id => MODULE_INDEX.find(x => x.id === id))
-      .filter((m): m is (typeof MODULE_INDEX)[number] => !!m);
-
-    if (topics.length === 0) return '';
-
-    return `
-      <div class="category-section">
-        <div class="category-label">${cat.label}</div>
-        <div class="topic-grid">
-          ${topics.map(renderTopicCard).join('')}
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-function renderTopicCard(m: (typeof MODULE_INDEX)[number]): string {
-  const done = m.ready && isComplete(m.id);
-  return `
-    <div class="topic-card anim-stagger ${done ? 'topic-card-done' : ''}" data-id="${m.id}" data-ready="${m.ready}" role="button" tabindex="0">
-      <div class="topic-info">
-        <h3>${m.title}</h3>
-        <p>${m.summary}</p>
-      </div>
-      ${done ? '<span class="topic-check">✓</span>' : '<span class="topic-go">▸</span>'}
-    </div>
-  `;
-}
-
-function bindTopicCards(): void {
-  app.querySelectorAll<HTMLElement>('.topic-card[data-ready="true"]').forEach(card => {
-    const handler = () => navigate(`/topic/${card.dataset.id!}`);
-    card.addEventListener('click', handler);
-    card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } });
-  });
-}
-
 // ── Topic view ───────────────────────────────────────────────
 
 async function openTopic(id: string): Promise<void> {
-  // Show loading state
   app.innerHTML = `<div class="loading-state"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div>`;
 
   const content = await loadModuleContent(id);
@@ -259,7 +189,7 @@ function renderContact(): void {
     <div class="topic-header">
       <span class="eyebrow">Contact</span>
       <h1>Get in touch</h1>
-      <p class="sub">Found a bug, have a suggestion, or just want to say hi? This goes straight to my inbox.</p>
+      <p class="sub">Found a bug, have a suggestion, or just want to say hi?</p>
     </div>
     <form id="contactForm" class="contact-form">
       <label class="field-label" for="cf-name">Name</label>

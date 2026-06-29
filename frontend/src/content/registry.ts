@@ -46,6 +46,27 @@ const LOADERS: Record<string, () => Promise<{ default: ModuleContent }>> = {
   glossary: () => import('./modules/17-glossary'),
 };
 
+export interface Category {
+  label: string;
+  ids: string[];
+}
+
+export const CATEGORIES: Category[] = [
+  { label: "Today's rails", ids: ['payments-fundamentals', 'existing-rails', 'forms-of-money', 'risk-benefit'] },
+  { label: 'The technology', ids: ['dlt-basics', 'crypto-assets'] },
+  { label: 'New instruments', ids: ['stablecoins', 'cbdc', 'tokenization'] },
+  { label: 'Markets & scale', ids: ['defi', 'market-sizing', 'global-initiatives', 'market-structure', 'settlement'] },
+  { label: 'Rules & reality', ids: ['digital-identity', 'regulation', 'privacy', 'bank-strategy', 'failure-modes'] },
+  { label: 'Reference', ids: ['glossary'] },
+];
+
+export function findCategory(topicId: string): string | null {
+  for (const cat of CATEGORIES) {
+    if (cat.ids.includes(topicId)) return cat.label;
+  }
+  return null;
+}
+
 export async function loadModuleContent(id: string): Promise<ModuleContent | null> {
   const loader = LOADERS[id];
   if (!loader) return null;

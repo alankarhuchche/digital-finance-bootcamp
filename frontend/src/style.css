@@ -147,12 +147,66 @@ h2, .block-heading {
 }
 
 /* ============ Landing header ============ */
-.landing-header { margin-bottom: 32px; }
-.landing-header h1 { font-size: 32px; margin-bottom: 10px; }
-.landing-intro {
-  font-size: 15px; color: var(--text-dim); line-height: 1.7;
-  max-width: 640px; margin: 0;
+.landing-header { margin-bottom: 12px; }
+.landing-header h1 { font-size: 26px; margin-bottom: 8px; line-height: 1.35; }
+.landing-headline {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px; color: var(--amber); line-height: 1.5;
+  max-width: 680px; margin: 0 0 4px; font-weight: 500;
 }
+
+/* ============ Hero contrast ============ */
+.hero-contrast {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px; margin: 24px 0;
+}
+.hero-card {
+  background: var(--ink2); border: 1px solid var(--grid);
+  border-radius: 6px; padding: 16px 18px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.hero-card-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-dim);
+}
+.hero-card-body { line-height: 1.6; }
+.hero-keyword {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px; font-weight: 700; color: var(--text);
+}
+.hero-detail {
+  font-size: 13px; color: var(--text-dim); line-height: 1.65;
+}
+.hero-card-customer { border-left: 3px solid var(--text-dim); padding-left: 14px; }
+.hero-card-system { border-left: 3px solid var(--amber); padding-left: 14px; }
+.hero-card-digital { border-left: 3px solid var(--teal); padding-left: 14px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-card { transition: none; }
+}
+
+/* ============ Landing context ============ */
+.landing-context {
+  font-size: 14px; color: var(--text-dim); line-height: 1.7;
+  max-width: 700px; margin: 0 0 8px;
+}
+
+/* ============ About page ============ */
+.about-body { display: flex; flex-direction: column; gap: 24px; max-width: 680px; }
+.about-section { }
+.about-section .prose { margin-bottom: 8px; }
+.about-link { color: var(--amber); text-decoration: none; }
+.about-link:hover { text-decoration: underline; }
+
+/* ============ Sidebar footer links ============ */
+.sidebar-links {
+  display: flex; gap: 6px; align-items: center;
+}
+.sidebar-links a { color: var(--text-dim); text-decoration: none; cursor: pointer; }
+.sidebar-links a:hover { color: var(--amber); }
+.sidebar-link-sep { color: var(--grid); font-size: 11px; }
 
 /* ============ Topic index ============ */
 .category-section { margin-bottom: 28px; }
