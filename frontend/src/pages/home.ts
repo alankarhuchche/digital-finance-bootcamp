@@ -1,6 +1,7 @@
 import { MODULE_INDEX, CATEGORIES } from '../content/registry';
 import { isComplete } from '../progress';
 import { staggerEntrance } from '../animate';
+import { renderRailExplorer } from '../viz/railExplorer';
 
 export function renderHomePage(
   app: HTMLElement,
@@ -39,12 +40,21 @@ export function renderHomePage(
 
     <p class="landing-context">Modern payments are already electronic. But most still separate the customer instruction from the underlying movement of money, the settlement asset, the risk checks and the reconciliation process. This reference explains what changes when money, assets, rules and settlement become more programmable and interoperable — and what still has to work for banks to trust it.</p>
 
+    <section class="rail-explorer-section">
+      <h2 class="section-heading">Explore the rails</h2>
+      <p class="section-intro">Select a rail to see what moves, when settlement happens, where reconciliation remains, and why digital finance alternatives matter.</p>
+      <div id="railExplorerMount"></div>
+    </section>
+
     <p class="landing-start">Start with <strong>Payments fundamentals</strong> if you're new, or jump to any topic. Topics build on each other in the order shown, but each one stands on its own.</p>
 
     <div id="topicIndex">
       ${renderCategoryIndex()}
     </div>
   `;
+
+  const explorerMount = app.querySelector<HTMLElement>('#railExplorerMount');
+  if (explorerMount) renderRailExplorer(explorerMount);
 
   bindTopicCards(app, navigate);
   staggerEntrance(app, '.topic-card', 30);
