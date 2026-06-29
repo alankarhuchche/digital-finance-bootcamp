@@ -458,6 +458,50 @@ h2, .block-heading {
 .rail-reset:hover { border-color: var(--amber); color: var(--amber); }
 .rail-reset:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 
+/* ============ Share actions ============ */
+.share-actions {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px;
+}
+.share-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; padding: 5px 12px;
+  border: 1px solid var(--grid); border-radius: 16px;
+  background: transparent; color: var(--text-dim);
+  cursor: pointer; transition: border-color 0.12s, color 0.12s;
+  white-space: nowrap;
+}
+.share-btn:hover { border-color: var(--amber); color: var(--text); }
+.share-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+/* Inline copy buttons (callout, comparison) */
+.copy-inline-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; padding: 3px 10px;
+  border: 1px solid var(--grid); border-radius: 12px;
+  background: transparent; color: var(--text-dim);
+  cursor: pointer; transition: border-color 0.12s, color 0.12s;
+  margin-top: 8px; display: inline-block;
+}
+.copy-inline-btn:hover { border-color: var(--amber); color: var(--text); }
+.copy-inline-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.copy-inline-below { margin-top: 10px; }
+
+/* ============ Toast ============ */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--ink2); border: 1px solid var(--grid);
+  border-left: 3px solid var(--teal); border-radius: 6px;
+  padding: 10px 20px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+  color: var(--text); z-index: 200;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.toast-visible {
+  opacity: 1; pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* ============ Global reduced motion ============ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

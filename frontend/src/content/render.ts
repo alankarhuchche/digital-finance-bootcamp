@@ -12,11 +12,13 @@ import { renderMoneyCards } from '../viz/moneyCards';
 import { renderCallout } from '../viz/callout';
 import { renderComparison } from '../viz/comparison';
 import { renderChatWidget } from '../chat';
+import { buildTopicLink, buildTopicSummaryText, buildLinkedInSnippet, copyAndToast } from '../utils/share';
 
 export async function renderModule(container: HTMLElement, mod: ModuleContent): Promise<void> {
   const { MODULE_INDEX, findCategory } = await import('./registry');
   const curIdx = MODULE_INDEX.findIndex(m => m.id === mod.id);
   const category = findCategory(mod.id);
+  const topicUrl = buildTopicLink(mod.id);
 
   container.innerHTML = `
     <button class="back-btn" id="backBtn">← All topics</button>
@@ -24,9 +26,28 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
       <span class="eyebrow">${category ?? 'TOPIC'}</span>
       <h1>${mod.title}</h1>
       <p class="sub">${mod.summary}</p>
+      <div class="share-actions">
+        <button class="share-btn" data-action="link" aria-label="Copy link">Copy link</button>
+        <button class="share-btn" data-action="summary" aria-label="Copy summary">Copy summary</button>
+        <button class="share-btn" data-action="linkedin" aria-label="Copy LinkedIn snippet">LinkedIn snippet</button>
+      </div>
     </div>
     <div class="topic-body" id="topicBody"></div>
   `;
+
+  // Bind share actions
+  container.querySelectorAll<HTMLElement>('.share-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const action = btn.dataset.action;
+      if (action === 'link') {
+        copyAndToast(topicUrl, 'link');
+      } else if (action === 'summary') {
+        copyAndToast(buildTopicSummaryText(mod.title, mod.summary, topicUrl), 'summary');
+      } else if (action === 'linkedin') {
+        copyAndToast(buildLinkedInSnippet(mod.title, mod.summary, topicUrl), 'LinkedIn snippet');
+      }
+    });
+  });
 
   const body = container.querySelector<HTMLElement>('#topicBody')!;
 
@@ -34,7 +55,7 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
     const section = document.createElement('section');
     section.className = 'block';
     body.appendChild(section);
-    await renderBlock(section, block);
+    await renderBlock(section, block, topicUrl);
   }
 
   // Previous / Next topic navigation
@@ -69,7 +90,7 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
   renderChatWidget(container, mod.id, mod.title, mod.blocks);
 }
 
-async function renderBlock(section: HTMLElement, block: ContentBlock): Promise<void> {
+async function renderBlock(section: HTMLElement, block: ContentBlock, topicUrl: string): Promise<void> {
   if (block.heading) {
     const h = document.createElement('h2');
     h.className = 'block-heading';
@@ -115,10 +136,10 @@ async function renderBlock(section: HTMLElement, block: ContentBlock): Promise<v
       renderMoneyCards(mount, block.data);
       break;
     case 'callout':
-      renderCallout(mount, block.data);
+      renderCallout(mount, block.data, topicUrl);
       break;
     case 'comparison':
-      renderComparison(mount, block.data);
+      renderComparison(mount, block.data, block.heading);
       break;
   }
 }

@@ -1,4 +1,5 @@
 import type { ComparisonSpec } from '../types';
+import { buildComparisonMarkdown, copyAndToast } from '../utils/share';
 
 const EMPHASIS_COLORS = {
   positive: '#5FB3A3',
@@ -6,7 +7,7 @@ const EMPHASIS_COLORS = {
   neutral: '#9FB7CC',
 };
 
-export function renderComparison(container: HTMLElement, spec: ComparisonSpec): void {
+export function renderComparison(container: HTMLElement, spec: ComparisonSpec, heading?: string): void {
   container.innerHTML = `
     <div class="comparison-grid" style="--comp-cols: ${spec.columns.length}">
       ${spec.columns.map(col => `
@@ -29,5 +30,10 @@ export function renderComparison(container: HTMLElement, spec: ComparisonSpec): 
         </div>
       `).join('')}
     </div>
+    <button class="copy-inline-btn copy-inline-below" aria-label="Copy comparison">Copy comparison</button>
   `;
+
+  container.querySelector<HTMLElement>('.copy-inline-btn')!.addEventListener('click', () => {
+    copyAndToast(buildComparisonMarkdown(heading ?? '', spec.columns), 'comparison');
+  });
 }
