@@ -9,6 +9,8 @@ import type {
   ScaleSpec,
   QuizSpec,
   MoneyCardsSpec,
+  CalloutSpec,
+  ComparisonSpec,
 } from '../types';
 
 export type ContentBlock =
@@ -22,7 +24,9 @@ export type ContentBlock =
   | { kind: 'case'; heading?: string; data: CaseStudySpec }
   | { kind: 'scale'; heading?: string; data: ScaleSpec }
   | { kind: 'quiz'; heading?: string; data: QuizSpec }
-  | { kind: 'money-cards'; heading?: string; data: MoneyCardsSpec };
+  | { kind: 'money-cards'; heading?: string; data: MoneyCardsSpec }
+  | { kind: 'callout'; heading?: string; data: CalloutSpec }
+  | { kind: 'comparison'; heading?: string; data: ComparisonSpec };
 
 export interface ModuleMeta {
   id: string;

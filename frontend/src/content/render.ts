@@ -9,6 +9,8 @@ import { renderCaseStudy } from '../viz/caseStudy';
 import { renderScale } from '../viz/scale';
 import { renderQuiz } from '../viz/quiz';
 import { renderMoneyCards } from '../viz/moneyCards';
+import { renderCallout } from '../viz/callout';
+import { renderComparison } from '../viz/comparison';
 import { renderChatWidget } from '../chat';
 
 export async function renderModule(container: HTMLElement, mod: ModuleContent): Promise<void> {
@@ -111,6 +113,12 @@ async function renderBlock(section: HTMLElement, block: ContentBlock): Promise<v
       break;
     case 'money-cards':
       renderMoneyCards(mount, block.data);
+      break;
+    case 'callout':
+      renderCallout(mount, block.data);
+      break;
+    case 'comparison':
+      renderComparison(mount, block.data);
       break;
   }
 }

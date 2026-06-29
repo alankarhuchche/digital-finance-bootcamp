@@ -132,6 +132,23 @@ export interface MoneyCardsSpec {
   cards: MoneyCardData[];
 }
 
+export type CalloutTone = 'insight' | 'warning' | 'strategy' | 'reality';
+
+export interface CalloutSpec {
+  tone?: CalloutTone;
+  body: string;
+}
+
+export interface ComparisonColumn {
+  title: string;
+  subtitle?: string;
+  points: { label: string; value: string; emphasis?: 'positive' | 'negative' | 'neutral' }[];
+}
+
+export interface ComparisonSpec {
+  columns: ComparisonColumn[];
+}
+
 export interface CaseStudySpec {
   title: string;
   dateRange: string;

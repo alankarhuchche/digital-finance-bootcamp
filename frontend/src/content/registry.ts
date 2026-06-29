@@ -10,6 +10,7 @@ export const MODULE_INDEX: ModuleMeta[] = [
   { id: 'stablecoins', number: '06', title: 'Stablecoins', summary: 'Four mechanisms, four failure modes, and how the issuers actually make money.', ready: true },
   { id: 'cbdc', number: '07', title: 'CBDCs', summary: 'Retail vs wholesale, privacy design, offline capability, and the real-world pilots.', ready: true },
   { id: 'tokenization', number: '08', title: 'Tokenization', summary: 'Same asset, different ledger — tokenized deposits, bonds, and real-world assets.', ready: true },
+  { id: 'deposit-tokens', number: '21', title: 'Deposit tokens', summary: 'What banks are actually building — commercial bank money on blockchain, and why it matters for settlement.', ready: true },
   { id: 'defi', number: '09', title: 'DeFi', summary: 'Lending, AMMs, derivatives — finance rebuilt as code, with composability as both strength and risk.', ready: true },
   { id: 'market-sizing', number: '10', title: 'Market sizing', summary: 'How big is this actually? Old money vs new money, by the real numbers.', ready: true },
   { id: 'global-initiatives', number: '11', title: 'Global initiatives', summary: 'Who is building what, where — the country-by-country map of CBDC and wholesale projects.', ready: true },
@@ -20,6 +21,7 @@ export const MODULE_INDEX: ModuleMeta[] = [
   { id: 'privacy', number: '20', title: 'Privacy & data', summary: 'The elephant in every CBDC room — blockchain transparency, surveillance, and GDPR tension.', ready: true },
   { id: 'bank-strategy', number: '15', title: 'Bank strategy', summary: 'Why banks simultaneously defend deposits and offer stablecoin access — the deliberate hedge.', ready: true },
   { id: 'failure-modes', number: '16', title: 'Failure modes', summary: 'Six categories of things that break — depegs, exploits, custody fraud, bridges, oracles, rug pulls.', ready: true },
+  { id: 'whats-next', number: '22', title: `What's next`, summary: 'Informed views on where digital finance in payments is heading — and where this analysis could be wrong.', ready: true },
   { id: 'glossary', number: '17', title: 'Glossary', summary: 'Every term, searchable, linked back to its topic.', ready: true },
 ];
 
@@ -33,6 +35,7 @@ const LOADERS: Record<string, () => Promise<{ default: ModuleContent }>> = {
   stablecoins: () => import('./modules/06-stablecoins'),
   cbdc: () => import('./modules/07-cbdc'),
   tokenization: () => import('./modules/08-tokenization'),
+  'deposit-tokens': () => import('./modules/21-deposit-tokens'),
   defi: () => import('./modules/09-defi'),
   'market-sizing': () => import('./modules/10-market-sizing'),
   'global-initiatives': () => import('./modules/11-global-initiatives'),
@@ -43,6 +46,7 @@ const LOADERS: Record<string, () => Promise<{ default: ModuleContent }>> = {
   privacy: () => import('./modules/20-privacy'),
   'bank-strategy': () => import('./modules/15-bank-strategy'),
   'failure-modes': () => import('./modules/16-failure-modes'),
+  'whats-next': () => import('./modules/22-whats-next'),
   glossary: () => import('./modules/17-glossary'),
 };
 
@@ -54,9 +58,10 @@ export interface Category {
 export const CATEGORIES: Category[] = [
   { label: "Today's rails", ids: ['payments-fundamentals', 'existing-rails', 'forms-of-money', 'risk-benefit'] },
   { label: 'The technology', ids: ['dlt-basics', 'crypto-assets'] },
-  { label: 'New instruments', ids: ['stablecoins', 'cbdc', 'tokenization'] },
+  { label: 'New instruments', ids: ['stablecoins', 'cbdc', 'tokenization', 'deposit-tokens'] },
   { label: 'Markets & scale', ids: ['defi', 'market-sizing', 'global-initiatives', 'market-structure', 'settlement'] },
   { label: 'Rules & reality', ids: ['digital-identity', 'regulation', 'privacy', 'bank-strategy', 'failure-modes'] },
+  { label: 'Outlook', ids: ['whats-next'] },
   { label: 'Reference', ids: ['glossary'] },
 ];
 

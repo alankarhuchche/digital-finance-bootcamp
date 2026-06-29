@@ -698,6 +698,61 @@ svg.world-map { width: 100%; height: auto; display: block; }
 .scale-fill { height: 100%; border-radius: 10px 0 0 10px; transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important; }
 .scale-detail { display: none; margin-top: 6px; font-size: 13px; color: var(--text-dim); line-height: 1.6; padding-left: 2px; }
 
+/* ============ Callout block ============ */
+.callout-block {
+  border-left: 3px solid var(--callout-color, var(--amber));
+  background: rgba(255,255,255,0.02);
+  border-radius: 0 6px 6px 0;
+  padding: 16px 20px;
+}
+.callout-body {
+  font-size: 14px; line-height: 1.7; color: var(--text);
+  font-style: italic;
+}
+.callout-body b, .callout-body strong { color: var(--callout-color, var(--amber)); font-style: normal; }
+
+/* ============ Comparison block ============ */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--comp-cols, 2), 1fr);
+  gap: 12px;
+}
+@media (max-width: 600px) {
+  .comparison-grid { grid-template-columns: 1fr; }
+}
+.comparison-col {
+  background: var(--ink2); border: 1px solid var(--grid);
+  border-radius: 6px; overflow: hidden;
+}
+.comparison-col-header {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--grid);
+}
+.comparison-col-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px; font-weight: 700; margin: 0; color: var(--text);
+}
+.comparison-col-subtitle {
+  font-size: 12px; color: var(--text-dim); margin: 4px 0 0; line-height: 1.4;
+}
+.comparison-col-body { padding: 4px 0; }
+.comparison-point {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(36,74,110,0.4);
+}
+.comparison-point:last-child { border-bottom: none; }
+.comparison-point-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-dim);
+}
+.comparison-point-value {
+  font-size: 13px; color: var(--text); line-height: 1.5;
+}
+.comparison-point-positive { border-left: 2px solid #5FB3A3; padding-left: 14px; }
+.comparison-point-negative { border-left: 2px solid #E0726B; padding-left: 14px; }
+
 /* ============ Loading state ============ */
 .loading-state {
   display: flex; align-items: center; justify-content: center;
