@@ -2,7 +2,6 @@ import type { ScatterSpec, ScatterPoint } from '../types';
 
 export function renderScatter(container: HTMLElement, spec: ScatterSpec): void {
   container.innerHTML = `
-    <div class="hint">Tap a dot to compare.</div>
     <div class="quad-wrap">
       ${spec.axisY ? `<span class="axis-label-y">${spec.axisY}</span>` : ''}
       <svg class="quad" viewBox="0 0 300 300">

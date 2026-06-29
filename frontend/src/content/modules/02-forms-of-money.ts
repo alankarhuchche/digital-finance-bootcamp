@@ -4,63 +4,67 @@ const content: ModuleContent = {
   id: 'forms-of-money',
   number: '02',
   title: 'Forms of money',
-  summary: 'Cash, deposits, CBDC, stablecoins, tokenized deposits \u2014 one map.',
+  summary: 'Cash, deposits, CBDC, stablecoins, tokenized deposits — one map.',
   ready: true,
   blocks: [
     {
       kind: 'text',
-      body: `Every "form of money" you'll meet in this bootcamp can be placed on the same two questions: if it fails, who's actually on the hook \u2014 you, or the issuer/state? And do you earn anything for holding it? Position on those two axes tells you almost everything that matters.`,
+      body: `Every "form of money" in digital finance can be compared on the same three questions: who issued it, what backs it, and if it fails — who’s on the hook? Tap any card below to see the full breakdown.`,
     },
     {
-      kind: 'scatter',
+      kind: 'money-cards',
+      heading: 'Five forms, compared',
       data: {
-        axisX: '\u2190 ISSUER/STATE BEARS RISK        YOU BEAR THE RISK \u2192',
-        axisY: 'yield to you',
-        points: [
+        cards: [
           {
-            key: 'cash', label: 'Cash', x: 70, y: 5, color: '#E8A33D',
-            detail: { tag: 'Physical', title: 'Cash', fields: [
+            key: 'cash', label: 'Cash', color: '#E8A33D',
+            riskLevel: 8, riskLabel: 'Minimal risk', riskColor: '#5FB3A3',
+            fields: [
               { k: 'Issuer', v: 'Central bank' },
               { k: 'Backing', v: 'Sovereign promise' },
-              { k: 'Your claim', v: 'None needed \u2014 legal tender' },
-              { k: 'Usable where', v: 'Anywhere' },
-            ] },
+              { k: 'Your claim', v: 'Legal tender' },
+            ],
+            detail: 'Physical cash is a direct central bank liability. No counterparty risk, no intermediary, no deposit insurance needed. The trade-off: zero yield and limited to in-person use.',
           },
           {
-            key: 'deposit', label: 'Bank deposit', x: 55, y: 30, color: '#7AA7D9',
-            detail: { tag: 'Everyday', title: 'Bank deposit', fields: [
+            key: 'deposit', label: 'Bank deposit', color: '#7AA7D9',
+            riskLevel: 22, riskLabel: 'Low risk', riskColor: '#7AA7D9',
+            fields: [
               { k: 'Issuer', v: 'Commercial bank' },
-              { k: 'Backing', v: 'Loans/assets, fractional reserve' },
-              { k: 'Your claim', v: 'Insured deposit, up to a limit' },
-              { k: 'Usable where', v: 'That bank\u2019s system' },
-            ] },
+              { k: 'Backing', v: 'Loans & reserves' },
+              { k: 'Your claim', v: 'Insured deposit' },
+            ],
+            detail: 'Your deposit is a claim on the bank, not the central bank. Deposit insurance (e.g. FSCS, FDIC) covers you up to a limit. The bank earns a spread by lending your deposit out — fractional reserve in action.',
           },
           {
-            key: 'cbdc', label: 'CBDC', x: 60, y: 75, color: '#5FB3A3',
-            detail: { tag: 'Sovereign digital', title: 'CBDC (e.g. digital pound/euro)', fields: [
+            key: 'cbdc', label: 'CBDC', color: '#5FB3A3',
+            riskLevel: 8, riskLabel: 'Minimal risk', riskColor: '#5FB3A3',
+            fields: [
               { k: 'Issuer', v: 'Central bank' },
               { k: 'Backing', v: 'Sovereign promise' },
-              { k: 'Your claim', v: 'None needed \u2014 direct liability' },
-              { k: 'Usable where', v: 'Anywhere (intended)' },
-            ] },
+              { k: 'Your claim', v: 'Direct liability' },
+            ],
+            detail: 'A digital version of cash — a direct central bank liability, just like physical notes. No deposit insurance needed because the issuer is the sovereign itself. Still mostly in pilot or research phase globally.',
           },
           {
-            key: 'tokdep', label: 'Tokenized deposit', x: 50, y: 50, color: '#C792E8',
-            detail: { tag: 'Bank-issued, on-chain', title: 'Tokenized deposit', fields: [
+            key: 'tokdep', label: 'Tokenized deposit', color: '#C792E8',
+            riskLevel: 25, riskLabel: 'Low risk', riskColor: '#7AA7D9',
+            fields: [
               { k: 'Issuer', v: 'Commercial bank' },
-              { k: 'Backing', v: 'Same as an ordinary deposit' },
-              { k: 'Your claim', v: 'Insured deposit, up to a limit' },
-              { k: 'Usable where', v: 'That bank\u2019s blockchain rails' },
-            ] },
+              { k: 'Backing', v: 'Same as a deposit' },
+              { k: 'Your claim', v: 'Insured deposit' },
+            ],
+            detail: 'Identical to a regular bank deposit in legal terms — same insurance, same claim on the bank. The only difference is the record lives on blockchain rails instead of the bank’s internal ledger, enabling programmability and faster settlement.',
           },
           {
-            key: 'stable', label: 'Stablecoin', x: 15, y: 10, color: '#E0726B',
-            detail: { tag: 'Private crypto', title: 'Stablecoin (e.g. USDT/USDC)', fields: [
+            key: 'stable', label: 'Stablecoin', color: '#E0726B',
+            riskLevel: 65, riskLabel: 'Higher risk', riskColor: '#E0726B',
+            fields: [
               { k: 'Issuer', v: 'Private company' },
               { k: 'Backing', v: 'T-bills / cash reserves' },
-              { k: 'Your claim', v: 'Unsecured claim on a company' },
-              { k: 'Usable where', v: 'Exchanges, wallets, DeFi' },
-            ] },
+              { k: 'Your claim', v: 'Unsecured' },
+            ],
+            detail: 'Your claim is on a private company (Tether, Circle), not a bank or sovereign. No deposit insurance. If the issuer’s reserves don’t match their liabilities, or if they refuse redemptions, you bear the loss. The trade-off: accessible globally, usable in DeFi, and available 24/7.',
           },
         ],
       },
@@ -68,7 +72,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'The pattern worth keeping',
-      body: `Every row trades off the same three things: who's on the hook if it fails, whether you earn anything for holding it, and how freely you can move it. Nothing on this map is free of all three risks at once \u2014 and almost every "which is safer" question in later modules comes back to that tradeoff.`,
+      body: `Every form trades off the same three things: who’s on the hook if it fails, whether you earn anything for holding it, and how freely you can move it. Nothing on this map is free of all three risks at once — and almost every "which is safer" question in later topics comes back to that tradeoff.`,
     },
     {
       kind: 'quiz',

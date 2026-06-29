@@ -19,7 +19,6 @@ export async function renderRegionMap(container: HTMLElement, spec: RegionMapSpe
 
   const { WORLD_MAP_VIEWBOX, WORLD_MAP_PATH, COUNTRY_CENTROIDS } = await import('../data/worldMap.generated');
   container.innerHTML = `
-    <div class="hint">Tap a pin for details.</div>
     <div class="map-wrap">
       <svg class="world-map" viewBox="${WORLD_MAP_VIEWBOX}">
         <path d="${WORLD_MAP_PATH}" class="map-base" />

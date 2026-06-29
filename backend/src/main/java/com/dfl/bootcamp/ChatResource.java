@@ -27,7 +27,7 @@ public class ChatResource {
     private static final int MAX_CONTENT_LENGTH = 10000;
 
     private static final String SYSTEM_PROMPT =
-            "You are a teaching assistant for a Digital Finance Bootcamp. "
+            "You are a teaching assistant for a Digital Finance Knowledge Base. "
             + "You answer questions ONLY about the module content provided in the user message. "
             + "If the user asks about something not covered in the module content, say "
             + "\"That topic isn't covered in this module\" and suggest which module might cover it. "

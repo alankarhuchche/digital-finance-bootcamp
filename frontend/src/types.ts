@@ -117,6 +117,21 @@ export interface QuizSpec {
   questions: QuizQuestion[];
 }
 
+export interface MoneyCardData {
+  key: string;
+  label: string;
+  color: string;
+  riskLevel: number;
+  riskLabel: string;
+  riskColor: string;
+  fields: { k: string; v: string }[];
+  detail: string;
+}
+
+export interface MoneyCardsSpec {
+  cards: MoneyCardData[];
+}
+
 export interface CaseStudySpec {
   title: string;
   dateRange: string;

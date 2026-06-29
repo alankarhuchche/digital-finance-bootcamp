@@ -3,7 +3,6 @@ import { staggerEntrance } from '../animate';
 
 export function renderStack(container: HTMLElement, layers: StackLayer[], note?: string): void {
   container.innerHTML = `
-    <div class="hint">Tap a slab to open it.</div>
     <div class="stack">
       ${layers.map(renderSlab).join('')}
     </div>

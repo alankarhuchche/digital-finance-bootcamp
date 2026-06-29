@@ -35,7 +35,7 @@ export function renderChatWidget(
         <button class="chat-close" id="chatClose">✕</button>
       </div>
       <div class="chat-messages" id="chatMessages">
-        <div class="chat-msg chat-msg-bot">Ask me anything about <strong>${moduleTitle}</strong>. I'll answer based on this module's content.</div>
+        <div class="chat-msg chat-msg-bot">Ask me anything about <strong>${moduleTitle}</strong>. I'll answer based on this topic's content.</div>
       </div>
       <div class="chat-input-row">
         <input class="chat-input" id="chatInput" type="text" placeholder="Type a question…" autocomplete="off" maxlength="1000" />

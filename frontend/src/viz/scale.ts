@@ -6,7 +6,6 @@ export function renderScale(container: HTMLElement, spec: ScaleSpec): void {
   const maxSqrt = Math.sqrt(maxVal);
 
   container.innerHTML = `
-    <div class="hint">Bars are sqrt-scaled so smaller figures stay visible — read the labels for actual values.</div>
     <div class="scale-list">
       ${spec.items.map((item) => renderBar(item, maxSqrt)).join('')}
     </div>

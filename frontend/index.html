@@ -3,10 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Digital Finance Bootcamp</title>
+    <title>Digital Finance Guide</title>
   </head>
   <body>
-    <div id="app"></div>
+    <button class="hamburger" id="hamburger">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div id="shell">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main id="app"></main>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

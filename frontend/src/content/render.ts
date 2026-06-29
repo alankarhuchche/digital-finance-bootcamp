@@ -8,13 +8,14 @@ import { renderRegionMap } from '../viz/regionMap';
 import { renderCaseStudy } from '../viz/caseStudy';
 import { renderScale } from '../viz/scale';
 import { renderQuiz } from '../viz/quiz';
+import { renderMoneyCards } from '../viz/moneyCards';
 import { renderChatWidget } from '../chat';
 
 export async function renderModule(container: HTMLElement, mod: ModuleContent): Promise<void> {
   container.innerHTML = `
-    <button class="back-btn" id="backBtn">← All modules</button>
+    <button class="back-btn" id="backBtn">← All topics</button>
     <div class="module-header">
-      <span class="eyebrow">MODULE ${mod.number}</span>
+      <span class="eyebrow">TOPIC</span>
       <h1>${mod.title}</h1>
       <p class="sub">${mod.summary}</p>
     </div>
@@ -30,11 +31,11 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
     await renderBlock(section, block);
   }
 
-  // Next module button
-  if (mod.number !== '17') {
-    const nextIdx = parseInt(mod.number, 10) + 1;
-    const { MODULE_INDEX } = await import('./registry');
-    const next = MODULE_INDEX[nextIdx];
+  // Next topic button
+  const { MODULE_INDEX } = await import('./registry');
+  const curIdx = MODULE_INDEX.findIndex(m => m.id === mod.id);
+  if (curIdx >= 0 && curIdx < MODULE_INDEX.length - 1) {
+    const next = MODULE_INDEX[curIdx + 1];
     if (next && next.ready) {
       const nav = document.createElement('div');
       nav.className = 'module-nav';
@@ -95,6 +96,9 @@ async function renderBlock(section: HTMLElement, block: ContentBlock): Promise<v
       break;
     case 'quiz':
       renderQuiz(mount, block.data);
+      break;
+    case 'money-cards':
+      renderMoneyCards(mount, block.data);
       break;
   }
 }

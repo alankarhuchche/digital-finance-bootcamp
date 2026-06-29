@@ -4,7 +4,6 @@ import type { ModuleMeta, ModuleContent } from './types';
 // "coming soon" in the index and have no loader entry below yet —
 // add both as each batch is authored.
 export const MODULE_INDEX: ModuleMeta[] = [
-  { id: 'orientation', number: '00', title: 'Orientation', summary: 'What digital finance is, and how to use this bootcamp.', ready: true },
   { id: 'existing-rails', number: '01', title: 'The existing rails', summary: 'SWIFT, RTGS, correspondent banking — the baseline this is all responding to.', ready: true },
   { id: 'forms-of-money', number: '02', title: 'Forms of money', summary: 'Cash, deposits, CBDC, stablecoins, tokenized deposits — one map.', ready: true },
   { id: 'risk-benefit', number: '03', title: 'Who actually carries the risk', summary: 'The same instrument looks different to a customer, a bank, and a central bank.', ready: true },
@@ -21,13 +20,12 @@ export const MODULE_INDEX: ModuleMeta[] = [
   { id: 'regulation', number: '14', title: 'Regulation', summary: 'MiCA, GENIUS Act, FATF, Basel.', ready: true },
   { id: 'bank-strategy', number: '15', title: 'Bank strategy', summary: 'Why banks defend deposits and offer stablecoin access at once.', ready: true },
   { id: 'failure-modes', number: '16', title: 'Failure modes', summary: 'Depegs, hacks, custody and smart contract risk.', ready: true },
-  { id: 'glossary', number: '17', title: 'Glossary', summary: 'Every term, searchable, linked back to its module.', ready: true },
+  { id: 'glossary', number: '17', title: 'Glossary', summary: 'Every term, searchable, linked back to its topic.', ready: true },
 ];
 
 // Lazy loaders — only modules that actually have content land here.
 // Each batch's authoring pass adds its entries.
 const LOADERS: Record<string, () => Promise<{ default: ModuleContent }>> = {
-  orientation: () => import('./modules/00-orientation'),
   'existing-rails': () => import('./modules/01-existing-rails'),
   'forms-of-money': () => import('./modules/02-forms-of-money'),
   'risk-benefit': () => import('./modules/03-risk-benefit'),
