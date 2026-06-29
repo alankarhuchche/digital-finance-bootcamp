@@ -4,7 +4,7 @@ const content: ModuleContent = {
   id: 'deposit-tokens',
   number: '21',
   title: 'Deposit tokens',
-  summary: `Deposit tokens are the banking system's attempt to preserve commercial bank money in a tokenised settlement world.`,
+  summary: `What banks are building to keep commercial bank money relevant in a tokenised settlement world — and what remains unsolved.`,
   ready: true,
   blocks: [
     {
@@ -90,13 +90,13 @@ const content: ModuleContent = {
       data: {
         columns: ['Status', 'Settlement type', 'Key feature'],
         items: [
-          { id: 'kinexys', label: 'Kinexys (JPM)', color: '#4A90D9', values: ['Live', 'Intraday/cross-border', 'USD and EUR repo and FX settlement'] },
-          { id: 'fnality', label: 'Fnality', color: '#50B88E', values: ['Live (GBP)', 'Wholesale interbank', 'Central bank money-backed USC token'] },
-          { id: 'partior', label: 'Partior', color: '#E8A33D', values: ['Live', 'Cross-border PvP', 'Multi-bank clearing network'] },
-          { id: 'citi', label: 'Citi Token Services', color: '#7B68EE', values: ['Live (pilot)', 'Trade finance', 'Cross-border liquidity for institutional clients'] },
-          { id: 'hsbc', label: 'HSBC Orion', color: '#CD5C5C', values: ['Live (pilot)', 'Bond issuance', 'Tokenised gold and bond settlement'] },
-          { id: 'socgen', label: 'SocGen FORGE', color: '#20B2AA', values: ['Live', 'Securities issuance', 'EUR-denominated bond on public chain'] },
-          { id: 'canton', label: 'Canton / RLN', color: '#DDA0DD', values: ['Testing', 'Multi-asset DvP', 'Privacy-preserving interoperability layer'] },
+          { id: 'kinexys', label: 'Kinexys (JPM)', color: '#4A90D9', values: ['Production (closed network)', 'Intraday/cross-border', 'USD and EUR repo and treasury settlement'] },
+          { id: 'fnality', label: 'Fnality', color: '#50B88E', values: ['Production (GBP, limited participants)', 'Wholesale interbank', 'USC token backed by central bank reserves at BoE'] },
+          { id: 'partior', label: 'Partior', color: '#E8A33D', values: ['Production (limited corridors)', 'Cross-border PvP', 'Multi-bank clearing (JPM, DBS, Temasek, Deutsche Bank)'] },
+          { id: 'citi', label: 'Citi Token Services', color: '#7B68EE', values: ['Pilot / limited production', 'Trade finance', 'Cross-border liquidity for institutional clients'] },
+          { id: 'hsbc', label: 'HSBC Orion', color: '#CD5C5C', values: ['Pilot / limited production', 'Bond and gold tokenisation', 'Tokenised gold and bond issuance'] },
+          { id: 'socgen', label: 'SocGen FORGE', color: '#20B2AA', values: ['Production (selected issuances)', 'Securities issuance', 'EUR-denominated bonds issued on public Ethereum'] },
+          { id: 'canton', label: 'Canton / RLN', color: '#DDA0DD', values: ['Testing / proof of concept', 'Multi-asset DvP', 'Privacy-preserving interoperability layer across banks'] },
         ],
       },
     },
@@ -124,10 +124,10 @@ const content: ModuleContent = {
       data: {
         title: 'Kinexys intraday repo settlement',
         dateRange: '2023 — present',
-        whatHappened: `JPMorgan's Kinexys (formerly Onyx / JPM Coin) enables intraday repo settlement using deposit tokens. The process: a client needing short-term USD liquidity posts collateral (e.g. Treasury securities) to a Kinexys smart contract. The contract verifies the collateral, mints deposit tokens representing the USD loan, and delivers them to the borrower's wallet — all within minutes, not the T+1 cycle of traditional repo. At maturity (often same-day), the borrower returns the deposit tokens plus interest, and the collateral is released. Settlement is atomic: both legs execute simultaneously or not at all. Kinexys processes over $2 billion in daily transactions across USD and EUR.`,
-        whyItMatters: `Intraday repo is a genuine use case where tokenised settlement delivers measurable value — faster collateral mobilisation, reduced counterparty risk, and freed-up intraday liquidity. It also demonstrates the deposit token model: the tokens are JPMorgan liabilities, not stablecoins, and they settle within the bank's ecosystem.`,
-        source: 'JPMorgan Kinexys public disclosures and industry reports',
-        verifiedAsOf: '2025-06',
+        whatHappened: `JPMorgan's Kinexys (formerly Onyx / JPM Coin) enables intraday repo and cross-border treasury settlement using deposit tokens. The illustrative process: a client needing short-term USD liquidity posts collateral to the Kinexys platform. The system verifies the collateral, creates deposit tokens representing the USD position, and delivers them to the borrower — within minutes rather than the next-day cycle of traditional repo. At maturity, the borrower returns the tokens plus interest and the collateral is released. Publicly reported transaction volumes are in the billions of dollars daily (as of mid-2025 disclosures), though exact current figures are not independently audited.`,
+        whyItMatters: `Intraday repo is a genuine use case where tokenised settlement can deliver measurable value — faster collateral mobilisation, reduced counterparty exposure during the settlement window, and more efficient use of intraday liquidity. It also demonstrates the deposit token model in practice: the tokens remain JPMorgan liabilities, not stablecoins, and they settle within the bank's controlled ecosystem.`,
+        source: 'JPMorgan Kinexys public disclosures; industry conference presentations; press reporting',
+        verifiedAsOf: 'June 2026 (figures based on publicly reported data as of mid-2025)',
       },
     },
     {

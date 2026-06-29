@@ -15,7 +15,7 @@ export function renderAboutPage(
       <section class="about-section">
         <h2 class="block-heading">Who wrote this</h2>
         <p class="prose">This reference is written from the perspective of a banking technology practitioner working across payments platforms and digital assets.</p>
-        <p class="prose"><a href="https://linkedin.com" target="_blank" rel="noopener" class="about-link">LinkedIn profile</a></p>
+        <p class="prose" style="color: var(--text-dim); font-style: italic;">LinkedIn profile to be added before public launch.</p>
       </section>
 
       <section class="about-section">

@@ -90,7 +90,6 @@ const content: ModuleContent = {
         <p><b>Tokenization</b> — moving an ownership record from a private database to a blockchain, without changing what’s owned. <i>Topic 08.</i></p>
         <p><b>Tokenised deposit</b> — a bank's own deposit liability, represented on-chain. Often used interchangeably with "deposit token," though some distinguish them. <i>Topics 02, 08, 21.</i></p>
         <p><b>Travel Rule</b> — see FATF Travel Rule.</p>
-        <p><b>Tokenized deposit</b> — a bank’s own deposit liability, represented on-chain. <i>Topics 02, 08.</i></p>
         <p><b>TVL (Total Value Locked)</b> — the total value of assets deposited in DeFi protocols; a frequently cited but gameable metric. <i>Topics 09, 10.</i></p>
         <p><b>Utility token</b> — a token granting the right to use a specific application or service. <i>Topic 05.</i></p>
         <p><b>Verifiable Credential (VC)</b> — a W3C standard for cryptographically signed identity claims that can be verified without contacting the issuer. <i>Topic 19.</i></p>

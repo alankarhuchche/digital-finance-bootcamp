@@ -4,7 +4,7 @@ const content: ModuleContent = {
   id: 'whats-next',
   number: '22',
   title: `What's next`,
-  summary: `Original analysis on where digital finance in payments is heading — stablecoins, deposit tokens, CBDCs, tokenisation and what banks should do now.`,
+  summary: `Informed views as of June 2026 on where digital finance is heading — deposit tokens, stablecoins, wholesale settlement, and what banks should do now.`,
   ready: true,
   blocks: [
     {
@@ -24,7 +24,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: `What stablecoins proved`,
-      body: `<p>Stablecoins demonstrated something the banking industry was slow to acknowledge: 24/7 settlement on open networks at global scale is not a theoretical possibility — it is a $50 billion-per-day reality. USDT and USDC move more value daily than many national payment systems.</p>
+      body: `<p>Stablecoins demonstrated something the banking industry was slow to acknowledge: 24/7 settlement on open networks at global scale is not a theoretical possibility — it is operational. By publicly reported estimates, major stablecoins settle tens of billions of dollars in daily on-chain volume (as of mid-2026), though these figures include trading turnover and are not directly comparable to traditional payment volumes.</p>
 <p>That said, what stablecoins proved comes packaged with what they exposed. Issuer risk is real — reserves are not deposits, and redemption at par is a function of trust, not guarantee. The dependency on banking rails for fiat on/off-ramps means stablecoins cannot fully disintermediate the system they claim to bypass. And regulatory arbitrage, while effective in the short term, is not a durable foundation for institutional adoption.</p>
 <p>The lesson is not that stablecoins will replace bank money. It is that programmable, always-on settlement is now a baseline expectation — and incumbents must match it or cede ground.</p>`,
     },
@@ -32,7 +32,7 @@ const content: ModuleContent = {
       kind: 'text',
       heading: `Why deposit tokens matter`,
       body: `<p>Deposit tokens preserve the balance sheet structure that regulators and central banks understand. A tokenised deposit is still a claim on a regulated bank, still covered by deposit insurance frameworks, still subject to prudential oversight. This gives deposit tokens a regulatory clarity that stablecoins struggle to achieve.</p>
-<p>The problem is the walled garden. Most deposit token initiatives — JPM Coin, Onyx, regulated liability network pilots — work within closed networks of pre-approved participants. This is by design: it simplifies compliance and preserves the bilateral trust model banks are comfortable with. But it limits network effects and leaves the open-network use case to stablecoins.</p>
+<p>The problem is the walled garden. Most deposit token initiatives — Kinexys, Fnality, Citi Token Services, regulated liability network pilots — operate within closed networks of pre-approved participants. This is by design: it simplifies compliance and preserves the bilateral trust model banks are comfortable with. But it limits network effects and leaves the open-network use case to stablecoins.</p>
 <p>I expect deposit tokens to absorb a meaningful share of institutional settlement — particularly intraday liquidity, intrabank transfers, and collateral mobility — while stablecoins retain the open-access, cross-border, retail-adjacent flows.</p>`,
     },
     {
@@ -93,7 +93,7 @@ const content: ModuleContent = {
             color: '#7c3aed',
             values: [
               'Collateral mobility',
-              'Join a tokenised collateral network (e.g. HQLAX, HQLAx, or Fnality-adjacent pilots)',
+              'Join a tokenised collateral network (e.g. HQLAx or Fnality-adjacent pilots)',
               'T+1 US settlement compressed collateral windows; real-time pledging is becoming a competitive necessity',
             ],
           },
@@ -153,7 +153,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: `Where to go from here`,
-      body: `<p>If any of the terms or concepts in this analysis are unfamiliar, the <strong>Glossary</strong> module provides definitions for the key vocabulary of digital finance. For deeper dives into specific instruments, return to the relevant topic modules — each one is designed to stand alone while building toward the integrated view presented here.</p>`,
+      body: `<p>If any of the terms or concepts in this analysis are unfamiliar, the <strong>Glossary</strong> provides definitions for the key vocabulary of digital finance. For deeper dives into specific instruments, return to the relevant topics — each one is designed to stand alone while building toward the integrated view presented here.</p>`,
     },
     {
       kind: 'quiz',
