@@ -502,6 +502,11 @@ h2, .block-heading {
   transform: translateX(-50%) translateY(0);
 }
 
+/* ============ Not found ============ */
+.not-found { padding: 40px 0; }
+.not-found h1 { margin-bottom: 8px; }
+.not-found .back-btn { margin-top: 20px; }
+
 /* ============ Global reduced motion ============ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

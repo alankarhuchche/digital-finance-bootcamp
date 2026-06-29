@@ -156,7 +156,15 @@ async function openTopic(id: string): Promise<void> {
 
   const content = await loadModuleContent(id);
   if (!content) {
-    navigate('/');
+    document.title = 'Not found — Banking Rails to Digital Finance';
+    app.innerHTML = `
+      <div class="not-found">
+        <h1>Topic not found</h1>
+        <p class="sub">The requested topic does not exist. It may have been renamed or removed.</p>
+        <button class="back-btn" id="backBtn">← All topics</button>
+      </div>
+    `;
+    app.querySelector<HTMLElement>('#backBtn')!.addEventListener('click', () => navigate('/'));
     return;
   }
   document.title = content.title + ' — Banking Rails to Digital Finance';
