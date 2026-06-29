@@ -21,6 +21,9 @@ export const MODULE_INDEX: ModuleMeta[] = [
   { id: 'bank-strategy', number: '15', title: 'Bank strategy', summary: 'Why banks defend deposits and offer stablecoin access at once.', ready: true },
   { id: 'failure-modes', number: '16', title: 'Failure modes', summary: 'Depegs, hacks, custody and smart contract risk.', ready: true },
   { id: 'glossary', number: '17', title: 'Glossary', summary: 'Every term, searchable, linked back to its topic.', ready: true },
+  { id: 'payments-fundamentals', number: '18', title: 'Payments fundamentals', summary: 'Card schemes, interchange, acquiring, and how money actually moves when you tap your phone.', ready: true },
+  { id: 'digital-identity', number: '19', title: 'Digital identity & KYC', summary: 'How identity verification works, why it costs so much, and what blockchain changes.', ready: true },
+  { id: 'privacy', number: '20', title: 'Privacy & data', summary: 'The elephant in every CBDC room, and why blockchain transparency cuts both ways.', ready: true },
 ];
 
 // Lazy loaders — only modules that actually have content land here.
@@ -43,6 +46,9 @@ const LOADERS: Record<string, () => Promise<{ default: ModuleContent }>> = {
   'bank-strategy': () => import('./modules/15-bank-strategy'),
   'failure-modes': () => import('./modules/16-failure-modes'),
   glossary: () => import('./modules/17-glossary'),
+  'payments-fundamentals': () => import('./modules/18-payments-fundamentals'),
+  'digital-identity': () => import('./modules/19-digital-identity'),
+  privacy: () => import('./modules/20-privacy'),
 };
 
 export async function loadModuleContent(id: string): Promise<ModuleContent | null> {

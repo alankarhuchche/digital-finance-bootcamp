@@ -24,8 +24,28 @@ const content: ModuleContent = {
     },
     {
       kind: 'text',
+      heading: 'Hybrid models: CEX-DEX bridges',
+      body: `The CEX/DEX binary is blurring. dYdX runs an order book (like a CEX) but settles on-chain (like a DEX). Coinbase's Base chain and Binance's BNB Chain let their CEX users move seamlessly to on-chain DeFi. Hybrid models try to combine CEX-grade speed and UX with DEX-grade self-custody and transparency.`,
+    },
+    {
+      kind: 'text',
       heading: 'Custody and market makers',
       body: `Institutions rarely self-custody at meaningful scale \u2014 specialist custodians (Fireblocks, Coinbase Custody, and increasingly banks themselves) hold assets under bank-grade security and insurance, the institutional equivalent of choosing a CEX's trust model without using its trading venue. Market makers, meanwhile, are what keeps prices aligned between CEXs and DEXs \u2014 without them, the same asset could trade at meaningfully different prices on different venues simultaneously, since there's no single shared order book the way there is in equities.`,
+    },
+    {
+      kind: 'text',
+      heading: 'OTC desks and prime brokerage',
+      body: `Institutional crypto trades rarely happen on visible exchange order books. OTC (over-the-counter) desks like Cumberland, Galaxy Digital, and Circle Trade handle large block trades ($1M+) without moving the public market price. Crypto prime brokers (Coinbase Prime, Hidden Road, FalconX) bundle execution, lending, custody, and margin into one relationship \u2014 mirroring what Goldman Sachs or Morgan Stanley provide in traditional markets.`,
+    },
+    {
+      kind: 'text',
+      heading: 'Proof of reserves',
+      body: `Post-FTX, exchanges faced pressure to prove they actually hold the assets they claim. Proof of reserves (PoR) uses cryptographic attestations (Merkle trees) to let users verify their balance is included in the exchange's total reserves, combined with third-party audits. Limitations: PoR shows assets but not liabilities \u2014 an exchange could have matching reserves while still being insolvent if it owes more than it holds. Exchanges implementing PoR include Binance, Kraken, and OKX.`,
+    },
+    {
+      kind: 'text',
+      heading: 'Liquidity fragmentation',
+      body: `Unlike US equities (which have a consolidated tape via the SIP), crypto has no unified view of prices across venues. The same asset trades on dozens of CEXs and DEXs simultaneously at slightly different prices. This fragmentation means: worse price discovery, higher effective spreads for traders, and arbitrage profits flowing to sophisticated market makers rather than to ordinary users. Proposals for a crypto consolidated tape exist but face the fundamental challenge that DEXs operate across multiple chains with no central authority to aggregate data.`,
     },
     {
       kind: 'case',
@@ -44,9 +64,9 @@ const content: ModuleContent = {
       heading: 'Knowledge check',
       data: {
         questions: [
-          { question: 'What is the key custody difference between a CEX and a DEX?', options: ['CEXs are faster but DEXs are cheaper', 'On a CEX the exchange holds your funds; on a DEX you hold them in your own wallet', 'DEXs require KYC but CEXs do not', 'CEXs only support Bitcoin while DEXs support all tokens'], correctIndex: 1, explanation: 'CEXs are custodial (the exchange holds your funds), while DEXs are non-custodial (you keep assets in your own wallet).' },
-          { question: 'What was the approximate customer fund shortfall in the FTX collapse?', options: ['$800 million', '$2 billion', '$8 billion', '$25 billion'], correctIndex: 2, explanation: 'FTX\'s shortfall was reported at roughly $8 billion after it secretly lent customer deposits to Alameda Research.' },
-          { question: 'Why are market makers important in crypto market structure?', options: ['They issue new tokens on behalf of exchanges', 'They keep prices aligned between CEXs and DEXs, preventing large price discrepancies across venues', 'They provide KYC verification services for decentralized exchanges', 'They insure customer deposits against exchange failures'], correctIndex: 1, explanation: 'Market makers keep prices aligned across venues, preventing the same asset from trading at meaningfully different prices on different exchanges.' },
+          { question: 'What is proof of reserves, and what is its main limitation?', options: ['A government audit that certifies exchange solvency with no known limitations', 'A cryptographic attestation that lets users verify an exchange holds their assets, but it shows assets without liabilities, so an exchange could still be insolvent', 'A blockchain feature that automatically freezes withdrawals when reserves drop below a threshold', 'A voluntary insurance program that guarantees depositor funds up to $250,000'], correctIndex: 1, explanation: 'Proof of reserves uses Merkle tree attestations to let users verify their balance is included in total reserves, but it only shows assets \u2014 not liabilities \u2014 so an exchange could still be insolvent even with matching reserves.' },
+          { question: 'Why does crypto suffer from liquidity fragmentation?', options: ['Because most countries ban crypto trading, limiting the number of venues', 'There is no consolidated tape like in US equities, so the same asset trades at different prices across dozens of CEXs and DEXs with no unified view', 'Because blockchains process transactions too slowly for real-time price updates', 'Because all crypto trading is peer-to-peer with no exchanges involved'], correctIndex: 1, explanation: 'Unlike US equities with a consolidated tape via the SIP, crypto has no unified price view across venues, leading to worse price discovery and higher effective spreads.' },
+          { question: 'What role do OTC desks play in institutional crypto trading?', options: ['They provide retail investors with discounted trading fees', 'They handle large block trades ($1M+) without moving the public market price, preventing slippage from large orders on visible order books', 'They issue new tokens on behalf of institutional investors', 'They act as regulators that approve large transactions before execution'], correctIndex: 1, explanation: 'OTC desks like Cumberland, Galaxy Digital, and Circle Trade handle large block trades off the visible order book, preventing the price impact that would occur from placing large orders on public exchanges.' },
         ],
       },
     },

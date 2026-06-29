@@ -20,10 +20,11 @@ interface Category {
 }
 
 const CATEGORIES: Category[] = [
-  { label: 'Foundations', ids: ['existing-rails', 'forms-of-money', 'risk-benefit', 'dlt-basics'] },
+  { label: 'Foundations', ids: ['payments-fundamentals', 'existing-rails', 'forms-of-money', 'risk-benefit', 'dlt-basics'] },
   { label: 'Instruments', ids: ['crypto-assets', 'stablecoins', 'cbdc', 'tokenization'] },
   { label: 'Markets & infrastructure', ids: ['defi', 'market-sizing', 'global-initiatives', 'market-structure', 'settlement'] },
   { label: 'Regulation & strategy', ids: ['regulation', 'bank-strategy', 'failure-modes'] },
+  { label: 'Identity & privacy', ids: ['digital-identity', 'privacy'] },
   { label: 'Reference', ids: ['glossary'] },
 ];
 
