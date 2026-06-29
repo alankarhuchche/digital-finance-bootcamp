@@ -1,4 +1,5 @@
 import { FINALITY_RAILS, STAGE_KEYS, type FinalityCategory } from '../data/finality';
+import { enhanceTerms, bindTermPopovers } from './termHelp';
 
 const CAT_COLORS: Record<FinalityCategory, string> = {
   'traditional': '#9FB7CC',
@@ -54,7 +55,7 @@ export function renderFinalityVisualiser(container: HTMLElement): void {
           <h4 class="finality-detail-title">${selectedStage.label}</h4>
           <span class="finality-confidence finality-confidence-${selectedStage.confidence}">${CONFIDENCE_LABELS[selectedStage.confidence]}</span>
         </div>
-        <p class="finality-detail-text">${selectedStage.explanation}</p>
+        <p class="finality-detail-text">${enhanceTerms(selectedStage.explanation)}</p>
       </div>
 
       <div class="finality-meta">
@@ -64,12 +65,13 @@ export function renderFinalityVisualiser(container: HTMLElement): void {
         </div>
         <div class="finality-lesson">
           <span class="finality-meta-label">Key lesson</span>
-          <p>${rail.keyLesson}</p>
+          <p>${enhanceTerms(rail.keyLesson)}</p>
         </div>
       </div>
     `;
 
     bindEvents();
+    bindTermPopovers(wrapper);
   }
 
   function bindEvents() {

@@ -519,6 +519,41 @@ h2, .block-heading {
   transform: translateX(-50%) translateY(0);
 }
 
+/* ============ Term help ============ */
+.term-help {
+  position: relative; cursor: help;
+  border-bottom: 1px dotted rgba(232,163,61,0.4);
+  transition: border-color 0.12s;
+}
+.term-help:hover, .term-help:focus { border-bottom-color: var(--amber); }
+.term-help:focus-visible { outline: 2px solid var(--amber); outline-offset: 1px; border-radius: 2px; }
+
+.term-help__popover {
+  position: absolute; left: 0; top: 100%; margin-top: 6px;
+  z-index: 150; width: 280px; max-width: 90vw;
+  background: var(--ink); border: 1px solid var(--grid);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 6px 6px 0; padding: 12px 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+.term-help__full {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--amber);
+  display: block; margin-bottom: 6px;
+}
+.term-help__text {
+  font-size: 13px; line-height: 1.6; color: var(--text);
+  margin: 0;
+}
+.term-help__link {
+  display: inline-block; margin-top: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; color: var(--text-dim);
+  text-decoration: none;
+}
+.term-help__link:hover { color: var(--amber); }
+
 /* ============ Not found ============ */
 .not-found { padding: 40px 0; }
 .not-found h1 { margin-bottom: 8px; }

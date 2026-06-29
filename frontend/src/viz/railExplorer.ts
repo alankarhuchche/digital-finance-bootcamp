@@ -1,4 +1,5 @@
 import { PAYMENT_RAILS, type PaymentRail, type RailType } from '../data/rails';
+import { enhanceTerms, bindTermPopovers } from './termHelp';
 
 const TYPE_COLORS: Record<RailType, string> = {
   'message': '#9FB7CC',
@@ -93,6 +94,7 @@ export function renderRailExplorer(container: HTMLElement): void {
         <button class="rail-reset" id="railReset">Reset comparison</button>
       `;
     }
+    bindTermPopovers(area);
   }
 
   function renderCard(rail: PaymentRail, otherRail?: PaymentRail): string {
@@ -170,7 +172,7 @@ export function renderRailExplorer(container: HTMLElement): void {
     return `
       <div class="rail-card-section${isDiff ? ' rail-diff' : ''}">
         <span class="rail-card-label">${label}${isDiff ? ' <span class="rail-diff-tag">different</span>' : ''}</span>
-        <p class="rail-card-value">${value}</p>
+        <p class="rail-card-value">${enhanceTerms(value)}</p>
       </div>
     `;
   }

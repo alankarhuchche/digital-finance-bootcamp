@@ -1,5 +1,6 @@
 import type { CalloutSpec, CalloutTone } from '../types';
 import { buildCalloutText, copyAndToast } from '../utils/share';
+import { enhanceTerms, bindTermPopovers } from './termHelp';
 
 const TONE_COLORS: Record<CalloutTone, string> = {
   insight: '#E8A33D',
@@ -14,7 +15,7 @@ export function renderCallout(container: HTMLElement, spec: CalloutSpec, topicUr
 
   container.innerHTML = `
     <div class="callout-block" style="--callout-color: ${color}">
-      <div class="callout-body">${spec.body}</div>
+      <div class="callout-body">${enhanceTerms(spec.body)}</div>
       <button class="copy-inline-btn" aria-label="Copy insight">Copy insight</button>
     </div>
   `;
@@ -22,4 +23,5 @@ export function renderCallout(container: HTMLElement, spec: CalloutSpec, topicUr
   container.querySelector<HTMLElement>('.copy-inline-btn')!.addEventListener('click', () => {
     copyAndToast(buildCalloutText(spec.body, topicUrl), 'insight');
   });
+  bindTermPopovers(container);
 }

@@ -13,6 +13,7 @@ import { renderCallout } from '../viz/callout';
 import { renderComparison } from '../viz/comparison';
 import { renderChatWidget } from '../chat';
 import { buildTopicLink, buildTopicSummaryText, buildLinkedInSnippet, copyAndToast } from '../utils/share';
+import { enhanceTerms, bindTermPopovers } from '../viz/termHelp';
 
 export async function renderModule(container: HTMLElement, mod: ModuleContent): Promise<void> {
   const { MODULE_INDEX, findCategory } = await import('./registry');
@@ -87,6 +88,7 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
     });
   });
 
+  bindTermPopovers(container);
   renderChatWidget(container, mod.id, mod.title, mod.blocks);
 }
 
@@ -103,7 +105,7 @@ async function renderBlock(section: HTMLElement, block: ContentBlock, topicUrl: 
 
   switch (block.kind) {
     case 'text':
-      mount.innerHTML = `<div class="prose">${block.body}</div>`;
+      mount.innerHTML = `<div class="prose">${enhanceTerms(block.body)}</div>`;
       break;
     case 'stack':
       renderStack(mount, block.data, block.note);
