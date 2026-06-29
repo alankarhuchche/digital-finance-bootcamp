@@ -82,6 +82,10 @@ const content: ModuleContent = {
       },
     },
     {
+      kind: 'text',
+      body: `Tokenized assets can sit in traditional custodial structures, or they can be used in an entirely new financial system built from code. That system is DeFi — decentralized finance — and it's the next topic.`,
+    },
+    {
       kind: 'quiz',
       heading: 'Knowledge check',
       data: {

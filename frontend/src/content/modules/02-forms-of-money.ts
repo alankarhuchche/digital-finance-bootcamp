@@ -92,7 +92,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'The pattern worth keeping',
-      body: `Every form trades off the same three things: who\u2019s on the hook if it fails, whether you earn anything for holding it, and how freely you can move it. Nothing on this map is free of all three risks at once \u2014 and almost every \u201Cwhich is safer\u201D question in later topics comes back to that tradeoff.`,
+      body: `Every form trades off the same three things: who\u2019s on the hook if it fails, whether you earn anything for holding it, and how freely you can move it. Nothing on this map is free of all three risks at once \u2014 and almost every \u201Cwhich is safer\u201D question in later topics comes back to that tradeoff.\n\nYou now have six forms on one map. But the same instrument looks completely different depending on whether you\u2019re a customer, a bank, or a central bank. The next topic unpacks that.`,
     },
     {
       kind: 'quiz',

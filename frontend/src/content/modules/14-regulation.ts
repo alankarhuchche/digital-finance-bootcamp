@@ -72,7 +72,9 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: '“Same risk, same regulation”',
-      body: `Despite their differences in approach, regulators globally are converging on one principle: if a crypto product creates the same risk as a traditional financial product, it should face the same regulation. A stablecoin that functions like a money market fund should be regulated like one. A crypto exchange that matches buyers and sellers should be regulated like a securities exchange. A lending protocol that takes deposits and makes loans should face bank-like oversight. This principle — sometimes called "same activity, same risk, same regulation" — is now explicitly endorsed by the FSB, the BIS, the EU (in MiCA’s preamble), and increasingly by US regulators. The practical implication is that the era of crypto operating in a regulatory vacuum is ending, not because regulators have invented new rules, but because they’re applying existing ones.`,
+      body: `Despite their differences in approach, regulators globally are converging on one principle: if a crypto product creates the same risk as a traditional financial product, it should face the same regulation. A stablecoin that functions like a money market fund should be regulated like one. A crypto exchange that matches buyers and sellers should be regulated like a securities exchange. A lending protocol that takes deposits and makes loans should face bank-like oversight. This principle — sometimes called "same activity, same risk, same regulation" — is now explicitly endorsed by the FSB, the BIS, the EU (in MiCA’s preamble), and increasingly by US regulators. The practical implication is that the era of crypto operating in a regulatory vacuum is ending, not because regulators have invented new rules, but because they’re applying existing ones.
+
+Regulation sets the rules. But one question cuts across every rule: how much should the system know about you? The next topic tackles privacy — the elephant in every CBDC and blockchain room.`,
     },
     {
       kind: 'case',

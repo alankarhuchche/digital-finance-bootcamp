@@ -74,6 +74,10 @@ const content: ModuleContent = {
       },
     },
     {
+      kind: 'text',
+      body: `Now that you understand how a domestic card payment works, the next topic zooms out to cross-border: what happens when money needs to move between countries and currencies.`,
+    },
+    {
       kind: 'quiz',
       heading: 'Knowledge check',
       data: {

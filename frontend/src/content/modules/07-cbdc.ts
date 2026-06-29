@@ -35,7 +35,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: `China’s e-CNY reclassification`,
-      body: `China's e-CNY (digital yuan) is the largest retail CBDC pilot by transaction volume, with over 7 trillion yuan (~$1 trillion) in cumulative transactions by late 2025 across dozens of cities. In January 2026, the People's Bank of China reclassified e-CNY from a direct central bank liability to a deposit liability of the distributing commercial banks. Architecturally, this is significant: it means e-CNY now sits in the same regulatory and accounting category as an ordinary bank deposit rather than being equivalent to physical cash on the central bank's balance sheet. The practical effect is that commercial banks bear more of the operational risk and responsibility, and e-CNY deposits may eventually be eligible for deposit insurance — making it functionally closer to a tokenized deposit than to digital cash. This blurs the line between a CBDC and the tokenized deposits discussed in Module 08.`,
+      body: `China's e-CNY (digital yuan) is the largest retail CBDC pilot by transaction volume, with over 7 trillion yuan (~$1 trillion) in cumulative transactions by late 2025 across dozens of cities. In January 2026, the People's Bank of China reclassified e-CNY from a direct central bank liability to a deposit liability of the distributing commercial banks. Architecturally, this is significant: it means e-CNY now sits in the same regulatory and accounting category as an ordinary bank deposit rather than being equivalent to physical cash on the central bank's balance sheet. The practical effect is that commercial banks bear more of the operational risk and responsibility, and e-CNY deposits may eventually be eligible for deposit insurance — making it functionally closer to a tokenized deposit than to digital cash. This blurs the line between a CBDC and the tokenized deposits discussed in the Tokenization topic.`,
     },
     {
       kind: 'case',
@@ -64,7 +64,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'Where the real momentum is',
-      body: `Outside the eurozone, advanced economies have generally been retreating from retail CBDC — Canada, Australia, and Norway have all deprioritized it — while emerging markets are doing the opposite, partly as a direct response to dollar-backed stablecoins eroding monetary control. Wholesale infrastructure is where most serious central bank effort is now going, with mBridge in particular settling tens of billions of dollars in transaction volume. Module 11 maps every major initiative by country in full — this module was the mechanics, that one is the atlas.`,
+      body: `Outside the eurozone, advanced economies have generally been retreating from retail CBDC — Canada, Australia, and Norway have all deprioritized it — while emerging markets are doing the opposite, partly as a direct response to dollar-backed stablecoins eroding monetary control. Wholesale infrastructure is where most serious central bank effort is now going, with mBridge in particular settling tens of billions of dollars in transaction volume. The Global CBDC atlas topic maps every major initiative by country in full — this topic was the mechanics, that one is the atlas.\n\nCBDCs and stablecoins are both new forms of money. But the same blockchain technology can also represent existing assets — deposits, bonds, fund units — on-chain. That's tokenization, and it's the next topic.`,
     },
     {
       kind: 'quiz',

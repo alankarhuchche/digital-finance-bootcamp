@@ -12,7 +12,7 @@ const overlay = document.querySelector<HTMLElement>('#sidebarOverlay')!;
 
 let sessionStart = Date.now();
 
-// ── Topic categories ─────────────────────────────────────────
+// ── Topic categories (narrative order) ───────────────────────
 
 interface Category {
   label: string;
@@ -20,11 +20,11 @@ interface Category {
 }
 
 const CATEGORIES: Category[] = [
-  { label: 'Foundations', ids: ['payments-fundamentals', 'existing-rails', 'forms-of-money', 'risk-benefit', 'dlt-basics'] },
-  { label: 'Instruments', ids: ['crypto-assets', 'stablecoins', 'cbdc', 'tokenization'] },
-  { label: 'Markets & infrastructure', ids: ['defi', 'market-sizing', 'global-initiatives', 'market-structure', 'settlement'] },
-  { label: 'Regulation & strategy', ids: ['regulation', 'bank-strategy', 'failure-modes'] },
-  { label: 'Identity & privacy', ids: ['digital-identity', 'privacy'] },
+  { label: 'How payments work today', ids: ['payments-fundamentals', 'existing-rails', 'forms-of-money', 'risk-benefit'] },
+  { label: 'The technology underneath', ids: ['dlt-basics', 'crypto-assets'] },
+  { label: 'The new instruments', ids: ['stablecoins', 'cbdc', 'tokenization'] },
+  { label: 'Markets & scale', ids: ['defi', 'market-sizing', 'global-initiatives', 'market-structure', 'settlement'] },
+  { label: 'Rules & reality', ids: ['digital-identity', 'regulation', 'privacy', 'bank-strategy', 'failure-modes'] },
   { label: 'Reference', ids: ['glossary'] },
 ];
 
@@ -39,11 +39,16 @@ function navigate(path: string, pushState = true): void {
 }
 
 function route(path: string): void {
+  // Support both /topic/ and legacy /module/ URLs
   if (path === '/contact') {
     renderContact();
+  } else if (path.startsWith('/topic/')) {
+    openTopic(path.slice('/topic/'.length));
   } else if (path.startsWith('/module/')) {
+    // Legacy URL redirect
     const id = path.slice('/module/'.length);
-    openModule(id);
+    navigate(`/topic/${id}`);
+    return;
   } else {
     renderIndex();
   }
@@ -56,29 +61,30 @@ window.addEventListener('navigate', ((e: CustomEvent) => navigate(e.detail)) as 
 // ── Sidebar ──────────────────────────────────────────────────
 
 function renderSidebar(): void {
-  const total = MODULE_INDEX.filter(m => m.id !== 'orientation').length;
+  const total = MODULE_INDEX.filter(m => m.id !== 'glossary').length;
   const done = completedCount();
 
   sidebar.innerHTML = `
     <div class="sidebar-header">
+      <button class="sidebar-close" id="sidebarClose">✕</button>
       <p class="sidebar-brand">Digital Finance</p>
       <h2 class="sidebar-title">Knowledge Base</h2>
     </div>
     <div class="sidebar-search">
-      <input class="search-input" id="sidebarSearch" type="text" placeholder="Search topics…" autocomplete="off" />
+      <input class="search-input" id="sidebarSearch" type="text" placeholder="Search topics…" autocomplete="off" aria-label="Search topics" />
     </div>
     <div class="progress-row">
-      <span class="progress-label">${done}/${total}</span>
+      <span class="progress-label">${done}/${total} explored</span>
       <div class="progress-track-sm"><div class="progress-fill-sm" style="width:${(done / total) * 100}%"></div></div>
     </div>
-    <nav class="sidebar-nav" id="sidebarNav">
+    <nav class="sidebar-nav" id="sidebarNav" aria-label="Topic navigation">
       ${CATEGORIES.map(cat => `
         <div class="nav-category">${cat.label}</div>
         ${cat.ids.map(id => {
           const m = MODULE_INDEX.find(x => x.id === id);
           if (!m) return '';
           const checked = isComplete(m.id);
-          return `<div class="nav-item" data-id="${m.id}" data-path="/module/${m.id}">
+          return `<div class="nav-item${checked ? ' nav-item-done' : ''}" data-id="${m.id}" data-path="/topic/${m.id}" role="button" tabindex="0">
             <span>${m.title}</span>
             ${checked ? '<span class="nav-item-check">✓</span>' : ''}
           </div>`;
@@ -90,15 +96,21 @@ function renderSidebar(): void {
         <span>Session: <span id="sessionTime">&lt;1 min</span></span>
         <span id="visitCount"></span>
       </div>
-      <a id="sidebarContact">Contact</a>
+      <a id="sidebarContact" role="button" tabindex="0">Contact</a>
     </div>
   `;
 
   sidebar.querySelectorAll<HTMLElement>('.nav-item').forEach(item => {
-    item.addEventListener('click', () => navigate(item.dataset.path!));
+    const handler = () => navigate(item.dataset.path!);
+    item.addEventListener('click', handler);
+    item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } });
   });
 
-  sidebar.querySelector<HTMLElement>('#sidebarContact')!.addEventListener('click', () => navigate('/contact'));
+  const contactEl = sidebar.querySelector<HTMLElement>('#sidebarContact')!;
+  contactEl.addEventListener('click', () => navigate('/contact'));
+  contactEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') navigate('/contact'); });
+
+  sidebar.querySelector<HTMLElement>('#sidebarClose')!.addEventListener('click', closeSidebar);
 
   const searchInput = sidebar.querySelector<HTMLInputElement>('#sidebarSearch')!;
   searchInput.addEventListener('input', () => {
@@ -110,10 +122,8 @@ function renderSidebar(): void {
       item.style.display = match ? '' : 'none';
     });
     sidebar.querySelectorAll<HTMLElement>('.nav-category').forEach(cat => {
-      const next = cat.nextElementSibling;
-      if (!next) return;
       let hasVisible = false;
-      let el = next as HTMLElement | null;
+      let el = cat.nextElementSibling as HTMLElement | null;
       while (el && el.classList.contains('nav-item')) {
         if (el.style.display !== 'none') hasVisible = true;
         el = el.nextElementSibling as HTMLElement | null;
@@ -150,29 +160,24 @@ function renderIndex(): void {
     <div class="landing-header">
       <span class="eyebrow">Digital Finance Guide</span>
       <h1>Knowledge Base</h1>
-      <p class="landing-intro">A structured guide to digital finance — CBDCs, stablecoins, DeFi, tokenization, and the infrastructure connecting them. Built to give you a clear mental model of the space, whether you're new to it or filling gaps.</p>
+      <p class="landing-intro">A structured guide to digital finance — from the card payment you make every day through to CBDCs, stablecoins, DeFi, and the infrastructure connecting them.</p>
+      <p class="landing-start">Start with <strong>Payments fundamentals</strong> if you're new, or jump to any topic that interests you. Topics build on each other in the order shown, but each one stands on its own.</p>
     </div>
     <div id="topicIndex">
-      ${renderCategoryIndex('')}
+      ${renderCategoryIndex()}
     </div>
   `;
 
   bindTopicCards();
   staggerEntrance(app, '.topic-card', 30);
-
-  // Re-render sidebar to update progress
   renderSidebar();
 }
 
-function renderCategoryIndex(query: string): string {
+function renderCategoryIndex(): string {
   return CATEGORIES.map(cat => {
     const topics = cat.ids
       .map(id => MODULE_INDEX.find(x => x.id === id))
-      .filter((m): m is (typeof MODULE_INDEX)[number] => {
-        if (!m) return false;
-        if (!query) return true;
-        return m.title.toLowerCase().includes(query) || m.summary.toLowerCase().includes(query);
-      });
+      .filter((m): m is (typeof MODULE_INDEX)[number] => !!m);
 
     if (topics.length === 0) return '';
 
@@ -190,7 +195,7 @@ function renderCategoryIndex(query: string): string {
 function renderTopicCard(m: (typeof MODULE_INDEX)[number]): string {
   const done = m.ready && isComplete(m.id);
   return `
-    <div class="topic-card anim-stagger ${done ? 'topic-card-done' : ''}" data-id="${m.id}" data-ready="${m.ready}">
+    <div class="topic-card anim-stagger ${done ? 'topic-card-done' : ''}" data-id="${m.id}" data-ready="${m.ready}" role="button" tabindex="0">
       <div class="topic-info">
         <h3>${m.title}</h3>
         <p>${m.summary}</p>
@@ -202,13 +207,18 @@ function renderTopicCard(m: (typeof MODULE_INDEX)[number]): string {
 
 function bindTopicCards(): void {
   app.querySelectorAll<HTMLElement>('.topic-card[data-ready="true"]').forEach(card => {
-    card.addEventListener('click', () => navigate(`/module/${card.dataset.id!}`));
+    const handler = () => navigate(`/topic/${card.dataset.id!}`);
+    card.addEventListener('click', handler);
+    card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } });
   });
 }
 
-// ── Module view ──────────────────────────────────────────────
+// ── Topic view ───────────────────────────────────────────────
 
-async function openModule(id: string): Promise<void> {
+async function openTopic(id: string): Promise<void> {
+  // Show loading state
+  app.innerHTML = `<div class="loading-state"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div>`;
+
   const content = await loadModuleContent(id);
   if (!content) {
     navigate('/');
@@ -243,7 +253,7 @@ function renderCompleteButton(footer: HTMLElement, moduleId: string): void {
 function renderContact(): void {
   app.innerHTML = `
     <button class="back-btn" id="backBtn">← All topics</button>
-    <div class="module-header">
+    <div class="topic-header">
       <span class="eyebrow">Contact</span>
       <h1>Get in touch</h1>
       <p class="sub">Found a bug, have a suggestion, or just want to say hi? This goes straight to my inbox.</p>
@@ -292,15 +302,14 @@ function renderContact(): void {
       });
       const data = await res.json();
       if (data.status === 'ok') {
-        statusEl.textContent = 'Sent — thanks, I’ll get back to you.';
+        statusEl.textContent = 'Sent — thanks!';
         statusEl.className = 'contact-status status-ok';
         form.reset();
       } else {
         statusEl.textContent = data.error ?? 'Something went wrong — try again in a moment.';
         statusEl.className = 'contact-status status-error';
       }
-    } catch (err) {
-      console.error('Contact form submission failed:', err);
+    } catch {
       statusEl.textContent = 'Could not reach the server — try again in a moment.';
       statusEl.className = 'contact-status status-error';
     } finally {
@@ -309,16 +318,19 @@ function renderContact(): void {
   });
 }
 
-// ── Visit counter ────────────────────────────────────────────
+// ── Visit counter (only once per session) ────────────────────
 
+let visitRecorded = false;
 async function recordVisitCount(): Promise<void> {
   const el = sidebar.querySelector<HTMLSpanElement>('#visitCount');
   if (!el) return;
   try {
-    const res = await fetch('/api/visits', { method: 'POST' });
+    const method = visitRecorded ? 'GET' : 'POST';
+    const res = await fetch('/api/visits', { method });
     if (!res.ok) return;
     const data = await res.json();
     el.textContent = `${data.count} visits`;
+    visitRecorded = true;
   } catch {
     // silent
   }
@@ -326,7 +338,10 @@ async function recordVisitCount(): Promise<void> {
 
 // ── Session timer ────────────────────────────────────────────
 
+let timerStarted = false;
 function startSessionTimer(): void {
+  if (timerStarted) return;
+  timerStarted = true;
   updateSessionDisplay();
   setInterval(updateSessionDisplay, 60_000);
 }

@@ -62,7 +62,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'The contagion pattern',
-      body: `Module 06's Terra/UST collapse and this module's Euler exploit are different failure types \u2014 a stabilization mechanism breaking versus a smart contract bug \u2014 but both spread further than their origin because DeFi protocols are stacked on top of each other. When Terra fell, the damage reached protocols that had never touched UST directly, simply because they shared liquidity pools or bridges with something that did. That's the structural cost of composability, and it's a recurring theme through Module 16 (Failure modes).`,
+      body: `The Stablecoins topic's Terra/UST collapse and this topic's Euler exploit are different failure types \u2014 a stabilization mechanism breaking versus a smart contract bug \u2014 but both spread further than their origin because DeFi protocols are stacked on top of each other. When Terra fell, the damage reached protocols that had never touched UST directly, simply because they shared liquidity pools or bridges with something that did. That's the structural cost of composability, and it's a recurring theme through the Failure modes topic.\n\nDeFi is growing fast, but how big is any of this compared to traditional finance? The next topic puts real numbers on it.`,
     },
     {
       kind: 'quiz',

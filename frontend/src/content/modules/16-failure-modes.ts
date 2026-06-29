@@ -9,7 +9,7 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `Three case studies already in this bootcamp — Terra/UST (Topic 06), Euler Finance (Topic 09), and FTX (Topic 12) — are each a different failure category. This topic names the categories explicitly, adds three major types not yet covered — bridge exploits, oracle manipulation, and rug pulls — and maps the crypto failure modes to their traditional finance analogues.`,
+      body: `Three case studies already in this guide — Terra/UST (Topic 06), Euler Finance (Topic 09), and FTX (Topic 12) — are each a different failure category. This topic names the categories explicitly, adds three major types not yet covered — bridge exploits, oracle manipulation, and rug pulls — and maps the crypto failure modes to their traditional finance analogues.`,
     },
     {
       kind: 'matrix',
@@ -63,7 +63,9 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'How the industry has responded',
-      body: `The crypto industry hasn't just absorbed these losses — it has built an increasingly sophisticated defense ecosystem. <b>Bug bounties</b> have become standard practice: as of mid-2025, platforms like Immunefi have paid out over $250 million in rewards to white-hat hackers who reported vulnerabilities before they could be exploited. The largest single bounty was $10 million paid by Wormhole. <b>Formal verification</b> — using mathematical proofs to verify that smart contract code behaves as intended — has moved from academic curiosity to industry practice, with firms like Runtime Verification and Certora working with major protocols. <b>Multi-sig improvements</b> have raised the bar: after Ronin's 5-of-9 compromise, most bridges now require higher thresholds, time-locked transactions, and hardware security modules for validator keys. <b>Insurance protocols</b> like Nexus Mutual now offer coverage for smart contract failures, oracle manipulation, and custodial risk, though total coverage capacity (~$500M as of 2025) remains a tiny fraction of the total value locked in DeFi. The gap between assets at risk and assets insured is one of the starkest indicators of how much maturation the industry still needs.`,
+      body: `The crypto industry hasn't just absorbed these losses — it has built an increasingly sophisticated defense ecosystem. <b>Bug bounties</b> have become standard practice: as of mid-2025, platforms like Immunefi have paid out over $250 million in rewards to white-hat hackers who reported vulnerabilities before they could be exploited. The largest single bounty was $10 million paid by Wormhole. <b>Formal verification</b> — using mathematical proofs to verify that smart contract code behaves as intended — has moved from academic curiosity to industry practice, with firms like Runtime Verification and Certora working with major protocols. <b>Multi-sig improvements</b> have raised the bar: after Ronin's 5-of-9 compromise, most bridges now require higher thresholds, time-locked transactions, and hardware security modules for validator keys. <b>Insurance protocols</b> like Nexus Mutual now offer coverage for smart contract failures, oracle manipulation, and custodial risk, though total coverage capacity (~$500M as of 2025) remains a tiny fraction of the total value locked in DeFi. The gap between assets at risk and assets insured is one of the starkest indicators of how much maturation the industry still needs.
+
+If you've reached this point, you have a complete mental model. The glossary is your reference — every term, linked back to the topic that explained it.`,
     },
     {
       kind: 'quiz',

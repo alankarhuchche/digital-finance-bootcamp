@@ -45,7 +45,8 @@ const content: ModuleContent = {
       heading: 'Decentralized identity: the potential solution',
       body: `<p><b>Verifiable Credentials (VCs)</b> are the W3C standard that could break the cycle of repeated identity verification. The concept: a trusted issuer (your bank, your government) issues a cryptographically signed credential that you hold in a digital wallet. When a new service needs to verify your identity, you present the credential — they can cryptographically verify it came from the trusted issuer without contacting that issuer or receiving your raw personal data.</p>
 <p><b>Selective disclosure</b> goes further: you can prove "I am over 18" or "I passed KYC at a regulated institution" without revealing your name, address, or date of birth. The EU's eIDAS 2.0 regulation (in force from 2026) mandates that every EU citizen must have access to a European Digital Identity Wallet capable of holding VCs.</p>
-<p>For digital finance, this matters because it could make KYC a <b>one-time event</b> rather than a per-institution cost — a KYC credential from one bank could be reused at another, at a crypto exchange, or at a DeFi protocol's compliance layer, without re-submitting your passport photo every time.</p>`,
+<p>For digital finance, this matters because it could make KYC a <b>one-time event</b> rather than a per-institution cost — a KYC credential from one bank could be reused at another, at a crypto exchange, or at a DeFi protocol's compliance layer, without re-submitting your passport photo every time.</p>
+<p>Identity is the prerequisite for regulation. The next topic covers the actual rulebooks — MiCA, GENIUS Act, Basel III — and how they're reshaping the industry.</p>`,
     },
     {
       kind: 'case',

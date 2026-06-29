@@ -1,34 +1,30 @@
 import type { ModuleMeta, ModuleContent } from './types';
 
-// Metadata for the full curriculum. `ready: false` modules show as
-// "coming soon" in the index and have no loader entry below yet —
-// add both as each batch is authored.
 export const MODULE_INDEX: ModuleMeta[] = [
-  { id: 'existing-rails', number: '01', title: 'The existing rails', summary: 'SWIFT, RTGS, correspondent banking — the baseline this is all responding to.', ready: true },
-  { id: 'forms-of-money', number: '02', title: 'Forms of money', summary: 'Cash, deposits, CBDC, stablecoins, tokenized deposits — one map.', ready: true },
-  { id: 'risk-benefit', number: '03', title: 'Who actually carries the risk', summary: 'The same instrument looks different to a customer, a bank, and a central bank.', ready: true },
-  { id: 'dlt-basics', number: '04', title: 'DLT & blockchain basics', summary: 'Ledgers, consensus, and why finality matters.', ready: true },
-  { id: 'crypto-assets', number: '05', title: 'Crypto assets', summary: 'Native, utility, and governance tokens.', ready: true },
-  { id: 'stablecoins', number: '06', title: 'Stablecoins deep-dive', summary: 'Three mechanics, three failure modes.', ready: true },
-  { id: 'cbdc', number: '07', title: 'CBDC deep-dive', summary: 'Retail vs wholesale, and the real-world pilots.', ready: true },
-  { id: 'tokenization', number: '08', title: 'Tokenization', summary: 'Tokenized deposits and tokenized real-world assets.', ready: true },
-  { id: 'defi', number: '09', title: 'DeFi', summary: 'Lending, AMMs, derivatives — finance as code.', ready: true },
-  { id: 'market-sizing', number: '10', title: 'Market capture & sizing', summary: 'Old money vs new money, by the actual numbers.', ready: true },
-  { id: 'global-initiatives', number: '11', title: 'Global initiatives map', summary: 'Who is doing what, where, right now.', ready: true },
-  { id: 'market-structure', number: '12', title: 'Market structure', summary: 'CEX vs DEX, custody, market makers.', ready: true },
-  { id: 'settlement', number: '13', title: 'Settlement & infrastructure', summary: 'Wholesale settlement, DvP, atomic settlement.', ready: true },
-  { id: 'regulation', number: '14', title: 'Regulation', summary: 'MiCA, GENIUS Act, FATF, Basel.', ready: true },
-  { id: 'bank-strategy', number: '15', title: 'Bank strategy', summary: 'Why banks defend deposits and offer stablecoin access at once.', ready: true },
-  { id: 'failure-modes', number: '16', title: 'Failure modes', summary: 'Depegs, hacks, custody and smart contract risk.', ready: true },
+  { id: 'payments-fundamentals', number: '18', title: 'Payments fundamentals', summary: 'How money actually moves when you tap your card — the four-party model, interchange, and settlement.', ready: true },
+  { id: 'existing-rails', number: '01', title: 'The existing rails', summary: 'SWIFT, RTGS, correspondent banking — the cross-border baseline everything else responds to.', ready: true },
+  { id: 'forms-of-money', number: '02', title: 'Forms of money', summary: 'Six kinds of money compared — cash, deposits, e-money, CBDC, tokenized deposits, stablecoins.', ready: true },
+  { id: 'risk-benefit', number: '03', title: 'Who carries the risk', summary: 'The same instrument looks different to a customer, a bank, and a central bank.', ready: true },
+  { id: 'dlt-basics', number: '04', title: 'DLT & blockchain basics', summary: 'The technology underneath the alternatives — consensus, finality, smart contracts, Layer 2.', ready: true },
+  { id: 'crypto-assets', number: '05', title: 'Crypto assets', summary: 'Not all crypto is trying to be money — native tokens, utility tokens, governance tokens, security tokens.', ready: true },
+  { id: 'stablecoins', number: '06', title: 'Stablecoins', summary: 'Four mechanisms, four failure modes, and how the issuers actually make money.', ready: true },
+  { id: 'cbdc', number: '07', title: 'CBDCs', summary: 'Retail vs wholesale, privacy design, offline capability, and the real-world pilots.', ready: true },
+  { id: 'tokenization', number: '08', title: 'Tokenization', summary: 'Same asset, different ledger — tokenized deposits, bonds, and real-world assets.', ready: true },
+  { id: 'defi', number: '09', title: 'DeFi', summary: 'Lending, AMMs, derivatives — finance rebuilt as code, with composability as both strength and risk.', ready: true },
+  { id: 'market-sizing', number: '10', title: 'Market sizing', summary: 'How big is this actually? Old money vs new money, by the real numbers.', ready: true },
+  { id: 'global-initiatives', number: '11', title: 'Global initiatives', summary: 'Who is building what, where — the country-by-country map of CBDC and wholesale projects.', ready: true },
+  { id: 'market-structure', number: '12', title: 'Market structure', summary: 'CEX vs DEX, custody, prime brokerage, OTC desks, and liquidity fragmentation.', ready: true },
+  { id: 'settlement', number: '13', title: 'Settlement & infrastructure', summary: 'DvP, atomic settlement, Herstatt risk — the hardest unsolved problem in digital finance.', ready: true },
+  { id: 'digital-identity', number: '19', title: 'Digital identity & KYC', summary: 'The $274B compliance layer — how identity verification works and what blockchain could change.', ready: true },
+  { id: 'regulation', number: '14', title: 'Regulation', summary: 'MiCA, GENIUS Act, FATF Travel Rule, Basel III — the rulebooks forcing the industry to grow up.', ready: true },
+  { id: 'privacy', number: '20', title: 'Privacy & data', summary: 'The elephant in every CBDC room — blockchain transparency, surveillance, and GDPR tension.', ready: true },
+  { id: 'bank-strategy', number: '15', title: 'Bank strategy', summary: 'Why banks simultaneously defend deposits and offer stablecoin access — the deliberate hedge.', ready: true },
+  { id: 'failure-modes', number: '16', title: 'Failure modes', summary: 'Six categories of things that break — depegs, exploits, custody fraud, bridges, oracles, rug pulls.', ready: true },
   { id: 'glossary', number: '17', title: 'Glossary', summary: 'Every term, searchable, linked back to its topic.', ready: true },
-  { id: 'payments-fundamentals', number: '18', title: 'Payments fundamentals', summary: 'Card schemes, interchange, acquiring, and how money actually moves when you tap your phone.', ready: true },
-  { id: 'digital-identity', number: '19', title: 'Digital identity & KYC', summary: 'How identity verification works, why it costs so much, and what blockchain changes.', ready: true },
-  { id: 'privacy', number: '20', title: 'Privacy & data', summary: 'The elephant in every CBDC room, and why blockchain transparency cuts both ways.', ready: true },
 ];
 
-// Lazy loaders — only modules that actually have content land here.
-// Each batch's authoring pass adds its entries.
 const LOADERS: Record<string, () => Promise<{ default: ModuleContent }>> = {
+  'payments-fundamentals': () => import('./modules/18-payments-fundamentals'),
   'existing-rails': () => import('./modules/01-existing-rails'),
   'forms-of-money': () => import('./modules/02-forms-of-money'),
   'risk-benefit': () => import('./modules/03-risk-benefit'),
@@ -42,13 +38,12 @@ const LOADERS: Record<string, () => Promise<{ default: ModuleContent }>> = {
   'global-initiatives': () => import('./modules/11-global-initiatives'),
   'market-structure': () => import('./modules/12-market-structure'),
   settlement: () => import('./modules/13-settlement'),
+  'digital-identity': () => import('./modules/19-digital-identity'),
   regulation: () => import('./modules/14-regulation'),
+  privacy: () => import('./modules/20-privacy'),
   'bank-strategy': () => import('./modules/15-bank-strategy'),
   'failure-modes': () => import('./modules/16-failure-modes'),
   glossary: () => import('./modules/17-glossary'),
-  'payments-fundamentals': () => import('./modules/18-payments-fundamentals'),
-  'digital-identity': () => import('./modules/19-digital-identity'),
-  privacy: () => import('./modules/20-privacy'),
 };
 
 export async function loadModuleContent(id: string): Promise<ModuleContent | null> {

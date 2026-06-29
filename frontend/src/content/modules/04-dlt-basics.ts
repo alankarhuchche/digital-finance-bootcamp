@@ -9,7 +9,7 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `\u201cDLT\u201d (distributed ledger technology) and \u201cblockchain\u201d get used almost interchangeably. A blockchain is one specific kind of DLT \u2014 a ledger where transactions are bundled into blocks, each cryptographically linked to the one before it. What actually matters for everything downstream isn\u2019t the buzzword, it\u2019s four building blocks underneath it. This module covers the four building blocks underneath, then goes deeper into the architectural decisions \u2014 permissioned vs. public, consensus trade-offs, smart contracts, and Layer 2 scaling \u2014 that determine whether a given DLT is suitable for financial markets.`,
+      body: `\u201cDLT\u201d (distributed ledger technology) and \u201cblockchain\u201d get used almost interchangeably. A blockchain is one specific kind of DLT \u2014 a ledger where transactions are bundled into blocks, each cryptographically linked to the one before it. What actually matters for everything downstream isn\u2019t the buzzword, it\u2019s four building blocks underneath it. This topic covers the four building blocks underneath, then goes deeper into the architectural decisions \u2014 permissioned vs. public, consensus trade-offs, smart contracts, and Layer 2 scaling \u2014 that determine whether a given DLT is suitable for financial markets.`,
     },
     {
       kind: 'stack',
@@ -18,7 +18,7 @@ const content: ModuleContent = {
         { id: 'network', number: '01', label: 'Network', colorClass: 's1', detail: `A peer-to-peer set of computers (nodes), each holding a copy of the same ledger \u2014 no single central database.`, examples: 'Public: anyone can join \u00b7 Permissioned: known participants only' },
         { id: 'consensus', number: '02', label: 'Consensus', colorClass: 's2', detail: `The rule nodes use to agree on which transactions are valid, without a central authority deciding for them.`, examples: 'Proof of Work \u00b7 Proof of Stake \u00b7 permissioned voting' },
         { id: 'ledger', number: '03', label: 'Ledger / blocks', colorClass: 's3', detail: `Transactions get bundled into blocks; each block references the previous one, making the history tamper-evident.`, examples: 'This is the literal \u201cchain\u201d in blockchain' },
-        { id: 'finality', number: '04', label: 'Finality', colorClass: 's4', detail: `The point at which a transaction is considered irreversible. This varies a lot by chain and consensus method \u2014 and it\u2019s the single biggest practical difference from RTGS settlement.`, examples: 'See Module 13 (Settlement) for why this matters' },
+        { id: 'finality', number: '04', label: 'Finality', colorClass: 's4', detail: `The point at which a transaction is considered irreversible. This varies a lot by chain and consensus method \u2014 and it\u2019s the single biggest practical difference from RTGS settlement.`, examples: 'See the Settlement topic for why this matters' },
       ],
       note: `This ordering is conceptual, not a money-flow sequence like the ecosystem stack in earlier discussions \u2014 these four things exist simultaneously, each enabling the next.`,
     },
@@ -42,7 +42,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'Smart contracts: programmable money, programmable risk',
-      body: `A smart contract is code that executes automatically when predefined conditions are met, running on the blockchain itself rather than on any single party\u2019s server. In financial contexts, this enables conditional payments (release funds when goods are delivered), automated collateral management (liquidate a position if its value drops below a threshold), and programmable compliance (block transfers to sanctioned addresses). Ethereum introduced general-purpose smart contracts in 2015; Solidity is the primary language. On permissioned chains, DAML (Canton) and CorDapp (Corda) serve the same function. The risk: smart contract bugs are expensive. The 2016 DAO hack exploited a re-entrancy bug to drain $60M. In DeFi, smart contract exploits have cost over $3B since 2020. For regulated financial institutions, the question is not whether smart contracts are useful \u2014 it\u2019s whether the code can be audited, tested, and governed to the same standard as traditional legal contracts. This is the foundation for the tokenization and DvP topics in Modules 08\u201309.`,
+      body: `A smart contract is code that executes automatically when predefined conditions are met, running on the blockchain itself rather than on any single party\u2019s server. In financial contexts, this enables conditional payments (release funds when goods are delivered), automated collateral management (liquidate a position if its value drops below a threshold), and programmable compliance (block transfers to sanctioned addresses). Ethereum introduced general-purpose smart contracts in 2015; Solidity is the primary language. On permissioned chains, DAML (Canton) and CorDapp (Corda) serve the same function. The risk: smart contract bugs are expensive. The 2016 DAO hack exploited a re-entrancy bug to drain $60M. In DeFi, smart contract exploits have cost over $3B since 2020. For regulated financial institutions, the question is not whether smart contracts are useful \u2014 it\u2019s whether the code can be audited, tested, and governed to the same standard as traditional legal contracts. This is the foundation for the Tokenization and DeFi topics.`,
     },
     {
       kind: 'text',
@@ -57,7 +57,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'Why finality is the detail that matters most',
-      body: `In RTGS systems like CHAPS, settlement is immediate and irrevocable the moment it happens \u2014 that\u2019s the whole point of central bank money. On many public blockchains, \u201cfinality\u201d is probabilistic: a transaction becomes progressively less likely to be reversed as more blocks are added on top of it, rather than being instantly absolute. This single difference is what makes atomic, simultaneous settlement of two legs of a trade (covered in Module 13) a genuinely hard problem, not a solved one. Specific finality times: Bitcoin achieves practical finality after 6 block confirmations (~60 minutes). Ethereum reaches finality after 2 epochs (~13 minutes) since the Merge. Solana achieves finality in ~0.4 seconds. Permissioned chains like Corda and Canton offer instant finality \u2014 once the notary signs, the transaction is final. Compare this to CHAPS, which also offers immediate finality but only during operating hours and only in sterling. The finality gap between public chains and RTGS is narrowing, but it\u2019s not closed.`,
+      body: `In RTGS systems like CHAPS, settlement is immediate and irrevocable the moment it happens \u2014 that\u2019s the whole point of central bank money. On many public blockchains, \u201cfinality\u201d is probabilistic: a transaction becomes progressively less likely to be reversed as more blocks are added on top of it, rather than being instantly absolute. This single difference is what makes atomic, simultaneous settlement of two legs of a trade (covered in the Settlement topic) a genuinely hard problem, not a solved one. Specific finality times: Bitcoin achieves practical finality after 6 block confirmations (~60 minutes). Ethereum reaches finality after 2 epochs (~13 minutes) since the Merge. Solana achieves finality in ~0.4 seconds. Permissioned chains like Corda and Canton offer instant finality \u2014 once the notary signs, the transaction is final. Compare this to CHAPS, which also offers immediate finality but only during operating hours and only in sterling. The finality gap between public chains and RTGS is narrowing, but it\u2019s not closed.`,
     },
     {
       kind: 'case',
@@ -71,6 +71,10 @@ const content: ModuleContent = {
         sourceUrl: 'https://ethereum.org/en/roadmap/merge/',
         verifiedAsOf: 'September 2022',
       },
+    },
+    {
+      kind: 'text',
+      body: `With the technology foundations in place, the next topic looks at what actually runs on these blockchains — the different categories of crypto assets and why they exist.`,
     },
     {
       kind: 'quiz',

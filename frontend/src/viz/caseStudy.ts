@@ -49,14 +49,12 @@ export function renderCaseStudy(container: HTMLElement, spec: CaseStudySpec): vo
       }
     });
 
-    // Start open by default for first section
-    if (section.getAttribute('data-section') === 'what') {
-      section.classList.add('case-open');
-      requestAnimationFrame(() => {
-        body.style.maxHeight = `${body.scrollHeight}px`;
-        toggle.textContent = '▾';
-      });
-    }
+    // Start both sections open by default
+    section.classList.add('case-open');
+    requestAnimationFrame(() => {
+      body.style.maxHeight = `${body.scrollHeight}px`;
+      toggle.textContent = '▾';
+    });
   });
 
   observeEntrance(container, '.case-card');

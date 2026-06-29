@@ -9,7 +9,7 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `Module 07 covered CBDC mechanics. This module is the atlas \u2014 a real, sourced map of who's actually live, piloting, researching, or has deliberately deprioritized a CBDC, plus the major cross-border and consortium projects running alongside them. Tap a pin for that country's status.`,
+      body: `The CBDC topic covered CBDC mechanics. This topic is the atlas \u2014 a real, sourced map of who's actually live, piloting, researching, or has deliberately deprioritized a CBDC, plus the major cross-border and consortium projects running alongside them. Tap a pin for that country's status.`,
     },
     {
       kind: 'map',
@@ -53,9 +53,11 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'The pattern across this map',
-      body: `Notice where activity concentrates: advanced economies outside the eurozone (Canada, Australia, Norway) have generally deprioritized retail CBDC, while emerging markets are pushing harder \u2014 often explicitly as a defensive response to dollar-backed stablecoins eroding local monetary control (the dollarization risk from Module 03). Wholesale infrastructure, not retail, is where the most serious institutional money and effort is concentrated right now.
+      body: `Notice where activity concentrates: advanced economies outside the eurozone (Canada, Australia, Norway) have generally deprioritized retail CBDC, while emerging markets are pushing harder \u2014 often explicitly as a defensive response to dollar-backed stablecoins eroding local monetary control (the dollarization risk from the risk topic). Wholesale infrastructure, not retail, is where the most serious institutional money and effort is concentrated right now.
 
-Several initiatives have evolved significantly since launch. China's e-CNY was reclassified as a deposit liability in January 2026, moving it closer to tokenized deposits than a pure CBDC. Brazil's Drex has pivoted heavily toward wholesale tokenized credit rather than retail payments. The trend across all projects: wholesale and institutional use cases are gaining traction, while retail CBDC adoption remains stubbornly low everywhere it has launched.`,
+Several initiatives have evolved significantly since launch. China's e-CNY was reclassified as a deposit liability in January 2026, moving it closer to tokenized deposits than a pure CBDC. Brazil's Drex has pivoted heavily toward wholesale tokenized credit rather than retail payments. The trend across all projects: wholesale and institutional use cases are gaining traction, while retail CBDC adoption remains stubbornly low everywhere it has launched.
+
+You now know who's building what, where. The next topic looks at how people actually access all of this — exchanges, custody, and market structure.`,
     },
     {
       kind: 'quiz',

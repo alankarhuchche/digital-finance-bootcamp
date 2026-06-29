@@ -42,7 +42,9 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'The honest tension underneath all of it',
-      body: `Banks are simultaneously defending deposits (tokenized deposits, CBDC advocacy) and participating in the thing that threatens those deposits (stablecoin access, custody services) — because nobody yet knows which side wins, and being absent from both is the worst outcome of all. This isn't strategic confusion; it's a deliberate hedge under genuine uncertainty.`,
+      body: `Banks are simultaneously defending deposits (tokenized deposits, CBDC advocacy) and participating in the thing that threatens those deposits (stablecoin access, custody services) — because nobody yet knows which side wins, and being absent from both is the worst outcome of all. This isn't strategic confusion; it's a deliberate hedge under genuine uncertainty.
+
+Banks are hedging. But what happens when things go wrong? The next topic catalogues the failure modes — the six ways digital finance systems actually break.`,
     },
     {
       kind: 'case',

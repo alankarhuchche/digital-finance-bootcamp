@@ -9,7 +9,7 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `Where you actually access any of this matters as much as what you're accessing. Module 03's "who carries the risk" question shows up again here, sharpened to a single decision: do you trust a company to hold your assets, or do you hold them yourself?`,
+      body: `Where you actually access any of this matters as much as what you're accessing. The risk topic's "who carries the risk" question shows up again here, sharpened to a single decision: do you trust a company to hold your assets, or do you hold them yourself?`,
     },
     {
       kind: 'matrix',
@@ -45,7 +45,9 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'Liquidity fragmentation',
-      body: `Unlike US equities (which have a consolidated tape via the SIP), crypto has no unified view of prices across venues. The same asset trades on dozens of CEXs and DEXs simultaneously at slightly different prices. This fragmentation means: worse price discovery, higher effective spreads for traders, and arbitrage profits flowing to sophisticated market makers rather than to ordinary users. Proposals for a crypto consolidated tape exist but face the fundamental challenge that DEXs operate across multiple chains with no central authority to aggregate data.`,
+      body: `Unlike US equities (which have a consolidated tape via the SIP), crypto has no unified view of prices across venues. The same asset trades on dozens of CEXs and DEXs simultaneously at slightly different prices. This fragmentation means: worse price discovery, higher effective spreads for traders, and arbitrage profits flowing to sophisticated market makers rather than to ordinary users. Proposals for a crypto consolidated tape exist but face the fundamental challenge that DEXs operate across multiple chains with no central authority to aggregate data.
+
+Markets connect buyers and sellers. But the real challenge underneath is settlement — making sure both sides of a trade actually deliver. That's the next topic.`,
     },
     {
       kind: 'case',
@@ -54,7 +56,7 @@ const content: ModuleContent = {
         title: 'FTX collapse',
         dateRange: 'November 2022 (bankruptcy filed 11 November)',
         whatHappened: `FTX, then the second-largest crypto exchange globally, secretly lent customer deposits to its affiliated trading firm, Alameda Research \u2014 explicitly forbidden by its own terms of service. When a liquidity crunch triggered a wave of withdrawal requests, FTX could not return customer funds. The shortfall was reported at roughly $8 billion. Founder Sam Bankman-Fried was convicted of fraud in November 2023, sentenced to 25 years in March 2024, and had that conviction upheld on appeal in 2026.`,
-        whyItMatters: `This is the sharpest illustration of CEX custody risk: customers believed their assets were held 1:1 and separately from the exchange's own funds \u2014 exactly the assumption MiCA's reserve-segregation rules for stablecoin issuers are designed to force. A DEX user couldn't have lost funds this way, because there's no custodian in the loop to misuse them \u2014 though DEXs carry their own risks (Module 09's Euler Finance case, and Module 16 ahead).`,
+        whyItMatters: `This is the sharpest illustration of CEX custody risk: customers believed their assets were held 1:1 and separately from the exchange's own funds \u2014 exactly the assumption MiCA's reserve-segregation rules for stablecoin issuers are designed to force. A DEX user couldn't have lost funds this way, because there's no custodian in the loop to misuse them \u2014 though DEXs carry their own risks (the DeFi topic's Euler Finance case, and the failure modes topic ahead).`,
         source: 'Wikipedia ("Bankruptcy of FTX"); CBS News and NBC News sentencing coverage',
         verifiedAsOf: 'June 2026',
       },

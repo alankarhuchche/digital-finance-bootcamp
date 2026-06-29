@@ -9,7 +9,7 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `Module 02 treated "stablecoin" as one box on a map. It is actually four different mechanisms wearing the same label — and the differences between them are exactly what determines whether one survives a crisis or goes to zero.`,
+      body: `The Forms of money topic treated "stablecoin" as one box on a map. It is actually four different mechanisms wearing the same label — and the differences between them are exactly what determines whether one survives a crisis or goes to zero.`,
     },
     {
       kind: 'matrix',
@@ -79,6 +79,10 @@ const content: ModuleContent = {
         source: 'Circle public disclosures; FDIC SVB receivership; DeFi market data',
         verifiedAsOf: 'June 2026',
       },
+    },
+    {
+      kind: 'text',
+      body: `Stablecoins are the private sector's answer to digital money. The next topic covers the public sector's response: central bank digital currencies.`,
     },
     {
       kind: 'quiz',

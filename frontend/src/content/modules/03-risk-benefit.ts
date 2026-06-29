@@ -9,7 +9,7 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `So far we\u2019ve shown what each instrument is. This module asks who actually cares, and why \u2014 because a stablecoin and a CBDC sit in very different positions depending on whether you\u2019re a customer, a commercial bank, a central bank, or an entire economy. The two matrices below map benefits and risks by stakeholder for stablecoins and CBDCs respectively.`,
+      body: `So far we\u2019ve shown what each instrument is. This topic asks who actually cares, and why \u2014 because a stablecoin and a CBDC sit in very different positions depending on whether you\u2019re a customer, a commercial bank, a central bank, or an entire economy. The two matrices below map benefits and risks by stakeholder for stablecoins and CBDCs respectively.`,
     },
     {
       kind: 'matrix',
@@ -122,7 +122,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'Why this matters going forward',
-      body: `Notice the pattern: stablecoins push risk toward banks/central banks/economies while concentrating benefit on the customer; a well-designed CBDC tends to do the opposite. Every regulation you\u2019ll meet later \u2014 MiCA\u2019s reserve rules, transaction caps on \u201Csignificant\u201D tokens, the GENIUS Act\u2019s licensing requirements \u2014 is one of these four stakeholders trying to protect their own position. Once you can name which stakeholder a rule is protecting, the rule stops looking arbitrary.`,
+      body: `Notice the pattern: stablecoins push risk toward banks/central banks/economies while concentrating benefit on the customer; a well-designed CBDC tends to do the opposite. Every regulation you\u2019ll meet later \u2014 MiCA\u2019s reserve rules, transaction caps on \u201Csignificant\u201D tokens, the GENIUS Act\u2019s licensing requirements \u2014 is one of these four stakeholders trying to protect their own position. Once you can name which stakeholder a rule is protecting, the rule stops looking arbitrary.\n\nThe next question is: what technology makes these alternatives possible? The next topic covers distributed ledger technology \u2014 the infrastructure underneath stablecoins, CBDCs, and tokenized deposits.`,
     },
     {
       kind: 'quiz',

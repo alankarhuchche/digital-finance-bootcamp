@@ -416,15 +416,47 @@ svg.world-map { width: 100%; height: auto; display: block; }
 .scale-fill { height: 100%; border-radius: 10px 0 0 10px; transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important; }
 .scale-detail { display: none; margin-top: 6px; font-size: 13px; color: var(--text-dim); line-height: 1.6; padding-left: 2px; }
 
+/* ============ Loading state ============ */
+.loading-state {
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px; padding: 80px 0;
+}
+@keyframes loadingPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+.loading-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--amber); animation: loadingPulse 1.2s ease infinite;
+}
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* ============ Sidebar close (mobile) ============ */
+.sidebar-close {
+  display: none; position: absolute; top: 16px; right: 16px;
+  background: none; border: none; color: var(--text-dim);
+  font-size: 18px; cursor: pointer; padding: 0; line-height: 1;
+}
+.sidebar-close:hover { color: var(--text); }
+@media (max-width: 768px) {
+  .sidebar-close { display: block; }
+}
+
+/* ============ Landing start hint ============ */
+.landing-start {
+  font-size: 14px; color: var(--text-dim); line-height: 1.6;
+  margin: 8px 0 0; max-width: 640px;
+}
+.landing-start strong { color: var(--amber); }
+
 /* ============ Topic page ============ */
+.topic-header { margin-bottom: 24px; }
+.topic-body { display: flex; flex-direction: column; gap: 28px; }
+
 .back-btn {
   background: none; border: none; color: var(--text-dim);
   font-family: 'IBM Plex Mono', monospace; font-size: 12px;
   cursor: pointer; padding: 0; margin-bottom: 20px;
 }
 .back-btn:hover { color: var(--amber); }
-.module-header { margin-bottom: 24px; }
-.module-body { display: flex; flex-direction: column; gap: 28px; }
 .prose { font-size: 14px; line-height: 1.7; color: var(--text); }
 .prose p { margin: 0 0 12px; }
 .prose p:last-child { margin-bottom: 0; }
@@ -479,16 +511,21 @@ svg.world-map { width: 100%; height: auto; display: block; }
 .complete-btn:hover { border-color: var(--amber); }
 .complete-btn-done { background: rgba(95,179,163,0.12); border-color: var(--teal); color: var(--teal); }
 
-/* ============ Next topic nav ============ */
-.module-nav { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--grid); }
-.next-module-btn {
-  display: block; text-align: center; background: var(--ink2);
-  border: 1px solid var(--grid); border-radius: 4px;
-  color: var(--amber); font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600; font-size: 14px; padding: 14px;
-  text-decoration: none; transition: border-color 0.2s, background 0.2s;
+/* ============ Topic nav (prev / next) ============ */
+.topic-nav {
+  margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--grid);
+  display: flex; justify-content: space-between; gap: 12px;
 }
-.next-module-btn:hover { border-color: var(--amber); background: rgba(232,163,61,0.06); }
+.topic-nav-btn {
+  background: var(--ink2); border: 1px solid var(--grid); border-radius: 4px;
+  color: var(--text-dim); font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600; font-size: 13px; padding: 12px 16px;
+  text-decoration: none; transition: border-color 0.2s, background 0.2s, color 0.2s;
+  max-width: 48%;
+}
+.topic-nav-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(232,163,61,0.04); }
+.topic-nav-next { margin-left: auto; text-align: right; }
+.topic-nav-prev { text-align: left; }
 
 /* ============ Animations ============ */
 #app { transition: opacity 0.15s ease; }

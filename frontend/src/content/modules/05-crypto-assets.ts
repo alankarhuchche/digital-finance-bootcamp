@@ -9,7 +9,7 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `Modules 02 and 03 covered crypto assets that try to act like money (stablecoins, and CBDC as the non-crypto sovereign equivalent). Most crypto assets are not trying to be money at all. This module covers the categories that get lumped in under “crypto” anyway, which is exactly why the term feels so overloaded.`,
+      body: `The Forms of money and Risk topics covered crypto assets that try to act like money (stablecoins, and CBDC as the non-crypto sovereign equivalent). Most crypto assets are not trying to be money at all. This topic covers the categories that get lumped in under “crypto” anyway, which is exactly why the term feels so overloaded.`,
     },
     {
       kind: 'matrix',
@@ -56,6 +56,10 @@ const content: ModuleContent = {
         source: 'SEC v. Ripple Labs, Inc. (S.D.N.Y. 2023); court filings and rulings',
         verifiedAsOf: 'June 2026',
       },
+    },
+    {
+      kind: 'text',
+      body: `One category of crypto asset — stablecoins — is so important to the payments story that it gets its own deep-dive. The next topic breaks down the four different mechanisms stablecoins use to hold their peg.`,
     },
     {
       kind: 'quiz',
