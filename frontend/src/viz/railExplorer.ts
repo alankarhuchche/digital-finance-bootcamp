@@ -15,9 +15,30 @@ export function renderRailExplorer(container: HTMLElement): void {
   let viewMode: ViewMode = 'executive';
   let interactionMode: InteractionMode = 'inspect';
   let inspectId = 'cards';
-  let compareA = 'cards';
-  let compareB = 'stablecoins';
-  let nextCompareSlot: 'a' | 'b' = 'a';
+  // compareSelection holds 0, 1, or 2 rail IDs. Index 0 = A, index 1 = B.
+  let compareSelection: string[] = ['cards', 'stablecoins'];
+
+  function toggleCompareRail(id: string): void {
+    const idx = compareSelection.indexOf(id);
+    if (idx !== -1) {
+      // Deselect — remove and shift remaining to index 0 (keeps layout simple).
+      compareSelection.splice(idx, 1);
+    } else if (compareSelection.length < 2) {
+      compareSelection.push(id);
+    } else {
+      // Both slots full — replace index 1 (most recently changed slot).
+      compareSelection[1] = id;
+    }
+  }
+
+  function removeCompareRail(id: string): void {
+    const idx = compareSelection.indexOf(id);
+    if (idx !== -1) compareSelection.splice(idx, 1);
+  }
+
+  function clearComparison(): void {
+    compareSelection = [];
+  }
 
   const wrapper = document.createElement('div');
   wrapper.className = 'rail-explorer';
@@ -55,15 +76,21 @@ export function renderRailExplorer(container: HTMLElement): void {
       if (interactionMode === 'inspect') {
         if (rail.id === inspectId) pillClass += ' rail-pill-selected';
       } else {
-        if (rail.id === compareA) { pillClass += ' rail-pill-compare-a'; label = 'A'; }
-        else if (rail.id === compareB) { pillClass += ' rail-pill-compare-b'; label = 'B'; }
+        const slotIdx = compareSelection.indexOf(rail.id);
+        if (slotIdx === 0) { pillClass += ' rail-pill-compare-a'; label = 'A'; }
+        else if (slotIdx === 1) { pillClass += ' rail-pill-compare-b'; label = 'B'; }
       }
+
+      const isSelected = interactionMode === 'inspect'
+        ? rail.id === inspectId
+        : compareSelection.includes(rail.id);
 
       return `<button
         class="${pillClass}"
         data-id="${rail.id}"
         role="tab"
-        aria-selected="${interactionMode === 'inspect' ? rail.id === inspectId : rail.id === compareA || rail.id === compareB}"
+        aria-selected="${isSelected}"
+        aria-pressed="${interactionMode === 'compare' ? isSelected : undefined}"
         style="--pill-color: ${color}"
       >${label ? `<span class="pill-badge">${label}</span>` : ''}${rail.name}</button>`;
     }).join('');
@@ -77,24 +104,71 @@ export function renderRailExplorer(container: HTMLElement): void {
       if (!rail) return;
       area.innerHTML = renderCard(rail);
     } else {
-      const railA = PAYMENT_RAILS.find(r => r.id === compareA);
-      const railB = PAYMENT_RAILS.find(r => r.id === compareB);
-      if (!railA || !railB) return;
-      area.innerHTML = `
-        <div class="rail-compare-layout">
-          <div class="rail-compare-col">
-            <div class="rail-compare-label">A</div>
-            ${renderCard(railA, railB)}
+      const [idA, idB] = compareSelection;
+      const railA = idA ? PAYMENT_RAILS.find(r => r.id === idA) : undefined;
+      const railB = idB ? PAYMENT_RAILS.find(r => r.id === idB) : undefined;
+
+      if (!railA && !railB) {
+        area.innerHTML = `<p class="rail-compare-empty">Select two rails to compare.</p>`;
+      } else if (railA && !railB) {
+        area.innerHTML = `
+          <div class="rail-compare-layout rail-compare-layout--single">
+            <div class="rail-compare-col">
+              <div class="rail-compare-header">
+                <div class="rail-compare-label">A</div>
+                <button class="rail-remove-btn" data-remove="${railA.id}" aria-label="Remove ${railA.name} from comparison">Remove</button>
+              </div>
+              ${renderCard(railA)}
+            </div>
           </div>
-          <div class="rail-compare-col">
-            <div class="rail-compare-label">B</div>
-            ${renderCard(railB, railA)}
+          <p class="rail-compare-hint">Select another rail to compare with <strong>${railA.name}</strong>.</p>
+          <button class="rail-reset" id="railReset">Clear comparison</button>
+        `;
+      } else if (railA && railB) {
+        area.innerHTML = `
+          <div class="rail-compare-layout">
+            <div class="rail-compare-col">
+              <div class="rail-compare-header">
+                <div class="rail-compare-label">A</div>
+                <button class="rail-remove-btn" data-remove="${railA.id}" aria-label="Remove ${railA.name} from comparison">Remove</button>
+              </div>
+              ${renderCard(railA, railB)}
+            </div>
+            <div class="rail-compare-col">
+              <div class="rail-compare-header">
+                <div class="rail-compare-label">B</div>
+                <button class="rail-remove-btn" data-remove="${railB.id}" aria-label="Remove ${railB.name} from comparison">Remove</button>
+              </div>
+              ${renderCard(railB, railA)}
+            </div>
           </div>
-        </div>
-        <button class="rail-reset" id="railReset">Reset comparison</button>
-      `;
+          <button class="rail-reset" id="railReset">Clear comparison</button>
+        `;
+      }
     }
     bindTermPopovers(area);
+    bindRemoveButtons();
+  }
+
+  function bindRemoveButtons() {
+    const area = wrapper.querySelector<HTMLElement>('.rail-detail-area')!;
+    area.querySelectorAll<HTMLElement>('.rail-remove-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.remove!;
+        removeCompareRail(id);
+        renderSelector();
+        renderDetailArea();
+      });
+    });
+
+    const resetBtn = area.querySelector<HTMLElement>('#railReset');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        clearComparison();
+        renderSelector();
+        renderDetailArea();
+      });
+    }
   }
 
   function renderCard(rail: PaymentRail, otherRail?: PaymentRail): string {
@@ -203,9 +277,6 @@ export function renderRailExplorer(container: HTMLElement): void {
     wrapper.querySelectorAll<HTMLElement>('[data-mode]').forEach(btn => {
       btn.addEventListener('click', () => {
         interactionMode = btn.dataset.mode as InteractionMode;
-        if (interactionMode === 'compare') {
-          nextCompareSlot = 'a';
-        }
         render();
       });
     });
@@ -224,12 +295,19 @@ export function renderRailExplorer(container: HTMLElement): void {
       const pill = (e.target as HTMLElement).closest<HTMLElement>('.rail-pill');
       if (!pill) return;
       const id = pill.dataset.id!;
-      handleRailSelect(id);
+      if (interactionMode === 'inspect') {
+        if (id === inspectId) return;
+        inspectId = id;
+      } else {
+        toggleCompareRail(id);
+      }
+      renderSelector();
+      renderDetailArea();
     });
 
     selector.addEventListener('keydown', (e) => {
       const pills = Array.from(selector.querySelectorAll<HTMLElement>('.rail-pill'));
-      const activeId = interactionMode === 'inspect' ? inspectId : compareB;
+      const activeId = interactionMode === 'inspect' ? inspectId : (compareSelection[0] ?? '');
       const currentIdx = pills.findIndex(p => p.dataset.id === activeId);
       let nextIdx = -1;
 
@@ -242,55 +320,17 @@ export function renderRailExplorer(container: HTMLElement): void {
       }
 
       if (nextIdx >= 0) {
-        handleRailSelect(pills[nextIdx].dataset.id!);
-        pills[nextIdx].focus();
+        const id = pills[nextIdx].dataset.id!;
+        if (interactionMode === 'inspect') {
+          inspectId = id;
+        } else {
+          toggleCompareRail(id);
+        }
+        renderSelector();
+        renderDetailArea();
+        wrapper.querySelectorAll<HTMLElement>('.rail-pill')[nextIdx]?.focus();
       }
     });
-
-    // Reset button
-    const resetBtn = wrapper.querySelector<HTMLElement>('#railReset');
-    if (resetBtn) {
-      resetBtn.addEventListener('click', () => {
-        compareA = 'cards';
-        compareB = 'stablecoins';
-        nextCompareSlot = 'a';
-        renderSelector();
-        renderDetailArea();
-      });
-    }
-  }
-
-  function handleRailSelect(id: string) {
-    if (interactionMode === 'inspect') {
-      if (id === inspectId) return;
-      inspectId = id;
-    } else {
-      if (id === compareA || id === compareB) return;
-      if (nextCompareSlot === 'a') {
-        compareA = id;
-        nextCompareSlot = 'b';
-      } else {
-        compareB = id;
-        nextCompareSlot = 'b';
-      }
-    }
-    renderSelector();
-    renderDetailArea();
-    bindResetIfNeeded();
-  }
-
-  function bindResetIfNeeded() {
-    const resetBtn = wrapper.querySelector<HTMLElement>('#railReset');
-    if (resetBtn) {
-      resetBtn.addEventListener('click', () => {
-        compareA = 'cards';
-        compareB = 'stablecoins';
-        nextCompareSlot = 'a';
-        renderSelector();
-        renderDetailArea();
-        bindResetIfNeeded();
-      });
-    }
   }
 
   render();
