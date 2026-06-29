@@ -2,6 +2,7 @@ import { MODULE_INDEX, CATEGORIES } from '../content/registry';
 import { isComplete } from '../progress';
 import { staggerEntrance } from '../animate';
 import { renderRailExplorer } from '../viz/railExplorer';
+import { renderFinalityVisualiser } from '../viz/finalityVisualiser';
 
 export function renderHomePage(
   app: HTMLElement,
@@ -46,6 +47,12 @@ export function renderHomePage(
       <div id="railExplorerMount"></div>
     </section>
 
+    <section class="finality-section">
+      <h2 class="section-heading">Fast is not always final</h2>
+      <p class="section-intro">Payment speed is not one thing. Customer approval, technical confirmation, legal finality, liquidity availability and reconciliation can happen at different points in time. Select a rail to see the gap.</p>
+      <div id="finalityMount"></div>
+    </section>
+
     <p class="landing-start">Start with <strong>Payments fundamentals</strong> if you're new, or jump to any topic. Topics build on each other in the order shown, but each one stands on its own.</p>
 
     <div id="topicIndex">
@@ -55,6 +62,9 @@ export function renderHomePage(
 
   const explorerMount = app.querySelector<HTMLElement>('#railExplorerMount');
   if (explorerMount) renderRailExplorer(explorerMount);
+
+  const finalityMount = app.querySelector<HTMLElement>('#finalityMount');
+  if (finalityMount) renderFinalityVisualiser(finalityMount);
 
   bindTopicCards(app, navigate);
   staggerEntrance(app, '.topic-card', 30);

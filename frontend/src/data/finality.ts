@@ -1,0 +1,421 @@
+export type FinalityCategory = 'traditional' | 'real-time' | 'tokenised' | 'market-infrastructure';
+
+export interface FinalityStage {
+  label: string;
+  timeLabel: string;
+  relativeOrder: number;
+  confidence: 'high' | 'medium' | 'variable';
+  explanation: string;
+}
+
+export interface FinalityRail {
+  id: string;
+  name: string;
+  category: FinalityCategory;
+  summary: string;
+  customerExperience: FinalityStage;
+  technicalConfirmation: FinalityStage;
+  legalFinality: FinalityStage;
+  liquidityAvailability: FinalityStage;
+  reconciliationComplete: FinalityStage;
+  assumptionNote: string;
+  keyLesson: string;
+}
+
+export const STAGE_KEYS: (keyof Pick<FinalityRail, 'customerExperience' | 'technicalConfirmation' | 'legalFinality' | 'liquidityAvailability' | 'reconciliationComplete'>)[] = [
+  'customerExperience',
+  'technicalConfirmation',
+  'legalFinality',
+  'liquidityAvailability',
+  'reconciliationComplete',
+];
+
+export const FINALITY_RAILS: FinalityRail[] = [
+  {
+    id: 'card',
+    name: 'Card payment',
+    category: 'traditional',
+    summary: 'Authorisation is instant. Settlement, finality and reconciliation follow over the next 1–2 business days.',
+    customerExperience: {
+      label: 'Customer experience',
+      timeLabel: 'Instant',
+      relativeOrder: 5,
+      confidence: 'high',
+      explanation: 'The cardholder sees "Approved" within seconds. The merchant receives an authorisation code. But no money has moved yet — this is a promise to pay, not a payment.',
+    },
+    technicalConfirmation: {
+      label: 'Technical confirmation',
+      timeLabel: 'Seconds',
+      relativeOrder: 8,
+      confidence: 'high',
+      explanation: 'The scheme network (Visa/Mastercard) routes the authorisation and confirms it to both the issuer and acquirer. The transaction is logged but not settled.',
+    },
+    legalFinality: {
+      label: 'Legal finality',
+      timeLabel: 'T+1 to T+2',
+      relativeOrder: 60,
+      confidence: 'high',
+      explanation: 'Settlement between issuer and acquirer occurs via the scheme’s clearing system, typically T+1 to T+2. Chargebacks can reverse transactions for up to 120 days, meaning legal finality for the merchant is conditional.',
+    },
+    liquidityAvailability: {
+      label: 'Liquidity availability',
+      timeLabel: 'T+1 to T+2',
+      relativeOrder: 65,
+      confidence: 'high',
+      explanation: 'The merchant receives funds from the acquirer after scheme settlement, typically T+1 to T+2. Some acquirers offer next-day or same-day funding as a service.',
+    },
+    reconciliationComplete: {
+      label: 'Reconciliation',
+      timeLabel: 'T+1 to T+3',
+      relativeOrder: 75,
+      confidence: 'medium',
+      explanation: 'The acquirer reconciles against scheme clearing files. The merchant reconciles against acquirer settlement reports. Discrepancies may take days to resolve.',
+    },
+    assumptionNote: 'Timings assume standard Visa/Mastercard four-party settlement. Amex (three-party) and debit schemes may differ.',
+    keyLesson: 'The customer sees "instant" but money doesn’t move for 1–2 days. The merchant carries settlement risk until funds arrive, and chargeback risk for months after.',
+  },
+  {
+    id: 'faster-payments',
+    name: 'Faster Payment / RTP',
+    category: 'real-time',
+    summary: 'Near-instant from the customer’s perspective. Interbank settlement may be deferred, creating a gap between credit and finality.',
+    customerExperience: {
+      label: 'Customer experience',
+      timeLabel: 'Under 2 seconds',
+      relativeOrder: 3,
+      confidence: 'high',
+      explanation: 'The payee’s bank credits the account almost immediately. The customer sees the money as available.',
+    },
+    technicalConfirmation: {
+      label: 'Technical confirmation',
+      timeLabel: 'Under 2 seconds',
+      relativeOrder: 5,
+      confidence: 'high',
+      explanation: 'The scheme operator confirms the payment to both banks. The payee’s bank has committed to credit.',
+    },
+    legalFinality: {
+      label: 'Legal finality',
+      timeLabel: 'Typically irrevocable once credited',
+      relativeOrder: 10,
+      confidence: 'medium',
+      explanation: 'Once credited, the payment is generally irrevocable — no chargeback mechanism exists. However, interbank settlement is deferred, so the payee’s bank carries settlement risk until net positions clear.',
+    },
+    liquidityAvailability: {
+      label: 'Liquidity availability',
+      timeLabel: 'Immediate to payee',
+      relativeOrder: 5,
+      confidence: 'high',
+      explanation: 'The payee can use the funds immediately. The payee’s bank has fronted the money before interbank settlement completes.',
+    },
+    reconciliationComplete: {
+      label: 'Reconciliation',
+      timeLabel: 'Same day (scheme-dependent)',
+      relativeOrder: 40,
+      confidence: 'medium',
+      explanation: 'UK FPS settles interbank positions via three deferred net settlement cycles per day through the Bank of England. Reconciliation follows each cycle.',
+    },
+    assumptionNote: 'Timings based on UK Faster Payments. India UPI, Brazil Pix and US FedNow have different interbank settlement mechanics.',
+    keyLesson: 'The customer sees instant funds. The receiving bank carries settlement risk until interbank netting completes — typically hours, not seconds.',
+  },
+  {
+    id: 'chaps',
+    name: 'CHAPS / RTGS',
+    category: 'real-time',
+    summary: 'All five stages happen close together. This is the finality benchmark.',
+    customerExperience: {
+      label: 'Customer experience',
+      timeLabel: 'Minutes (during operating hours)',
+      relativeOrder: 10,
+      confidence: 'high',
+      explanation: 'The beneficiary is notified within minutes. Not instant like FPS, but the payment is irrevocable the moment it settles.',
+    },
+    technicalConfirmation: {
+      label: 'Technical confirmation',
+      timeLabel: 'Minutes',
+      relativeOrder: 12,
+      confidence: 'high',
+      explanation: 'The Bank of England debits one settlement account and credits another. Each payment settles individually (gross, not net).',
+    },
+    legalFinality: {
+      label: 'Legal finality',
+      timeLabel: 'Immediate on settlement',
+      relativeOrder: 13,
+      confidence: 'high',
+      explanation: 'Settlement is in central bank money — the highest form of finality. Once the Bank of England processes the entry, it is irrevocable. No chargeback, no reversal.',
+    },
+    liquidityAvailability: {
+      label: 'Liquidity availability',
+      timeLabel: 'Immediate on settlement',
+      relativeOrder: 14,
+      confidence: 'high',
+      explanation: 'The receiving bank’s settlement account is credited immediately. Funds are available in central bank money.',
+    },
+    reconciliationComplete: {
+      label: 'Reconciliation',
+      timeLabel: 'Same day',
+      relativeOrder: 25,
+      confidence: 'high',
+      explanation: 'Both banks see the same central bank ledger entry. Reconciliation is against each bank’s own customer accounts, not against the counterparty.',
+    },
+    assumptionNote: 'CHAPS operates 06:00–18:00 UK business days. Outside these hours, payments queue until the next operating window.',
+    keyLesson: 'RTGS is the gold standard: all five stages are close together and in central bank money. Every other system is measured against this.',
+  },
+  {
+    id: 'swift',
+    name: 'SWIFT correspondent',
+    category: 'traditional',
+    summary: 'The message moves fast. The money follows slowly, through multiple hops, each with its own timing.',
+    customerExperience: {
+      label: 'Customer experience',
+      timeLabel: '1–3 business days (typically)',
+      relativeOrder: 70,
+      confidence: 'variable',
+      explanation: 'The sender’s bank confirms the instruction has been sent. The beneficiary may not see funds for 1–3 days depending on the corridor and number of correspondent hops.',
+    },
+    technicalConfirmation: {
+      label: 'Technical confirmation',
+      timeLabel: 'Minutes (message delivery)',
+      relativeOrder: 8,
+      confidence: 'high',
+      explanation: 'SWIFT delivers the MT103/pacs.008 message within seconds. But this is an instruction, not money. Each correspondent bank in the chain must process it independently.',
+    },
+    legalFinality: {
+      label: 'Legal finality',
+      timeLabel: 'Corridor-dependent',
+      relativeOrder: 65,
+      confidence: 'variable',
+      explanation: 'Each hop settles independently via nostro/vostro adjustments. Legal finality is achieved when the beneficiary’s bank credits the account — but this depends on the number of hops, operating hours, and compliance checks at each stage.',
+    },
+    liquidityAvailability: {
+      label: 'Liquidity availability',
+      timeLabel: '1–3 business days',
+      relativeOrder: 72,
+      confidence: 'variable',
+      explanation: 'The beneficiary can use funds only after their bank credits the account. Intermediary fees may be deducted from the payment amount.',
+    },
+    reconciliationComplete: {
+      label: 'Reconciliation',
+      timeLabel: 'Days (bilateral, per hop)',
+      relativeOrder: 85,
+      confidence: 'variable',
+      explanation: 'Every bank in the chain reconciles its own nostro/vostro positions bilaterally, often with a day’s lag. Mismatches can leave payments in investigation queues.',
+    },
+    assumptionNote: 'Timings vary significantly by corridor. SWIFT gpi improves transparency but does not change the underlying multi-hop settlement.',
+    keyLesson: 'The instruction arrives in seconds. The money arrives in days. The reconciliation may take longer still. This is the gap digital finance targets.',
+  },
+  {
+    id: 'cls',
+    name: 'CLS FX settlement',
+    category: 'market-infrastructure',
+    summary: 'Both currencies settle simultaneously. This is the closest thing to atomic settlement in traditional finance.',
+    customerExperience: {
+      label: 'Customer experience',
+      timeLabel: 'Not customer-facing',
+      relativeOrder: 0,
+      confidence: 'high',
+      explanation: 'CLS is institutional infrastructure. End customers do not interact with it directly.',
+    },
+    technicalConfirmation: {
+      label: 'Technical confirmation',
+      timeLabel: 'Within settlement window',
+      relativeOrder: 30,
+      confidence: 'high',
+      explanation: 'Both currencies are matched and settled simultaneously during CLS’s 5-hour settlement window. If either leg fails, neither settles.',
+    },
+    legalFinality: {
+      label: 'Legal finality',
+      timeLabel: 'Simultaneous (PvP)',
+      relativeOrder: 32,
+      confidence: 'high',
+      explanation: 'Payment-versus-payment settlement in central bank money. Both legs are legally final at the same moment. This eliminates Herstatt risk by design.',
+    },
+    liquidityAvailability: {
+      label: 'Liquidity availability',
+      timeLabel: 'After pay-out phase',
+      relativeOrder: 40,
+      confidence: 'high',
+      explanation: 'Multilateral netting reduces gross funding by roughly 96%. Banks receive net pay-outs after the settlement cycle completes.',
+    },
+    reconciliationComplete: {
+      label: 'Reconciliation',
+      timeLabel: 'Same day',
+      relativeOrder: 50,
+      confidence: 'high',
+      explanation: 'CLS provides a single authoritative record. Banks reconcile against their internal systems, not against each other.',
+    },
+    assumptionNote: 'CLS covers 18 currencies. FX trades outside these currencies settle bilaterally with Herstatt risk.',
+    keyLesson: 'CLS proves that simultaneous, conditional settlement works at massive scale ($6T/day) — within a controlled, centralised environment.',
+  },
+  {
+    id: 'stablecoin',
+    name: 'Stablecoin transfer',
+    category: 'tokenised',
+    summary: 'On-chain transfer is fast. But technical confirmation is not the same as legal finality, and converting back to fiat reintroduces traditional banking timelines.',
+    customerExperience: {
+      label: 'Customer experience',
+      timeLabel: 'Seconds to minutes',
+      relativeOrder: 5,
+      confidence: 'medium',
+      explanation: 'The recipient sees tokens in their wallet quickly. On Ethereum L1, practical finality takes ~13 minutes. On Solana or L2s, seconds.',
+    },
+    technicalConfirmation: {
+      label: 'Technical confirmation',
+      timeLabel: 'Chain-dependent',
+      relativeOrder: 15,
+      confidence: 'variable',
+      explanation: 'Depends on the blockchain: Ethereum ~13 min (2 epochs), Solana ~0.4s, L2 rollups vary. Probabilistic finality means the transaction becomes progressively harder to reverse, not instantly irrevocable.',
+    },
+    legalFinality: {
+      label: 'Legal finality',
+      timeLabel: 'Uncertain / jurisdiction-dependent',
+      relativeOrder: 50,
+      confidence: 'variable',
+      explanation: 'On-chain confirmation does not automatically constitute legal finality in most jurisdictions. The token transfer may be technically final on-chain but the legal position — particularly for dispute resolution, insolvency, or regulatory action — remains jurisdiction-dependent and largely untested.',
+    },
+    liquidityAvailability: {
+      label: 'Liquidity availability',
+      timeLabel: 'Immediate on-chain; 1–3 days for fiat',
+      relativeOrder: 55,
+      confidence: 'variable',
+      explanation: 'The recipient has immediate access to stablecoin tokens on-chain. Converting back to fiat (off-ramping) through the issuer or an exchange takes 1–3 business days and depends on banking rails.',
+    },
+    reconciliationComplete: {
+      label: 'Reconciliation',
+      timeLabel: 'Minimal on-chain; complex for fiat',
+      relativeOrder: 60,
+      confidence: 'medium',
+      explanation: 'The blockchain is the shared ledger — no bilateral reconciliation needed for on-chain transfers. But any on/off-ramp to fiat reintroduces traditional banking reconciliation.',
+    },
+    assumptionNote: 'Timings assume on-chain transfer only. Fiat conversion adds traditional banking delays. Legal finality assessment is indicative and depends on jurisdiction.',
+    keyLesson: 'On-chain speed is real. But legal finality for regulated purposes remains unclear, and fiat conversion reintroduces the same banking timelines the token was supposed to bypass.',
+  },
+  {
+    id: 'deposit-token',
+    name: 'Deposit token settlement',
+    category: 'tokenised',
+    summary: 'Within a single bank’s ledger, settlement can be atomic. Between banks, interbank settlement timing and finality questions remain.',
+    customerExperience: {
+      label: 'Customer experience',
+      timeLabel: 'Near-instant (intrabank)',
+      relativeOrder: 5,
+      confidence: 'medium',
+      explanation: 'For transfers within the same bank’s deposit token platform, the client sees immediate settlement. Cross-bank transfers depend on the interoperability mechanism.',
+    },
+    technicalConfirmation: {
+      label: 'Technical confirmation',
+      timeLabel: 'Seconds (intrabank)',
+      relativeOrder: 8,
+      confidence: 'medium',
+      explanation: 'The bank’s ledger confirms the transfer atomically. For intraday repo or treasury transfers within one bank, this is effectively instant.',
+    },
+    legalFinality: {
+      label: 'Legal finality',
+      timeLabel: 'Depends on scope',
+      relativeOrder: 30,
+      confidence: 'variable',
+      explanation: 'Intrabank: the transfer is a book entry on the bank’s own ledger — legal finality is clear. Interbank: finality depends on the settlement mechanism. If interbank obligations still net through central bank RTGS, finality follows the RTGS timeline, not the token transfer.',
+    },
+    liquidityAvailability: {
+      label: 'Liquidity availability',
+      timeLabel: 'Immediate (intrabank)',
+      relativeOrder: 10,
+      confidence: 'medium',
+      explanation: 'Within a single bank, the recipient has immediate access. Interbank liquidity availability depends on whether the interbank settlement layer has cleared.',
+    },
+    reconciliationComplete: {
+      label: 'Reconciliation',
+      timeLabel: 'Minimal (intrabank)',
+      relativeOrder: 15,
+      confidence: 'medium',
+      explanation: 'Intrabank: the token IS the ledger entry — no separate reconciliation needed. Interbank: reconciliation depends on the shared settlement layer (Partior, RLN, or central bank RTGS).',
+    },
+    assumptionNote: 'Timings are for intrabank use cases (e.g. Kinexys). Interbank deposit token settlement is still early-stage and varies by network.',
+    keyLesson: 'Deposit tokens can collapse all five stages into near-instant for intrabank transfers. The hard problem is interbank — where central bank money still provides the finality anchor.',
+  },
+  {
+    id: 'wholesale-cbdc',
+    name: 'Wholesale CBDC',
+    category: 'tokenised',
+    summary: 'Aspires to RTGS-like finality with 24/7 availability and cross-border reach. No platform is in full production yet.',
+    customerExperience: {
+      label: 'Customer experience',
+      timeLabel: 'Not customer-facing',
+      relativeOrder: 0,
+      confidence: 'high',
+      explanation: 'Wholesale CBDC is institutional infrastructure, like CLS. End customers do not interact with it.',
+    },
+    technicalConfirmation: {
+      label: 'Technical confirmation',
+      timeLabel: 'Seconds to minutes (design-dependent)',
+      relativeOrder: 10,
+      confidence: 'variable',
+      explanation: 'Depends on platform design. mBridge targets near-instant confirmation. Timing depends on consensus mechanism, validator set, and cross-border messaging.',
+    },
+    legalFinality: {
+      label: 'Legal finality',
+      timeLabel: 'Design and jurisdiction-dependent',
+      relativeOrder: 15,
+      confidence: 'variable',
+      explanation: 'Settlement is in central bank money — in principle the strongest finality. In practice, the legal framework for tokenised central bank money is still being established in most jurisdictions. Where the legal basis is clear, finality approaches RTGS quality.',
+    },
+    liquidityAvailability: {
+      label: 'Liquidity availability',
+      timeLabel: 'On settlement',
+      relativeOrder: 18,
+      confidence: 'variable',
+      explanation: 'Banks receive wholesale CBDC tokens backed by central bank reserves. Liquidity should be immediate once settled, but depends on the platform’s operating model.',
+    },
+    reconciliationComplete: {
+      label: 'Reconciliation',
+      timeLabel: 'Minimal (shared ledger)',
+      relativeOrder: 22,
+      confidence: 'medium',
+      explanation: 'Shared ledger reduces reconciliation to internal-system checks. The platform ledger is the authoritative record between participants.',
+    },
+    assumptionNote: 'No wholesale CBDC platform is in full production at scale. Timings are based on pilot performance and design targets, not production SLAs.',
+    keyLesson: 'Wholesale CBDC could combine RTGS-grade finality with 24/7 availability and cross-border reach — but the legal and operational frameworks are still catching up to the technology.',
+  },
+  {
+    id: 'tokenised-dvp',
+    name: 'Tokenised DvP',
+    category: 'market-infrastructure',
+    summary: 'Both legs of a trade settle atomically — but only if both the asset and the cash are tokenised on the same ledger.',
+    customerExperience: {
+      label: 'Customer experience',
+      timeLabel: 'Seconds to minutes',
+      relativeOrder: 5,
+      confidence: 'variable',
+      explanation: 'The buyer and seller see the trade complete in near-real-time. But "complete" means the smart contract executed, not necessarily that all legal and operational post-trade processes are done.',
+    },
+    technicalConfirmation: {
+      label: 'Technical confirmation',
+      timeLabel: 'Atomic (same transaction)',
+      relativeOrder: 8,
+      confidence: 'medium',
+      explanation: 'The smart contract verifies both legs, escrows both, and executes simultaneously. If either leg fails, both revert. Technical atomicity is the core design principle.',
+    },
+    legalFinality: {
+      label: 'Legal finality',
+      timeLabel: 'Depends on settlement asset and legal framework',
+      relativeOrder: 35,
+      confidence: 'variable',
+      explanation: 'Legal finality depends on: (1) the settlement asset — stablecoin, deposit token, or wCBDC each carry different legal certainty; (2) the jurisdiction’s recognition of on-chain settlement as legally final; (3) the enforceability of smart contract execution in the relevant legal system. This is the hardest unsolved question.',
+    },
+    liquidityAvailability: {
+      label: 'Liquidity availability',
+      timeLabel: 'Immediate (if cash leg is on-chain)',
+      relativeOrder: 10,
+      confidence: 'medium',
+      explanation: 'If the cash leg is a deposit token or stablecoin, liquidity is available immediately on-chain. If fiat conversion is needed, traditional delays apply.',
+    },
+    reconciliationComplete: {
+      label: 'Reconciliation',
+      timeLabel: 'Minimal (shared ledger)',
+      relativeOrder: 15,
+      confidence: 'medium',
+      explanation: 'The blockchain is the authoritative record for the trade. Post-trade reconciliation against internal systems remains, but counterparty reconciliation is eliminated.',
+    },
+    assumptionNote: 'Assumes both legs are tokenised on the same ledger. Cross-chain DvP reintroduces bridge risk and breaks atomicity.',
+    keyLesson: 'Atomic DvP eliminates Herstatt risk by design. But legal finality of the settlement depends on the cash leg — which is the "cash leg problem" at the heart of institutional tokenisation.',
+  },
+];
