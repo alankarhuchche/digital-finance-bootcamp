@@ -156,6 +156,7 @@ overlay.addEventListener('click', closeSidebar);
 // ── Index ────────────────────────────────────────────────────
 
 function renderIndex(): void {
+  document.title = 'Banking Rails to Digital Finance';
   app.innerHTML = `
     <div class="landing-header">
       <span class="eyebrow">Digital Finance Guide</span>
@@ -224,6 +225,7 @@ async function openTopic(id: string): Promise<void> {
     navigate('/');
     return;
   }
+  document.title = content.title + ' — Banking Rails to Digital Finance';
   await renderModule(app, content);
   app.querySelector<HTMLElement>('#backBtn')!.addEventListener('click', () => navigate('/'));
 
@@ -251,6 +253,7 @@ function renderCompleteButton(footer: HTMLElement, moduleId: string): void {
 // ── Contact ──────────────────────────────────────────────────
 
 function renderContact(): void {
+  document.title = 'Contact — Banking Rails to Digital Finance';
   app.innerHTML = `
     <button class="back-btn" id="backBtn">← All topics</button>
     <div class="topic-header">
@@ -327,12 +330,14 @@ async function recordVisitCount(): Promise<void> {
   try {
     const method = visitRecorded ? 'GET' : 'POST';
     const res = await fetch('/api/visits', { method });
-    if (!res.ok) return;
+    if (!res.ok) { el.style.display = 'none'; return; }
     const data = await res.json();
-    el.textContent = `${data.count} visits`;
+    const count = data?.count;
+    if (typeof count !== 'number' || count < 0) { el.style.display = 'none'; return; }
+    el.textContent = `${count} visits`;
     visitRecorded = true;
   } catch {
-    // silent
+    el.style.display = 'none';
   }
 }
 
