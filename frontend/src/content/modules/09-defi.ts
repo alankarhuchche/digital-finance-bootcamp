@@ -9,7 +9,7 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `DeFi ("decentralized finance") rebuilds familiar banking functions \u2014 lending, trading, derivatives \u2014 as smart contracts instead of institutions. No loan officer, no exchange operator, no central counterparty; the rules are just code, running the same way for everyone.`,
+      body: `DeFi ("decentralized finance") rebuilds familiar banking functions as smart contracts instead of institutions: lending, trading, derivatives. No loan officer, no exchange operator, no central counterparty. The rules are code, running the same way for everyone.`,
     },
     {
       kind: 'stack',
@@ -20,7 +20,7 @@ const content: ModuleContent = {
         { id: 'derivatives', number: '03', label: 'Derivatives', colorClass: 's3', detail: `Perpetual futures and options, fully on-chain \u2014 same instruments as traditional derivatives desks, settled by smart contracts instead of a clearinghouse.`, examples: 'GMX, dYdX' },
         { id: 'staking', number: '04', label: 'Staking / yield', colorClass: 's4', detail: `Locking assets to help secure a network (in Proof-of-Stake chains) or provide liquidity to a pool, earning a share of fees or rewards in return.`, examples: 'Ethereum staking, liquidity provision' },
       ],
-      note: `These compose with each other \u2014 a lending position's collateral can come from a staking receipt, which itself trades on a DEX. This stacking is sometimes called "money legos," and it's exactly why risk spreads so fast when one piece breaks.`,
+      note: `These compose with each other. A lending position's collateral can come from a staking receipt, which itself trades on a DEX. This stacking is sometimes called "money legos," which is exactly why risk spreads so fast when one piece breaks.`,
     },
     {
       kind: 'text',
@@ -62,7 +62,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'The contagion pattern',
-      body: `The Stablecoins topic's Terra/UST collapse and this topic's Euler exploit are different failure types \u2014 a stabilization mechanism breaking versus a smart contract bug \u2014 but both spread further than their origin because DeFi protocols are stacked on top of each other. When Terra fell, the damage reached protocols that had never touched UST directly, simply because they shared liquidity pools or bridges with something that did. That's the structural cost of composability, and it's a recurring theme through the Failure modes topic.\n\nDeFi is growing fast, but how big is any of this compared to traditional finance? The next topic puts real numbers on it.`,
+      body: `The Stablecoins topic's Terra/UST collapse and this topic's Euler exploit are different failure types: a stabilization mechanism breaking versus a smart contract bug. Both spread further than their origin because DeFi protocols are stacked on top of each other. When Terra fell, the damage reached protocols that had never touched UST directly, simply because they shared liquidity pools or bridges with something that did. That is the structural cost of composability, and it is a recurring theme through the Failure modes topic.\n\nDeFi is growing fast, but how big is any of this compared to traditional finance? The next topic puts real numbers on it.`,
     },
     {
       kind: 'quiz',

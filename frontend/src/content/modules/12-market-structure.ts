@@ -9,11 +9,11 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `Where you actually access any of this matters as much as what you're accessing. The risk topic's "who carries the risk" question shows up again here, sharpened to a single decision: do you trust a company to hold your assets, or do you hold them yourself?`,
+      body: `Where you actually access any of this matters as much as what you're accessing. The risk topic's "who carries the risk" question shows up again here, sharpened to a single decision: do you trust a centralised exchange (CEX) to hold your assets, or do you hold them yourself in a decentralised exchange (DEX)?`,
     },
     {
       kind: 'matrix',
-      heading: 'CEX vs DEX',
+      heading: 'CEX vs DEX — the custody decision',
       data: {
         columns: ['Who holds your funds', 'Identity checks', 'Subject to MiCA-style delisting', 'Example'],
         items: [
@@ -30,7 +30,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'Custody and market makers',
-      body: `Institutions rarely self-custody at meaningful scale \u2014 specialist custodians (Fireblocks, Coinbase Custody, and increasingly banks themselves) hold assets under bank-grade security and insurance, the institutional equivalent of choosing a CEX's trust model without using its trading venue. Market makers, meanwhile, are what keeps prices aligned between CEXs and DEXs \u2014 without them, the same asset could trade at meaningfully different prices on different venues simultaneously, since there's no single shared order book the way there is in equities.`,
+      body: `Institutions rarely self-custody at meaningful scale. Specialist custodians (Fireblocks, Coinbase Custody, and increasingly banks themselves) hold assets under bank-grade security and insurance: the institutional equivalent of choosing a CEX's trust model without using its trading venue. Market makers keep prices aligned between CEXs and DEXs. Without them, the same asset could trade at meaningfully different prices on different venues simultaneously, since there is no single shared order book the way there is in equities.`,
     },
     {
       kind: 'text',

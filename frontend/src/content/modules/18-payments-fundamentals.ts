@@ -9,7 +9,7 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `Before understanding how digital finance disrupts payments, you need to know how payments actually work today. When you tap your card at a coffee shop, at least four parties are involved, money flows through multiple systems, and the merchant doesn't see the funds for 1–2 days. Understanding this plumbing is what makes the "why bother with blockchain" question answerable.`,
+      body: `To understand how digital finance disrupts payments, you first need to know how payments actually work today. When you tap your card at a coffee shop, at least four parties are involved, money flows through multiple systems, and the merchant doesn't see the funds for 1–2 days. That plumbing is what the "why bother with blockchain" question is really about.`,
     },
     {
       kind: 'flow',
@@ -57,7 +57,7 @@ const content: ModuleContent = {
     },
     {
       kind: 'text',
-      heading: 'Why this matters for digital finance',
+      heading: 'The competitive target: $130 billion in annual interchange',
       body: `<p>Card interchange generates roughly <b>$130 billion globally per year</b>. That revenue stream is what stablecoins and blockchain-based payments are ultimately competing with — if you can move value peer-to-peer on a blockchain for a fraction of a cent in gas fees, the ~2% card tax on every transaction becomes hard to justify. But cards offer something blockchain payments don't yet: <b>chargeback protection</b>, <b>fraud screening</b>, <b>rewards programs</b>, and the trust of a regulated banking system behind them.</p>
 <p>The real competitive question isn't "blockchain vs cards" — it's whether stablecoins can layer on enough consumer protection to compete with the convenience consumers already expect, or whether card networks can reduce their costs enough to make the disruption unattractive.</p>`,
     },
