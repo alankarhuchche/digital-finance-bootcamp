@@ -67,6 +67,14 @@ const content: ModuleContent = {
       body: `Outside the eurozone, advanced economies have generally been retreating from retail CBDC — Canada, Australia, and Norway have all deprioritized it — while emerging markets are doing the opposite, partly as a direct response to dollar-backed stablecoins eroding monetary control. Wholesale infrastructure is where most serious central bank effort is now going, with mBridge in particular settling tens of billions of dollars in transaction volume. The Global CBDC atlas topic maps every major initiative by country in full — this topic was the mechanics, that one is the atlas.\n\nCBDCs and stablecoins are both new forms of money. But the same blockchain technology can also represent existing assets — deposits, bonds, fund units — on-chain. That's tokenization, and it's the next topic.`,
     },
     {
+      kind: 'callout',
+      heading: 'Practitioner view',
+      data: {
+        tone: 'reality',
+        body: `The retail CBDC case is weakest exactly where real-time payments already work — the UK, India, the eurozone. eNaira's sub-2% adoption against working mobile money is the clearest evidence. The stronger institutional case is wholesale settlement, where tokenised assets need a credible, central-bank-grade cash leg. If you're advising on CBDC strategy, separate the two conversations — different buyers, different risks, different timelines.`,
+      },
+    },
+    {
       kind: 'quiz',
       heading: 'Knowledge check',
       data: {

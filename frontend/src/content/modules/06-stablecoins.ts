@@ -81,6 +81,14 @@ const content: ModuleContent = {
       },
     },
     {
+      kind: 'callout',
+      heading: 'Practitioner view',
+      data: {
+        tone: 'reality',
+        body: `Stablecoins are useful because they expose a real market frustration: cross-border value movement is still too slow and too expensive. But on-chain speed is not settlement finality. USDC's SVB depeg and UST's collapse are the same lesson from two different mechanisms — redemption certainty depends entirely on what is actually backing the token and how fast you can prove it. Treat "fiat-backed" as a spectrum, not a guarantee, and check the audit quality before the marketing.`,
+      },
+    },
+    {
       kind: 'text',
       body: `Stablecoins are the private sector's answer to digital money. The next topic covers the public sector's response: central bank digital currencies.`,
     },

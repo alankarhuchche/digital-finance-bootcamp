@@ -14,6 +14,7 @@ export function renderHomePage(
     <div class="landing-header">
       <h1 class="landing-title">Banking Rails<br>to Digital Finance</h1>
       <p class="landing-thesis">Today's payments digitised the instruction. Digital finance digitises the instrument, the rules, the settlement and the audit trail.</p>
+      <p class="landing-positioning">An authored practitioner reference for where today's payment rails end and where digital finance genuinely changes settlement, liquidity and reconciliation — not a course, not a vendor pitch.</p>
     </div>
 
     <div class="hero-contrast">
@@ -45,7 +46,7 @@ export function renderHomePage(
 
     <section class="rail-explorer-section" id="rails-section">
       <h2 class="section-heading">Explore the rails</h2>
-      <p class="section-intro">Select a rail to see what moves, when settlement happens, where reconciliation remains, and why digital finance alternatives matter.</p>
+      <p class="section-intro">Ten rails, compared on what actually matters operationally: what moves, where finality sits, who carries settlement risk in the gap, and where reconciliation still happens by hand.</p>
       <div id="railExplorerMount"></div>
     </section>
 

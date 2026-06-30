@@ -14,14 +14,14 @@ export function renderAboutPage(
     <div class="about-body">
       <section class="about-section">
         <h2 class="block-heading">Who wrote this</h2>
-        <p class="prose">This reference is written from the perspective of a banking technology practitioner working across payments platforms and digital assets.</p>
+        <p class="prose">I'm Alankar Huchche, a banking technology practitioner working across payments platforms and digital assets. I built this as a practitioner reference, not a course or a vendor guide.</p>
         <p class="prose"><a href="https://www.linkedin.com/in/alankar-huchche" target="_blank" rel="noopener" class="about-link">LinkedIn profile</a></p>
       </section>
 
       <section class="about-section">
         <h2 class="block-heading">Why this exists</h2>
-        <p class="prose">There is a lot of content on DLT, CBDCs and crypto markets. There is less that explains how these ideas compare with the operational reality of cards, real-time payments, SWIFT, correspondent banking, settlement, controls and reconciliation.</p>
-        <p class="prose">This reference is built from that perspective. It uses public research, regulatory material and market data, but it is written by someone who works with payment rails and digital asset infrastructure day to day, not by a journalist or an academic.</p>
+        <p class="prose">Most writing on DLT, CBDCs and stablecoins treats them as a separate world from existing payment rails. They aren't. The interesting question is where SWIFT, RTGS, cards and correspondent banking actually fall short — and where tokenised settlement closes a real operational gap rather than just moving the same problem onto a different ledger.</p>
+        <p class="prose">The aim is to make payment rails, settlement models, tokenised money and digital finance trade-offs easier to compare in one place, written by someone who reasons about rulebooks, liability models and reconciliation for a living, not by a journalist or an academic.</p>
       </section>
 
       <section class="about-section">

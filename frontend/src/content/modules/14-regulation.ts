@@ -89,6 +89,14 @@ Regulation sets the rules. But one question cuts across every rule: how much sho
       },
     },
     {
+      kind: 'callout',
+      heading: 'Practitioner view',
+      data: {
+        tone: 'reality',
+        body: `MiCA and the GENIUS Act look similar from a distance — both demand 1:1 reserves and licensing — but the reserve composition rules hit issuers' profit models differently, which is why Tether has resisted MiCA harder than the GENIUS Act. If you're assessing a stablecoin counterparty, read the reserve rule before the headline compliance claim. "Licensed" tells you the firm cleared a bar; it does not tell you where the bar was set.`,
+      },
+    },
+    {
       kind: 'quiz',
       heading: 'Knowledge check',
       data: {

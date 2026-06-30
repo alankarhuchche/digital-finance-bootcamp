@@ -173,6 +173,10 @@ h2, .block-heading {
   font-size: 17px; color: var(--amber); line-height: 1.5;
   max-width: 680px; margin: 0; font-weight: 500;
 }
+.landing-positioning {
+  font-size: 13px; color: var(--text-dim); line-height: 1.5;
+  max-width: 640px; margin: 10px 0 0;
+}
 
 /* ============ Jump navigation ============ */
 .homepage-jump {

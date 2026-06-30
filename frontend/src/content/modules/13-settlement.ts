@@ -79,6 +79,14 @@ const content: ModuleContent = {
       },
     },
     {
+      kind: 'callout',
+      heading: 'Where banks get this wrong',
+      data: {
+        tone: 'reality',
+        body: `Teams new to tokenised settlement tend to evaluate atomic DvP on speed alone — minutes instead of T+1. That's the easy part. The hard part is what happens when one leg lives on a different ledger from the other: you're back to bridge risk and a reconciliation problem, just with extra steps. Before greenlighting a pilot, ask where the cash leg actually settles and who is liable if the bridge fails mid-transaction. If nobody has a clean answer, the project isn't ready for production volume.`,
+      },
+    },
+    {
       kind: 'quiz',
       heading: 'Knowledge check',
       data: {
