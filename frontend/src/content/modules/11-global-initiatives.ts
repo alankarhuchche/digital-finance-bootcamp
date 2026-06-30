@@ -33,7 +33,7 @@ const content: ModuleContent = {
           { country: 'United States of America', region: 'Americas', status: 'none', name: 'Retail CBDC banned under GENIUS Act (2025) \u2014 wholesale research via Project Agor\u00e1 continues' },
         ],
         crossBorderProjects: [
-          { name: 'mBridge', description: 'Multi-CBDC wholesale cross-border settlement platform \u2014 the fastest-growing CBDC project globally; e-CNY makes up the large majority of settlement volume, with publicly reported cumulative settlement volume in the tens of billions of dollars as of 2026.', participants: 'BIS + multiple central banks (China, Hong Kong, Thailand, UAE, Saudi Arabia and others)' },
+          { name: 'mBridge', description: 'Multi-CBDC wholesale cross-border settlement platform, the fastest-growing CBDC project globally. e-CNY makes up the large majority of settlement volume, with publicly reported cumulative settlement volume in the tens of billions of dollars as of 2026.', participants: 'BIS + multiple central banks (China, Hong Kong, Thailand, UAE, Saudi Arabia and others)' },
           { name: 'Project Agor\u00e1', description: 'Wholesale cross-border tokenization research led by the BIS and New York Fed \u2014 the main channel for continued US involvement despite the retail CBDC ban.', participants: 'BIS + 7 major central banks' },
           { name: 'RLN (formerly GBTD)', description: 'Shared ledger testing tokenized deposits across banks \u2014 the private-sector wholesale alternative to a central-bank-issued token.', participants: 'BNY, Citi, HSBC, Mastercard, Visa, Wells Fargo' },
           { name: 'Project Guardian', description: 'MAS-led initiative exploring institutional DeFi \u2014 permissioned pools for tokenized bonds and FX, testing how regulated institutions can interact with DeFi protocols within compliance boundaries. Over 15 industry partners including JPMorgan, DBS, and Standard Chartered.', participants: 'Monetary Authority of Singapore + 15+ financial institutions' },
@@ -43,7 +43,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'India\'s UPI: the elephant in the room',
-      body: `India's Unified Payments Interface processes over 14 billion transactions per month (as of 2026), making it the world's most successful real-time payment system. UPI already provides instant, free, interoperable digital payments to over 300 million users. This success actually reduces the urgency for a retail CBDC in India — the e-Rupee pilot has seen limited adoption precisely because UPI already solves most of the problems a retail CBDC would address. The lesson: a well-designed existing payment system can make a CBDC redundant for domestic retail payments.`,
+      body: `India's Unified Payments Interface processes over 14 billion transactions per month (as of 2026), making it the world's most successful real-time payment system. UPI already provides instant, free, interoperable digital payments to over 300 million users. This success actually reduces the urgency for a retail CBDC in India. The e-Rupee pilot has seen limited adoption precisely because UPI already solves most of the problems a retail CBDC would address. The lesson is that a well-designed existing payment system can make a CBDC redundant for domestic retail payments.`,
     },
     {
       kind: 'text',
@@ -57,7 +57,7 @@ const content: ModuleContent = {
 
 Several initiatives have evolved significantly since launch. China's e-CNY was reclassified as a deposit liability in January 2026, moving it closer to tokenized deposits than a pure CBDC. Brazil's Drex has pivoted heavily toward wholesale tokenized credit rather than retail payments. The trend across all projects: wholesale and institutional use cases are gaining traction, while retail CBDC adoption remains stubbornly low everywhere it has launched.
 
-You now know who's building what, where. The next topic looks at how people actually access all of this — exchanges, custody, and market structure.`,
+You now know who's building what, where. The next topic looks at how people actually access all of this: exchanges, custody, and market structure.`,
     },
     {
       kind: 'quiz',

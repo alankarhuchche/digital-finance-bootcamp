@@ -264,15 +264,15 @@ function renderContact(): void {
       });
       const data = await res.json();
       if (data.status === 'ok') {
-        statusEl.textContent = 'Sent — thanks!';
+        statusEl.textContent = 'Sent, thanks!';
         statusEl.className = 'contact-status status-ok';
         form.reset();
       } else {
-        statusEl.textContent = data.error ?? 'Something went wrong — try again in a moment.';
+        statusEl.textContent = data.error ?? 'Something went wrong. Try again in a moment.';
         statusEl.className = 'contact-status status-error';
       }
     } catch {
-      statusEl.textContent = 'Could not reach the server — try again in a moment.';
+      statusEl.textContent = 'Could not reach the server. Try again in a moment.';
       statusEl.className = 'contact-status status-error';
     } finally {
       submitBtn.disabled = false;

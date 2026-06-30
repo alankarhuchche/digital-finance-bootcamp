@@ -20,7 +20,7 @@ export function renderAboutPage(
 
       <section class="about-section">
         <h2 class="block-heading">Why this exists</h2>
-        <p class="prose">Most writing on DLT, CBDCs and stablecoins treats them as a separate world from existing payment rails. They aren't. The interesting question is where SWIFT, RTGS, cards and correspondent banking actually fall short — and where tokenised settlement closes a real operational gap rather than just moving the same problem onto a different ledger.</p>
+        <p class="prose">Most writing on DLT, CBDCs and stablecoins treats them as a separate world from existing payment rails. They aren't. The interesting question is where SWIFT, RTGS, cards and correspondent banking actually fall short, and where tokenised settlement closes a real operational gap rather than just moving the same problem onto a different ledger.</p>
         <p class="prose">The aim is to make payment rails, settlement models, tokenised money and digital finance trade-offs easier to compare in one place, written by someone who reasons about rulebooks, liability models and reconciliation for a living, not by a journalist or an academic.</p>
       </section>
 

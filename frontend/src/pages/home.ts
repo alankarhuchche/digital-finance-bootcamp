@@ -14,7 +14,7 @@ export function renderHomePage(
     <div class="landing-header">
       <h1 class="landing-title">Banking Rails<br>to Digital Finance</h1>
       <p class="landing-thesis">Today's payments digitised the instruction. Digital finance digitises the instrument, the rules, the settlement and the audit trail.</p>
-      <p class="landing-positioning">An authored practitioner reference for where today's payment rails end and where digital finance genuinely changes settlement, liquidity and reconciliation — not a course, not a vendor pitch.</p>
+      <p class="landing-positioning">An authored practitioner reference for where today's payment rails end and where digital finance genuinely changes settlement, liquidity and reconciliation. Not a course, not a vendor pitch.</p>
     </div>
 
     <div class="hero-contrast">
