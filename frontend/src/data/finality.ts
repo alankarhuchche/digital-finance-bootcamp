@@ -20,6 +20,8 @@ export interface FinalityRail {
   reconciliationComplete: FinalityStage;
   assumptionNote: string;
   keyLesson: string;
+  whyItMatters: string;
+  gapLabel: string;
 }
 
 export const STAGE_KEYS: (keyof Pick<FinalityRail, 'customerExperience' | 'technicalConfirmation' | 'legalFinality' | 'liquidityAvailability' | 'reconciliationComplete'>)[] = [
@@ -73,6 +75,8 @@ export const FINALITY_RAILS: FinalityRail[] = [
     },
     assumptionNote: 'Timings assume standard Visa/Mastercard four-party settlement. Amex (three-party) and debit schemes may differ.',
     keyLesson: 'The customer sees "instant" but money doesn’t move for 1–2 days. The merchant carries settlement risk until funds arrive, and chargeback risk for months after.',
+    whyItMatters: "Instant customer approval does not mean the merchant has final settled funds. The gap between authorisation and settlement is where credit risk, chargeback exposure and liquidity cost live.",
+    gapLabel: "Gap: hours to days",
   },
   {
     id: 'faster-payments',
@@ -116,6 +120,8 @@ export const FINALITY_RAILS: FinalityRail[] = [
     },
     assumptionNote: 'Timings based on UK Faster Payments. India UPI, Brazil Pix and US FedNow have different interbank settlement mechanics.',
     keyLesson: 'The customer sees instant funds. The receiving bank carries settlement risk until interbank netting completes — typically hours, not seconds.',
+    whyItMatters: "Near-instant credit does not mean the receiving bank has settled. It has fronted the funds and carries interbank risk until net positions clear -- typically hours later.",
+    gapLabel: "Gap: hours (interbank)",
   },
   {
     id: 'chaps',
@@ -159,6 +165,8 @@ export const FINALITY_RAILS: FinalityRail[] = [
     },
     assumptionNote: 'CHAPS operates 06:00–18:00 UK business days. Outside these hours, payments queue until the next operating window.',
     keyLesson: 'RTGS is the benchmark because all five stages happen close together and settle in central bank money. Every other system is compared to this.',
+    whyItMatters: "RTGS is the finality benchmark -- all five stages happen close together, in central bank money, with no chargeback risk. Every other rail is compared against this.",
+    gapLabel: "Gap: minutes",
   },
   {
     id: 'swift',
@@ -202,6 +210,8 @@ export const FINALITY_RAILS: FinalityRail[] = [
     },
     assumptionNote: 'Timings vary significantly by corridor. SWIFT gpi improves transparency but does not change the underlying multi-hop settlement.',
     keyLesson: 'The instruction arrives in seconds. The money arrives in days. The reconciliation may take longer still. This gap between instruction speed and money movement is what digital finance alternatives are trying to close.',
+    whyItMatters: "The instruction moves in seconds. The money follows in days, through multiple hops each with its own timing, compliance checks and liquidity cost. The gap between instruction speed and money movement is what most digital finance alternatives are trying to close.",
+    gapLabel: "Gap: days",
   },
   {
     id: 'cls',
@@ -245,6 +255,8 @@ export const FINALITY_RAILS: FinalityRail[] = [
     },
     assumptionNote: 'CLS covers 18 currencies. FX trades outside these currencies settle bilaterally with Herstatt risk.',
     keyLesson: 'CLS proves that simultaneous, conditional settlement works at massive scale ($6T/day) — within a controlled, centralised environment.',
+    whyItMatters: "CLS shows that simultaneous, conditional settlement works at scale -- but only within a tightly controlled, centralised network. FX outside CLS still carries Herstatt risk.",
+    gapLabel: "All stages: same day",
   },
   {
     id: 'stablecoin',
@@ -288,6 +300,8 @@ export const FINALITY_RAILS: FinalityRail[] = [
     },
     assumptionNote: 'Timings assume on-chain transfer only. Fiat conversion adds traditional banking delays. Legal finality assessment is indicative and depends on jurisdiction.',
     keyLesson: 'On-chain speed is real. But legal finality for regulated purposes remains unclear, and fiat conversion reintroduces the same banking timelines the token was supposed to bypass.',
+    whyItMatters: "On-chain transfer is fast. But legal finality for regulated purposes remains unclear, and converting back to fiat reintroduces the traditional banking timelines the stablecoin was supposed to bypass.",
+    gapLabel: "Gap: uncertain (legal finality unresolved)",
   },
   {
     id: 'deposit-token',
@@ -331,6 +345,8 @@ export const FINALITY_RAILS: FinalityRail[] = [
     },
     assumptionNote: 'Timings are for intrabank use cases (e.g. Kinexys). Interbank deposit token settlement is still early-stage and varies by network.',
     keyLesson: 'Deposit tokens can collapse all five stages into near-instant for intrabank transfers. The hard problem is interbank — where central bank money still provides the finality anchor.',
+    whyItMatters: "Deposit tokens can collapse the settlement gap for intrabank transfers almost entirely. The hard problem is interbank -- where legal finality still depends on the central bank settlement layer, not the token itself.",
+    gapLabel: "Gap: near real time (intrabank)",
   },
   {
     id: 'wholesale-cbdc',
@@ -374,6 +390,8 @@ export const FINALITY_RAILS: FinalityRail[] = [
     },
     assumptionNote: 'No wholesale CBDC platform is in full production at scale. Timings are based on pilot performance and design targets, not production SLAs.',
     keyLesson: 'Wholesale CBDC could combine RTGS-grade finality with 24/7 availability and cross-border reach — but the legal and operational frameworks are still catching up to the technology.',
+    whyItMatters: "Wholesale CBDC aspires to RTGS-grade finality with 24/7 availability and cross-border reach. The technology largely exists -- what is still being established is the legal framework and operational model.",
+    gapLabel: "Gap: design-dependent",
   },
   {
     id: 'tokenised-dvp',
@@ -417,5 +435,7 @@ export const FINALITY_RAILS: FinalityRail[] = [
     },
     assumptionNote: 'Assumes both legs are tokenised on the same ledger. Cross-chain DvP reintroduces bridge risk and breaks atomicity.',
     keyLesson: 'Atomic DvP eliminates Herstatt risk by design. But legal finality of the settlement depends on the cash leg — which is the "cash leg problem" at the heart of institutional tokenisation.',
+    whyItMatters: "Atomic DvP eliminates counterparty settlement risk by design. Legal finality still depends on the cash leg -- stablecoin, deposit token or wholesale CBDC each bring different certainty.",
+    gapLabel: "Gap: atomic on-chain; legal finality varies",
   },
 ];

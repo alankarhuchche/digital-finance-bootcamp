@@ -50,10 +50,10 @@ export function renderHomePage(
     </section>
 
     <section class="finality-section" id="finality-section">
-      <h2 class="section-heading">Fast is not always final</h2>
-      <p class="section-intro">Payment speed is not one thing. Customer approval, technical confirmation, legal finality, liquidity availability and reconciliation happen at different points in time. Pick a rail below to see how wide the gap is between what the customer sees and when money actually settles.</p>
+      <h2 class="section-heading">Payment speed is not settlement speed</h2>
+      <p class="section-intro">A payment can feel complete before it is legally final, funded and reconciled. Select a rail to see where the customer experience ends and where the banking operation actually completes.</p>
       <div id="finalityMount">
-        <p class="finality-loading" style="color: var(--text-dim); font-size: 13px;">Loading visualiser…</p>
+        <p class="finality-loading" style="color: var(--text-dim); font-size: 13px;">Loading settlement gap visualiser…</p>
       </div>
     </section>
 
