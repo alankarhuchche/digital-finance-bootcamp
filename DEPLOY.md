@@ -82,15 +82,28 @@ echo -n "your-new-app-password" | \
 
 ## 3b. Store the Gemini API key in Secret Manager
 
-If not already done:
+If not already done, create the secret and add the key as the first version:
 
 ```bash
-echo -n "your-gemini-api-key" | \
-  gcloud secrets create gemini-api-key --data-file=-
+gcloud secrets create gemini-api-key --replication-policy="automatic"
+
+printf "YOUR_GEMINI_API_KEY" | \
+  gcloud secrets versions add gemini-api-key --data-file=-
+```
+
+To rotate the key later:
+
+```bash
+printf "NEW_GEMINI_API_KEY" | \
+  gcloud secrets versions add gemini-api-key --data-file=-
 ```
 
 The Cloud Run deploy command (step 7) references this as
 `--set-secrets="GEMINI_API_KEY=gemini-api-key:latest"`.
+
+**Important**: the Cloud Run service account also needs IAM permission to
+read the secret (see step 8b below). Without this, `--set-secrets` will
+fail at deploy time with a permission error, even if the secret exists.
 
 ---
 
@@ -221,6 +234,32 @@ is needed for what this app does.
 
 ---
 
+## 8b. Grant Cloud Run access to Secret Manager secrets
+
+The service account also needs permission to read the secrets wired via
+`--set-secrets`. If you used a dedicated service account in step 8, grant it
+access to each secret explicitly:
+
+```bash
+# Gemini API key
+gcloud secrets add-iam-policy-binding gemini-api-key \
+  --member="serviceAccount:dfl-bootcamp-runner@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/secretmanager.secretAccessor"
+
+# Mailer password
+gcloud secrets add-iam-policy-binding mailer-password \
+  --member="serviceAccount:dfl-bootcamp-runner@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/secretmanager.secretAccessor"
+```
+
+If you are using the **default compute service account** (the simpler path
+from step 8), it typically already has broad enough access — but if `--set-secrets`
+fails at deploy time with a permission error, run the above commands substituting
+the default compute account:
+`$(gcloud iam service-accounts list --filter="displayName:Compute Engine" --format="value(email)")`
+
+---
+
 ## 9. Verify it actually works
 
 Visit the Service URL from step 7 and check, in order:
@@ -233,7 +272,11 @@ Visit the Service URL from step 7 and check, in order:
    bar should move (this is pure `localStorage`, so it'll work even if
    Firestore is misconfigured — a failing counter doesn't mean progress
    tracking is broken too, they're independent)
-4. **Submit the contact form** with a real email of your own as the
+4. **Open a topic and click the `?` chat button** — type a short question
+   about the topic content and verify a relevant answer appears. If the
+   Gemini key is not wired, the chat panel shows
+   "Chat is not available in this environment yet" rather than a raw error.
+5. **Submit the contact form** with a real email of your own as the
    "reply-to" field, and check that the email actually arrives at
    `alankarhuchche@gmail.com` — this is the one part of the whole app that
    depends on a third-party credential (the Gmail App Password) working
@@ -270,8 +313,8 @@ few hours.
   for an initial deploy.
 - **Cloud SQL/Postgres** — not used anywhere; the counter is Firestore-only,
   per the cost decision made during planning.
-- **The deferred Gemini chat layer** — still shelved; nothing here assumes
-  it exists.
+- **CI/CD pipeline** — every deploy above is manual; Cloud Build triggers
+  on git push are worth adding later if iterating frequently.
 
 ## If something goes wrong
 

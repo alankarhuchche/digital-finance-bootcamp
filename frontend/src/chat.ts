@@ -80,6 +80,16 @@ export function renderChatWidget(
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ moduleId, moduleTitle, moduleContent, question: q }),
       });
+      if (res.status === 503) {
+        typingEl.textContent = 'Chat is not available in this environment yet. The rest of the guide is still available.';
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        return;
+      }
+      if (!res.ok) {
+        typingEl.textContent = 'Could not reach the server — try again.';
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        return;
+      }
       const data = await res.json();
       const answer = data.answer ?? 'No response.';
       messages.push({ role: 'bot', text: answer });

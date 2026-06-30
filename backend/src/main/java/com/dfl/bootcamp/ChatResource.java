@@ -12,11 +12,13 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Path("/api/chat")
 @ApplicationScoped
@@ -36,14 +38,22 @@ public class ChatResource {
             + "Never provide financial advice. "
             + "Format your response as plain text, not markdown.";
 
-    @ConfigProperty(name = "gemini.api-key")
+    @ConfigProperty(name = "gemini.api-key", defaultValue = "")
     String apiKey;
 
     private Client client;
+    private boolean configured;
 
     @PostConstruct
     void init() {
-        client = Client.builder().apiKey(apiKey).build();
+        if (apiKey == null || apiKey.isBlank()) {
+            LOG.warn("GEMINI_API_KEY is not configured — /api/chat will return 503 until the secret is wired");
+            configured = false;
+        } else {
+            client = Client.builder().apiKey(apiKey).build();
+            configured = true;
+            LOG.info("Gemini client initialised");
+        }
     }
 
     public record ChatRequest(String moduleId, String moduleTitle, String moduleContent, String question) {}
@@ -51,12 +61,18 @@ public class ChatResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, String> chat(ChatRequest req) {
+    public Response chat(ChatRequest req) {
+        if (!configured) {
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                    .entity(Map.of("error", "AI chat is not configured for this environment."))
+                    .build();
+        }
+
         if (req == null || req.question() == null || req.question().isBlank()) {
-            return Map.of("answer", "Please ask a question.");
+            return Response.ok(Map.of("answer", "Please ask a question.")).build();
         }
         if (req.question().length() > MAX_QUESTION_LENGTH) {
-            return Map.of("answer", "Question too long (max " + MAX_QUESTION_LENGTH + " characters).");
+            return Response.ok(Map.of("answer", "Question too long (max " + MAX_QUESTION_LENGTH + " characters).")).build();
         }
 
         String content = req.moduleContent() != null
@@ -77,17 +93,17 @@ public class ChatResource {
                             .build())
                     .build();
 
-            GenerateContentResponse response = client.models.generateContent(
+            GenerateContentResponse geminiResponse = client.models.generateContent(
                     "gemini-2.0-flash",
                     userMessage,
                     config
             );
 
-            String answer = response.text();
-            return Map.of("answer", answer != null ? answer : "No response generated.");
+            String answer = geminiResponse.text();
+            return Response.ok(Map.of("answer", answer != null ? answer : "No response generated.")).build();
         } catch (Exception e) {
             LOG.error("Gemini call failed", e);
-            return Map.of("answer", "Sorry, I couldn't process that question right now.");
+            return Response.ok(Map.of("answer", "Sorry, I couldn't process that question right now.")).build();
         }
     }
 }
