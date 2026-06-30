@@ -3,7 +3,7 @@ import type { ModuleContent } from '../types';
 const content: ModuleContent = {
   id: 'stablecoins',
   number: '06',
-  title: 'Stablecoins deep-dive',
+  title: 'Stablecoins',
   summary: 'Four mechanics, four failure modes.',
   ready: true,
   blocks: [

@@ -3,7 +3,7 @@ import type { ModuleContent } from '../types';
 const content: ModuleContent = {
   id: 'risk-benefit',
   number: '03',
-  title: 'Who actually carries the risk',
+  title: 'Who carries the risk',
   summary: 'The same instrument looks different to a customer, a bank, and a central bank.',
   ready: true,
   blocks: [

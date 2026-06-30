@@ -3,7 +3,7 @@ import type { ModuleContent } from '../types';
 const content: ModuleContent = {
   id: 'cbdc',
   number: '07',
-  title: 'CBDC deep-dive',
+  title: 'CBDCs',
   summary: 'Retail vs wholesale, and the real-world pilots.',
   ready: true,
   blocks: [

@@ -3,7 +3,7 @@ import type { ModuleContent } from '../types';
 const content: ModuleContent = {
   id: 'global-initiatives',
   number: '11',
-  title: 'Global initiatives map',
+  title: 'Global initiatives',
   summary: 'Who is doing what, where, right now.',
   ready: true,
   blocks: [
@@ -23,7 +23,7 @@ const content: ModuleContent = {
           { country: 'Brazil', region: 'Americas', status: 'pilot', name: 'Drex \u2014 wholesale tokenized credit' },
           { country: 'Russia', region: 'Europe', status: 'pilot', name: 'Digital ruble' },
           { country: 'South Korea', region: 'Asia-Pacific', status: 'pilot', name: 'Hangang Project' },
-          { country: 'Singapore', region: 'Asia-Pacific', status: 'pilot', name: 'Project Guardian — institutional DeFi and tokenized asset pilots with MAS' },
+          { country: 'Singapore', region: 'Asia-Pacific', status: 'pilot', name: 'Project Guardian — institutional DeFi and tokenized asset pilots with MAS', coords: [756, 244] },
           { country: 'Ghana', region: 'Middle East & Africa', status: 'pilot', name: 'eCedi' },
           { country: 'Eurozone', region: 'Europe', status: 'pilot', name: 'Digital euro \u2014 decision phase, 2026', coords: [463.5, 175] },
           { country: 'United Kingdom', region: 'Europe', status: 'research', name: 'Digital pound (Lab) \u2014 no decision to build taken' },

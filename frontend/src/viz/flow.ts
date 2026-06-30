@@ -1,8 +1,14 @@
 import type { FlowSpec } from '../types';
 
 export function renderFlow(container: HTMLElement, spec: FlowSpec): void {
+  // Compute a tight viewBox height from actual box positions so the SVG
+  // doesn't leave a blank vertical gap below the last element.
+  const [vbX, vbY, vbW] = spec.viewBox.split(' ').map(Number);
+  const contentBottom = Math.max(...spec.boxes.map(b => b.y + b.h));
+  const tightViewBox = `${vbX} ${vbY} ${vbW} ${contentBottom + 16}`;
+
   container.innerHTML = `
-    <svg class="flow" viewBox="${spec.viewBox}">
+    <svg class="flow" viewBox="${tightViewBox}">
       <defs>
         <filter id="glow">
           <feGaussianBlur stdDeviation="2" result="blur"/>

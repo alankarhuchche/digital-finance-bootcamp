@@ -3,7 +3,7 @@ import type { ModuleContent } from '../types';
 const content: ModuleContent = {
   id: 'market-sizing',
   number: '10',
-  title: 'Market capture & sizing',
+  title: 'Market sizing',
   summary: 'Old money vs new money, by the actual numbers.',
   ready: true,
   blocks: [

@@ -230,8 +230,8 @@ function renderContact(): void {
       <label class="field-label" for="cf-name">Name</label>
       <input class="field-input" id="cf-name" name="name" type="text" autocomplete="name" />
 
-      <label class="field-label" for="cf-email">Email <span class="optional">(optional, so I can reply)</span></label>
-      <input class="field-input" id="cf-email" name="email" type="email" autocomplete="email" />
+      <label class="field-label" for="cf-email">Email *</label>
+      <input class="field-input" id="cf-email" name="email" type="email" autocomplete="email" required />
 
       <label class="field-label" for="cf-message">Message *</label>
       <textarea class="field-input field-textarea" id="cf-message" name="message" rows="5" required></textarea>
