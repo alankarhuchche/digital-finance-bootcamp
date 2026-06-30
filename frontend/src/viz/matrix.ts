@@ -3,7 +3,7 @@ import { staggerEntrance } from '../animate';
 
 export function renderMatrix(container: HTMLElement, spec: MatrixSpec): void {
   container.innerHTML = `
-    <div class="matrix-scroll">
+    <div class="matrix-scroll-wrap"><div class="matrix-scroll">
       <table class="matrix">
         <thead>
           <tr>
@@ -24,7 +24,7 @@ export function renderMatrix(container: HTMLElement, spec: MatrixSpec): void {
             .join('')}
         </tbody>
       </table>
-    </div>
+    </div></div>
   `;
 
   staggerEntrance(container, '.matrix-row', 100);

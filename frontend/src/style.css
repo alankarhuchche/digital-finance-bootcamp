@@ -83,6 +83,10 @@ html, body {
   font-size: 11px; letter-spacing: 0; text-transform: none;
   color: var(--text-dim); opacity: 0.4;
 }
+button.nav-item {
+  width: 100%; background: none; border: none; border-radius: 0;
+  text-align: left; font-family: 'Inter', sans-serif;
+}
 .nav-item {
   display: flex; align-items: center; gap: 10px;
   padding: 8px 20px; cursor: pointer;
@@ -100,10 +104,12 @@ html, body {
   font-family: 'IBM Plex Mono', monospace; font-size: 11px;
   color: var(--text-dim); display: flex; flex-direction: column; gap: 6px;
 }
-.sidebar-footer a {
+.sidebar-footer a, .sidebar-footer button.sidebar-nav-btn {
   color: var(--text-dim); text-decoration: none; cursor: pointer;
+  background: none; border: none; padding: 0; font-family: inherit; font-size: inherit;
 }
-.sidebar-footer a:hover { color: var(--amber); }
+
+.sidebar-footer a:hover, .sidebar-footer button.sidebar-nav-btn:hover { color: var(--amber); }
 .sidebar-stats {
   display: flex; justify-content: space-between;
 }
@@ -124,7 +130,7 @@ html, body {
   .sidebar.open { transform: translateX(0); }
   .sidebar-overlay.open { display: block; }
   .hamburger { display: block; }
-  #app { margin-left: 0 !important; }
+  #app { margin-left: 0 !important; padding-top: 56px; }
 }
 
 /* Content area */
@@ -953,7 +959,16 @@ svg.flow { width: 100%; max-width: 700px; height: auto; display: block; }
 .flow-tooltip-visible { opacity: 1; }
 
 /* ============ Matrix ============ */
+.matrix-scroll-wrap { position: relative; }
 .matrix-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+@media (max-width: 768px) {
+  .matrix-scroll-wrap::after {
+    content: '';
+    position: absolute; top: 0; right: 0; bottom: 0; width: 40px;
+    background: linear-gradient(to left, var(--ink) 0%, transparent 100%);
+    pointer-events: none; border-radius: 0 4px 4px 0;
+  }
+}
 table.matrix { border-collapse: collapse; width: 100%; font-size: 13px; table-layout: auto; }
 table.matrix th, table.matrix td {
   border: 1px solid var(--grid);

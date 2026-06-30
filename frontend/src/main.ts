@@ -33,8 +33,10 @@ function route(path: string): void {
   } else if (path.startsWith('/module/')) {
     navigate(`/topic/${path.slice('/module/'.length)}`);
     return;
-  } else {
+  } else if (path === '/' || path === '') {
     renderHomePage(app, navigate, () => renderSidebar());
+  } else {
+    renderNotFound();
   }
   updateSidebarActive(path);
 }
@@ -74,10 +76,10 @@ function renderSidebar(): void {
           const m = MODULE_INDEX.find(x => x.id === id);
           if (!m) return '';
           const checked = isComplete(m.id);
-          return `<div class="nav-item${checked ? ' nav-item-done' : ''}" data-id="${m.id}" data-path="/topic/${m.id}" role="button" tabindex="0">
+          return `<button class="nav-item${checked ? ' nav-item-done' : ''}" data-id="${m.id}" data-path="/topic/${m.id}">
             <span>${m.title}</span>
             ${checked ? '<span class="nav-item-check">✓</span>' : ''}
-          </div>`;
+          </button>`;
         }).join('')}
       `;}).join('')}
     </nav>
@@ -87,11 +89,11 @@ function renderSidebar(): void {
         <span id="visitCount"></span>
       </div>
       <div class="sidebar-links">
-        <a id="sidebarHomeLink" role="button" tabindex="0">Home</a>
+        <button class="sidebar-nav-btn" id="sidebarHomeLink">Home</button>
         <span class="sidebar-link-sep">·</span>
-        <a id="sidebarAbout" role="button" tabindex="0">About</a>
+        <button class="sidebar-nav-btn" id="sidebarAbout">About</button>
         <span class="sidebar-link-sep">·</span>
-        <a id="sidebarContact" role="button" tabindex="0">Contact</a>
+        <button class="sidebar-nav-btn" id="sidebarContact">Contact</button>
       </div>
       <div class="sidebar-author">
         Built by <a href="https://www.linkedin.com/in/alankar-huchche" target="_blank" rel="noopener" class="sidebar-author-link">Alankar Huchche</a>
@@ -100,9 +102,7 @@ function renderSidebar(): void {
   `;
 
   sidebar.querySelectorAll<HTMLElement>('.nav-item').forEach(item => {
-    const handler = () => navigate(item.dataset.path!);
-    item.addEventListener('click', handler);
-    item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } });
+    item.addEventListener('click', () => navigate(item.dataset.path!));
   });
 
   // Brand → home
@@ -111,17 +111,9 @@ function renderSidebar(): void {
   brandEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') navigate('/'); });
 
   // Footer home link
-  const homeLinkEl = sidebar.querySelector<HTMLElement>('#sidebarHomeLink')!;
-  homeLinkEl.addEventListener('click', () => navigate('/'));
-  homeLinkEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') navigate('/'); });
-
-  const aboutEl = sidebar.querySelector<HTMLElement>('#sidebarAbout')!;
-  aboutEl.addEventListener('click', () => navigate('/about'));
-  aboutEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') navigate('/about'); });
-
-  const contactEl = sidebar.querySelector<HTMLElement>('#sidebarContact')!;
-  contactEl.addEventListener('click', () => navigate('/contact'));
-  contactEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') navigate('/contact'); });
+  sidebar.querySelector<HTMLElement>('#sidebarHomeLink')!.addEventListener('click', () => navigate('/'));
+  sidebar.querySelector<HTMLElement>('#sidebarAbout')!.addEventListener('click', () => navigate('/about'));
+  sidebar.querySelector<HTMLElement>('#sidebarContact')!.addEventListener('click', () => navigate('/contact'));
 
   sidebar.querySelector<HTMLElement>('#sidebarClose')!.addEventListener('click', closeSidebar);
 
@@ -207,6 +199,20 @@ function renderCompleteButton(footer: HTMLElement, moduleId: string): void {
     renderSidebar();
     updateSidebarActive(location.pathname);
   });
+}
+
+// ── Not found ────────────────────────────────────────────────
+
+function renderNotFound(): void {
+  document.title = 'Page not found — Banking Rails to Digital Finance';
+  app.innerHTML = `
+    <div class="not-found">
+      <h1>Page not found</h1>
+      <p class="sub">This URL doesn't match any topic or page on this site.</p>
+      <button class="back-btn" id="backBtn">← All topics</button>
+    </div>
+  `;
+  app.querySelector<HTMLElement>('#backBtn')!.addEventListener('click', () => navigate('/'));
 }
 
 // ── Contact ──────────────────────────────────────────────────
