@@ -69,7 +69,7 @@ const content: ModuleContent = {
 <p><b>CBDC (tiered model)</b>: small amounts private like cash, larger amounts visible like a bank account — the design sweet spot most central banks are targeting.</p>
 <p><b>Privacy-preserving blockchain</b> (ZKPs, mixers): strong privacy but regulatory hostility — currently the hardest to build legally.</p>
 <p>The direction of travel is toward tiered systems where privacy is proportional to the amount — the exact model the FATF Travel Rule, MiCA, and the digital euro proposal all converge on.</p>
-<p>Privacy shapes what's possible. The next topic looks at how banks are actually responding to all of this — defending deposits while simultaneously building the alternatives.</p>`,
+<p>How you design privacy determines whether your system is legally deployable in the jurisdictions that matter. The next topic looks at how banks are actually responding to all of this — defending deposits while simultaneously building the alternatives.</p>`,
     },
     {
       kind: 'quiz',
