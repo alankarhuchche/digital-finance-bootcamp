@@ -174,9 +174,13 @@ gcloud run deploy "$SERVICE_NAME" \
   --min-instances=0 \
   --max-instances=2 \
   --memory=512Mi \
-  --set-env-vars="GCP_PROJECT_ID=${PROJECT_ID},MAILER_USERNAME=your-gmail@gmail.com" \
+  --set-env-vars="GCP_PROJECT_ID=${PROJECT_ID},MAILER_USERNAME=your-gmail@gmail.com,GEMINI_MODEL=gemini-2.5-flash" \
   --set-secrets="MAILER_PASSWORD=mailer-password:latest,GEMINI_API_KEY=gemini-api-key:latest"
 ```
+
+> **`GEMINI_MODEL`** is a non-sensitive env var (a model name, not a secret), so it goes in
+> `--set-env-vars`, not `--set-secrets`. The default is `gemini-2.5-flash`. If Google
+> deprecates that model, update this flag and redeploy — no Secret Manager change needed.
 
 Notes on the flags:
 - `--allow-unauthenticated` — this is a public bootcamp site, so it needs to

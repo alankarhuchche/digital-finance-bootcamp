@@ -85,6 +85,11 @@ export function renderChatWidget(
         messagesEl.scrollTop = messagesEl.scrollHeight;
         return;
       }
+      if (res.status === 502) {
+        typingEl.textContent = 'Chat is temporarily unavailable because the AI model is not available. The rest of the guide is still available.';
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        return;
+      }
       if (!res.ok) {
         typingEl.textContent = 'Could not reach the server — try again.';
         messagesEl.scrollTop = messagesEl.scrollHeight;

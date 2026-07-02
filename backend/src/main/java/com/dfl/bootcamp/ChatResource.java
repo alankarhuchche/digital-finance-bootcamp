@@ -41,6 +41,9 @@ public class ChatResource {
     @ConfigProperty(name = "gemini.api-key", defaultValue = "")
     String apiKey;
 
+    @ConfigProperty(name = "gemini.model", defaultValue = "gemini-2.5-flash")
+    String modelName;
+
     private Client client;
     private boolean configured;
 
@@ -52,7 +55,7 @@ public class ChatResource {
         } else {
             client = Client.builder().apiKey(apiKey).build();
             configured = true;
-            LOG.info("Gemini client initialised");
+            LOG.infof("Gemini client initialised (model: %s)", modelName);
         }
     }
 
@@ -94,7 +97,7 @@ public class ChatResource {
                     .build();
 
             GenerateContentResponse geminiResponse = client.models.generateContent(
-                    "gemini-2.0-flash",
+                    modelName,
                     userMessage,
                     config
             );
@@ -102,6 +105,13 @@ public class ChatResource {
             String answer = geminiResponse.text();
             return Response.ok(Map.of("answer", answer != null ? answer : "No response generated.")).build();
         } catch (Exception e) {
+            String msg = e.getMessage();
+            if (msg != null && (msg.contains("404") || msg.contains("no longer available") || msg.contains("not found"))) {
+                LOG.errorf("Gemini model not available (%s): %s", modelName, msg);
+                return Response.status(502)
+                        .entity(Map.of("error", "AI model is not available."))
+                        .build();
+            }
             LOG.error("Gemini call failed", e);
             return Response.ok(Map.of("answer", "Sorry, I couldn't process that question right now.")).build();
         }
