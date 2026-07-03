@@ -43,13 +43,13 @@ const content: ModuleContent = {
         <p><b>DvP (Delivery-versus-Payment)</b> — the principle that an asset and its payment should settle together, neither without the other. <i>Topic 13.</i></p>
         <p><b>E-money</b> — electronically stored monetary value (e.g. Revolut, PayPal balances), regulated under the E-Money Directive but not deposit-insured. <i>Topic 02.</i></p>
         <p><b>EMT (E-Money Token)</b> — MiCA’s category for a stablecoin pegged to a single fiat currency. <i>Topic 14.</i></p>
-        <p><b>Ethereum</b> — a public permissionless blockchain running Proof of Stake consensus since September 2022. The primary platform for stablecoins, tokenised assets and DeFi. EVM-compatible. <i>Topics 04, 05, 06, 09.</i></p>
+        <p><b>Ethereum</b> — a public permissionless blockchain running Proof of Stake since September 2022. The largest base for stablecoin issuance and DeFi activity as of 2026. EVM-compatible. <i>Topics 04, 05, 06, 09.</i></p>
         <p><b>EVM (Ethereum Virtual Machine)</b> — the runtime that executes Ethereum smart contracts. EVM compatibility means other networks (e.g. Hyperledger Besu) can run Ethereum tooling and Solidity contracts directly. <i>Topic 04.</i></p>
         <p><b>FMI (Financial Market Infrastructure)</b> — the systems and institutions (CCPs, CSDs, payment systems, trade repositories) that underpin financial markets. Regulated under CPMI-IOSCO principles. <i>Topic 13.</i></p>
         <p><b>FATF Travel Rule</b> — the requirement that crypto transfers above a threshold carry sender/recipient information, mirroring wire transfer rules. <i>Topics 14, 19.</i></p>
         <p><b>Finality</b> — the point at which a transaction is truly irreversible; instant on RTGS, often probabilistic on public blockchains. <i>Topics 04, 13.</i></p>
         <p><b>Flash loan</b> — a DeFi loan borrowed and repaid within a single transaction, or it reverts entirely. <i>Topics 09, 16.</i></p>
-        <p><b>Gas</b> — the fee paid to Ethereum validators to include a transaction in a block. Gas prices fluctuate with network demand; fees on L1 range from under $0.50 to over $50. On Layer 2s, fees are typically under $0.01. <i>Topic 04.</i></p>
+        <p><b>Gas</b> — the fee paid to Ethereum validators to include a transaction in a block. Gas prices fluctuate with network demand. Fees on Ethereum L1 have historically ranged from under $0.50 to over $50 depending on congestion. On Layer 2s, fees are typically under $0.01. <i>Topic 04.</i></p>
         <p><b>GENIUS Act</b> — the 2025 US federal law creating a licensing framework for payment stablecoins. <i>Topic 14.</i></p>
         <p><b>Governance token</b> — a token granting voting rights over a protocol’s decisions. <i>Topic 05.</i></p>
         <p><b>Herstatt risk</b> — the risk of paying your side of a trade before confirming the other side delivered theirs. <i>Topic 13.</i></p>
