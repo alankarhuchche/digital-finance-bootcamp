@@ -30,6 +30,7 @@ const content: ModuleContent = {
         <p><b>CEX (Centralized Exchange)</b> — a custodial, KYC’d trading venue like Binance or Coinbase. <i>Topic 12.</i></p>
         <p><b>Collateral mobility</b> — the ability to move collateral between systems, venues, or counterparties quickly and without friction. A key use case for tokenisation. <i>Topics 08, 21.</i></p>
         <p><b>CLS (Continuous Linked Settlement)</b> — the system that eliminates Herstatt risk in FX by settling both currencies of a trade simultaneously. <i>Topic 13.</i></p>
+        <p><b>Commercial confidentiality</b> — the requirement that transaction data, client identities, positions and commercial strategy are protected from market-wide disclosure, even where regulator and auditor access remains intact. <i>Topic 20.</i></p>
         <p><b>Consensus</b> — the rule a blockchain’s nodes use to agree on valid transactions without a central authority. <i>Topic 04.</i></p>
         <p><b>Consortium stablecoin</b> — a stablecoin issued by or on behalf of a group of businesses under shared governance, as opposed to a single private issuer. Reserve earnings may be distributed among participants. Open USD is the most prominent announced example as of mid-2026. <i>Topic 23.</i></p>
         <p><b>CSD (Central Securities Depository)</b> — the institution that holds securities and processes settlement of securities trades. In tokenised markets, the CSD role may be replaced by the blockchain ledger itself. <i>Topic 13.</i></p>
@@ -66,20 +67,24 @@ const content: ModuleContent = {
       heading: 'K – Z',
       body: `
         <p><b>KYC (Know Your Customer)</b> — the process of verifying a customer’s identity before providing financial services. <i>Topic 19.</i></p>
+        <p><b>Lawful access</b> — a framework permitting regulators, courts or law-enforcement agencies to access financial data under defined legal authority, distinct from general market-wide transparency. <i>Topic 20.</i></p>
         <p><b>Legal finality</b> — the point at which a transaction is irrevocable under the applicable legal framework, not just technically confirmed. May differ from technical finality. <i>Topics 13, 21.</i></p>
         <p><b>Layer 2 (L2)</b> — a scaling solution built on top of a base blockchain (Layer 1) that processes transactions off-chain for speed and cost, settling finality back to L1. <i>Topic 04.</i></p>
         <p><b>M2</b> — a broad measure of money supply: cash, checking deposits, savings, and similar liquid assets. <i>Topic 10.</i></p>
         <p><b>mBridge</b> — the BIS-led multi-CBDC wholesale cross-border settlement platform. <i>Topic 11.</i></p>
+        <p><b>Market leakage</b> — the unintended disclosure of transaction data, client flows or trading positions to market participants, creating competitive risk or market-abuse exposure before legal finality. <i>Topics 04, 20.</i></p>
         <p><b>MEV (Maximal Extractable Value)</b> — profit validators can extract by reordering, inserting, or censoring transactions within a block. <i>Topic 09.</i></p>
         <p><b>MPC (Multi-Party Computation)</b> — a cryptographic technique where multiple parties jointly compute a function without any party revealing their private input. Used in institutional key management as an alternative to HSMs. <i>Topic 21.</i></p>
         <p><b>MiCA (Markets in Crypto-Assets Regulation)</b> — the EU’s comprehensive crypto rulebook. <i>Topic 14.</i></p>
         <p><b>Native token</b> — a blockchain’s own base asset, used for fees and/or network security (e.g. BTC, ETH). <i>Topic 05.</i></p>
         <p><b>Netting</b> — offsetting mutual obligations so only the net difference settles, reducing the total value that must move. Contrast with gross settlement. <i>Topic 13.</i></p>
+        <p><b>Observer (Daml)</b> — a party in a Daml contract who can see a transaction but is not required to sign it. Enables a regulator or auditor to have designated visibility without becoming a transacting party. <i>Topic 20.</i></p>
         <p><b>Open USD</b> — a consortium stablecoin announced in June 2026 by Open Standard, publicly reported as including Visa, Mastercard, Coinbase and more than 140 businesses. Reserve earnings are publicly reported to be shared among participants after a management fee, distinguishing it from single-issuer models. Adoption, transaction volumes and regulatory treatment were unproven as of July 2026. <i>Topic 23.</i></p>
         <p><b>Open banking</b> — the regulatory framework (PSD2 in the EU, Open Banking in the UK) that requires banks to share account data and enable payment initiation through standardised APIs for authorised third parties. <i>Topic 18.</i></p>
         <p><b>Oracle</b> — a service that feeds off-chain data (prices, rates, events) to on-chain smart contracts. Oracle manipulation is a distinct failure category in DeFi. <i>Topics 04, 16.</i></p>
         <p><b>Nostro / Vostro</b> — accounts banks hold at each other for correspondent banking; nostro = "our account at your bank," vostro = the reverse. <i>Topic 01.</i></p>
         <p><b>PYUSD</b> — PayPal's USD stablecoin, issued by PayPal on Ethereum and Solana. Targets the PayPal and Venmo user base for payments and checkout. 1:1 USD backed with cash and equivalents; reserve yield retained by PayPal. <i>Topic 23.</i></p>
+        <p><b>Permissioned visibility</b> — a privacy model in which transaction data is visible only to named, authorised participants rather than to all network members or the public. <i>Topics 04, 20.</i></p>
         <p><b>Permissioned network</b> — a blockchain where participation (validation and/or transaction submission) is restricted to known, vetted entities. Contrasts with public permissionless networks. Used in regulated financial applications where data privacy and governance control are required. <i>Topic 04.</i></p>
         <p><b>Payment orchestration</b> — the layer that routes payments across multiple processors, methods, and rails to optimise cost, speed, and success rate. Companies like Stripe and Adyen operate as orchestrators. <i>Topic 18.</i></p>
         <p><b>Programmable money</b> — money with issuer-defined conditions attached (e.g. expiry, spending restrictions). Controversial because it implies the issuer controls how you spend. Contrast with programmable payments. <i>Topics 07, 21.</i></p>
@@ -95,6 +100,7 @@ const content: ModuleContent = {
         <p><b>RTGS (Real-Time Gross Settlement)</b> — a domestic central-bank settlement system with immediate, irrevocable finality (e.g. CHAPS). <i>Topic 01.</i></p>
         <p><b>RWA (Real-World Asset)</b> — a traditional asset (a bond, a fund, real estate) represented as an on-chain token. <i>Topic 08.</i></p>
         <p><b>Selective disclosure</b> — proving a specific claim (e.g. "over 18") without revealing the underlying data (e.g. date of birth), using verifiable credentials. <i>Topic 19.</i></p>
+        <p><b>Signatory (Daml)</b> — a party in a Daml contract whose authority is required to create or exercise a contract choice. Determines who can bind parties to on-chain obligations. <i>Topic 20.</i></p>
         <p><b>Singleness of money</b> — the principle that all forms of money within a currency should be exchangeable at par. <i>Topic 02.</i></p>
         <p><b>Solana</b> — a public permissionless blockchain using Proof of Stake with Proof of History timestamp ordering. Designed for high throughput and low fees. Active in stablecoin payments use cases. <i>Topics 04, 06, 23.</i></p>
         <p><b>Smart contract</b> — self-executing code deployed on a blockchain that runs automatically when conditions are met. <i>Topic 04.</i></p>
