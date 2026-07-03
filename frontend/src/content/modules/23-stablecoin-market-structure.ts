@@ -50,7 +50,7 @@ const content: ModuleContent = {
               'PayPal — issued by PayPal itself. Available on Ethereum and Solana. Targets the PayPal and Venmo user base as its primary distribution channel.',
               '1:1 USD backing with cash and equivalents. Reserve yield retained by PayPal. Smaller circulation than USDC or USDT.',
               'PayPal is a publicly listed, US-regulated entity with established money transmitter licences. Compliance infrastructure is mature relative to non-bank stablecoin issuers.',
-              'Strategic play: PayPal controls a large consumer payments network and can drive adoption through checkout integrations. The distribution advantage — hundreds of millions of PayPal accounts — is the differentiator. For banks, it introduces a non-bank issuer with consumer-payments reach at scale.',
+              'PayPal controls a large consumer payments network and can drive adoption through checkout integrations. The distribution advantage — hundreds of millions of PayPal accounts — is the differentiator here, not reserve quality. For banks, it introduces a non-bank issuer with consumer-payments reach at scale.',
             ],
           },
           {
@@ -159,7 +159,7 @@ const content: ModuleContent = {
               'Licensed commercial bank (e.g. JPMorgan Kinexys, Citi Token Services)',
               'Against the issuing bank; covered by deposit insurance up to applicable limits',
               'Institutional settlement, intraday liquidity, collateral mobility between financial institutions',
-              'Regulated as a bank deposit under existing banking law; clearest regulatory path of the three',
+              'Regulated as a bank deposit under existing banking law; clearest regulatory path of the four',
             ],
           },
           {

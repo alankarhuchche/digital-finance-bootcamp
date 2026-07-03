@@ -50,7 +50,7 @@ const content: ModuleContent = {
         <p><b>Herstatt risk</b> — the risk of paying your side of a trade before confirming the other side delivered theirs. <i>Topic 13.</i></p>
         <p><b>HSM (Hardware Security Module)</b> — a tamper-resistant hardware device that generates, stores, and manages cryptographic keys. Used in payment systems, blockchain custody, and CBDC infrastructure. <i>Topic 21.</i></p>
         <p><b>Interoperability</b> — the ability of different ledgers, networks, or payment systems to exchange value and data. The unsolved problem connecting deposit tokens, stablecoins, and CBDCs across platforms. <i>Topics 04, 21, 22.</i></p>
-        <p><b>Issuer model</b> — the legal and economic structure under which a stablecoin or digital money instrument is issued: who bears the liability, who manages the reserves, and who earns the yield. The distinction determines who earns the reserve yield, who bears the credit liability, and what regulatory framework applies. <i>Topics 06, 23.</i></p>
+        <p><b>Issuer model</b> — the legal and economic structure under which a stablecoin or digital money instrument is issued: who bears the credit liability, who manages the reserves, who earns the yield, and what regulatory framework applies. <i>Topics 06, 23.</i></p>
         <p><b>Interchange</b> — the fee paid by the acquiring bank to the issuing bank on each card transaction; regulated by caps in the EU/UK. <i>Topic 18.</i></p>
         <p><b>ISO 20022</b> — the new global messaging standard for payment instructions, replacing older formats with richer, structured data. <i>Topic 01.</i></p>
       `,
