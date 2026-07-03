@@ -30,7 +30,7 @@ const content: ModuleContent = {
         <p><b>Collateral mobility</b> — the ability to move collateral between systems, venues, or counterparties quickly and without friction. A key use case for tokenisation. <i>Topics 08, 21.</i></p>
         <p><b>CLS (Continuous Linked Settlement)</b> — the system that eliminates Herstatt risk in FX by settling both currencies of a trade simultaneously. <i>Topic 13.</i></p>
         <p><b>Consensus</b> — the rule a blockchain’s nodes use to agree on valid transactions without a central authority. <i>Topic 04.</i></p>
-        <p><b>Consortium stablecoin</b> — a stablecoin issued by or on behalf of a group of businesses under shared governance, as opposed to a single private issuer. Reserve earnings may be distributed among participants. Open USD is the leading announced example as of mid-2026. <i>Topic 23.</i></p>
+        <p><b>Consortium stablecoin</b> — a stablecoin issued by or on behalf of a group of businesses under shared governance, as opposed to a single private issuer. Reserve earnings may be distributed among participants. Open USD is the most prominent announced example as of mid-2026. <i>Topic 23.</i></p>
         <p><b>CSD (Central Securities Depository)</b> — the institution that holds securities and processes settlement of securities trades. In tokenised markets, the CSD role may be replaced by the blockchain ledger itself. <i>Topic 13.</i></p>
         <p><b>Custody</b> — holding assets on someone else’s behalf; the core trust question behind CEX risk. <i>Topic 12.</i></p>
         <p><b>Deposit token</b> — a commercial bank's own deposit liability represented as a token on a blockchain. Unlike stablecoins, deposit tokens stay on the bank's balance sheet and carry deposit insurance. <i>Topic 21.</i></p>
@@ -50,7 +50,7 @@ const content: ModuleContent = {
         <p><b>Herstatt risk</b> — the risk of paying your side of a trade before confirming the other side delivered theirs. <i>Topic 13.</i></p>
         <p><b>HSM (Hardware Security Module)</b> — a tamper-resistant hardware device that generates, stores, and manages cryptographic keys. Used in payment systems, blockchain custody, and CBDC infrastructure. <i>Topic 21.</i></p>
         <p><b>Interoperability</b> — the ability of different ledgers, networks, or payment systems to exchange value and data. The unsolved problem connecting deposit tokens, stablecoins, and CBDCs across platforms. <i>Topics 04, 21, 22.</i></p>
-        <p><b>Issuer model</b> — the legal and economic structure under which a stablecoin or digital money instrument is issued: who bears the liability, who manages the reserves, and who earns the yield. Single-issuer versus consortium models produce materially different risk and economic profiles. <i>Topics 06, 23.</i></p>
+        <p><b>Issuer model</b> — the legal and economic structure under which a stablecoin or digital money instrument is issued: who bears the liability, who manages the reserves, and who earns the yield. The distinction determines who earns the reserve yield, who bears the credit liability, and what regulatory framework applies. <i>Topics 06, 23.</i></p>
         <p><b>Interchange</b> — the fee paid by the acquiring bank to the issuing bank on each card transaction; regulated by caps in the EU/UK. <i>Topic 18.</i></p>
         <p><b>ISO 20022</b> — the new global messaging standard for payment instructions, replacing older formats with richer, structured data. <i>Topic 01.</i></p>
       `,
