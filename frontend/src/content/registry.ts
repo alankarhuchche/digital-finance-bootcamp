@@ -5,7 +5,7 @@ export const MODULE_INDEX: ModuleMeta[] = [
   { id: 'existing-rails', number: '01', title: 'The existing rails', summary: 'SWIFT, RTGS, correspondent banking — the cross-border baseline everything else responds to.', ready: true },
   { id: 'forms-of-money', number: '02', title: 'Forms of money', summary: 'Six kinds of money compared — cash, deposits, e-money, CBDC, tokenized deposits, stablecoins.', ready: true },
   { id: 'risk-benefit', number: '03', title: 'Who carries the risk', summary: 'The same instrument looks different to a customer, a bank, and a central bank.', ready: true },
-  { id: 'dlt-basics', number: '04', title: 'DLT & blockchain basics', summary: 'The technology underneath the alternatives — consensus, finality, smart contracts, Layer 2.', ready: true },
+  { id: 'dlt-basics', number: '04', title: 'DLT & blockchain basics', summary: 'Platform choice, consensus, finality and smart-contract controls for banking practitioners.', ready: true, updatedAt: '2026-07-03', changeType: 'expanded', changeSummary: 'Added banking-focused platform comparison, decision lens and smart-contract controls matrix.' },
   { id: 'crypto-assets', number: '05', title: 'Crypto assets', summary: 'Not all crypto is trying to be money — native tokens, utility tokens, governance tokens, security tokens.', ready: true },
   { id: 'stablecoins', number: '06', title: 'Stablecoins', summary: 'Four mechanisms, four failure modes, and how the issuers actually make money.', ready: true, updatedAt: '2026-07-03', changeType: 'expanded', changeSummary: 'Linked to the new stablecoin market structure comparison.' },
   { id: 'cbdc', number: '07', title: 'CBDCs', summary: 'Retail vs wholesale, privacy design, offline capability, and the real-world pilots.', ready: true },
