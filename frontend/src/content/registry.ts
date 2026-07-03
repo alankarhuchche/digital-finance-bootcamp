@@ -1,7 +1,7 @@
 import type { ModuleMeta, ModuleContent } from './types';
 
 export const MODULE_INDEX: ModuleMeta[] = [
-  { id: 'payments-fundamentals', number: '18', title: 'Payments fundamentals', summary: 'How money actually moves when you tap your card — the four-party model, interchange, and settlement.', ready: true },
+  { id: 'payments-fundamentals', number: '18', title: 'Payments fundamentals', summary: 'How money actually moves when you tap your card — the four-party model, interchange, and settlement.', ready: true, updatedAt: '2026-07-03', changeType: 'updated', changeSummary: 'Opening prose and section heading sharpened.' },
   { id: 'existing-rails', number: '01', title: 'The existing rails', summary: 'SWIFT, RTGS, correspondent banking — the cross-border baseline everything else responds to.', ready: true },
   { id: 'forms-of-money', number: '02', title: 'Forms of money', summary: 'Six kinds of money compared — cash, deposits, e-money, CBDC, tokenized deposits, stablecoins.', ready: true },
   { id: 'risk-benefit', number: '03', title: 'Who carries the risk', summary: 'The same instrument looks different to a customer, a bank, and a central bank.', ready: true },
@@ -11,18 +11,18 @@ export const MODULE_INDEX: ModuleMeta[] = [
   { id: 'cbdc', number: '07', title: 'CBDCs', summary: 'Retail vs wholesale, privacy design, offline capability, and the real-world pilots.', ready: true },
   { id: 'tokenization', number: '08', title: 'Tokenization', summary: 'Same asset, different ledger — tokenized deposits, bonds, and real-world assets.', ready: true },
   { id: 'deposit-tokens', number: '21', title: 'Deposit tokens', summary: 'What banks are actually building — commercial bank money on blockchain, and why it matters for settlement.', ready: true },
-  { id: 'defi', number: '09', title: 'DeFi', summary: 'Lending, AMMs, derivatives — finance rebuilt as code, with composability as both strength and risk.', ready: true },
+  { id: 'defi', number: '09', title: 'DeFi', summary: 'Lending, AMMs, derivatives — finance rebuilt as code, with composability as both strength and risk.', ready: true, updatedAt: '2026-07-03', changeType: 'updated', changeSummary: 'Opening section and stack note rewritten for clarity.' },
   { id: 'market-sizing', number: '10', title: 'Market sizing', summary: 'How big is this actually? Old money vs new money, by the real numbers.', ready: true },
   { id: 'global-initiatives', number: '11', title: 'Global initiatives', summary: 'Who is building what, where — the country-by-country map of CBDC and wholesale projects.', ready: true },
-  { id: 'market-structure', number: '12', title: 'Market structure', summary: 'CEX vs DEX, custody, prime brokerage, OTC desks, and liquidity fragmentation.', ready: true },
+  { id: 'market-structure', number: '12', title: 'Market structure', summary: 'CEX vs DEX, custody, prime brokerage, OTC desks, and liquidity fragmentation.', ready: true, updatedAt: '2026-07-03', changeType: 'updated', changeSummary: 'CEX and DEX expanded on first use; custody paragraph restructured.' },
   { id: 'settlement', number: '13', title: 'Settlement & infrastructure', summary: 'DvP, atomic settlement, Herstatt risk — the hardest unsolved problem in digital finance.', ready: true },
   { id: 'digital-identity', number: '19', title: 'Digital identity & KYC', summary: 'The $274B compliance layer — how identity verification works and what blockchain could change.', ready: true },
   { id: 'regulation', number: '14', title: 'Regulation', summary: 'MiCA, GENIUS Act, FATF Travel Rule, Basel III — the rulebooks forcing the industry to grow up.', ready: true },
-  { id: 'privacy', number: '20', title: 'Privacy & data', summary: 'The elephant in every CBDC room — blockchain transparency, surveillance, and GDPR tension.', ready: true },
+  { id: 'privacy', number: '20', title: 'Privacy & data', summary: 'The elephant in every CBDC room — blockchain transparency, surveillance, and GDPR tension.', ready: true, updatedAt: '2026-07-03', changeType: 'updated', changeSummary: 'Opening and closing paragraphs sharpened.' },
   { id: 'bank-strategy', number: '15', title: 'Bank strategy', summary: 'Why banks simultaneously defend deposits and offer stablecoin access — the deliberate hedge.', ready: true },
-  { id: 'failure-modes', number: '16', title: 'Failure modes', summary: 'Six categories of things that break — depegs, exploits, custody fraud, bridges, oracles, rug pulls.', ready: true },
+  { id: 'failure-modes', number: '16', title: 'Failure modes', summary: 'Six categories of things that break — depegs, exploits, custody fraud, bridges, oracles, rug pulls.', ready: true, updatedAt: '2026-07-03', changeType: 'updated', changeSummary: 'Industry response section closing lines sharpened.' },
   { id: 'whats-next', number: '22', title: `What's next`, summary: 'Informed views on where digital finance in payments is heading — and where this analysis could be wrong.', ready: true },
-  { id: 'glossary', number: '17', title: 'Glossary', summary: 'Every term, searchable, linked back to its topic.', ready: true },
+  { id: 'glossary', number: '17', title: 'Glossary', summary: 'Every term, searchable, linked back to its topic.', ready: true, updatedAt: '2026-07-03', changeType: 'updated', changeSummary: 'Term recognition and popover support improved across all topics.' },
 ];
 
 const LOADERS: Record<string, () => Promise<{ default: ModuleContent }>> = {

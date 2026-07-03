@@ -15,11 +15,21 @@ import { renderChatWidget } from '../chat';
 import { buildTopicLink, buildTopicSummaryText, buildLinkedInSnippet, copyAndToast } from '../utils/share';
 import { enhanceTerms, bindTermPopovers } from '../viz/termHelp';
 
+function formatTopicDate(iso: string): string {
+  const [y, m, d] = iso.split('-').map(Number);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${d} ${months[m - 1]} ${y}`;
+}
+
 export async function renderModule(container: HTMLElement, mod: ModuleContent): Promise<void> {
   const { MODULE_INDEX, findCategory } = await import('./registry');
   const curIdx = MODULE_INDEX.findIndex(m => m.id === mod.id);
   const category = findCategory(mod.id);
   const topicUrl = buildTopicLink(mod.id);
+
+  const updateLine = (mod.updatedAt || mod.changeSummary)
+    ? `<p class="topic-update-line">${mod.updatedAt ? `Updated ${formatTopicDate(mod.updatedAt)}` : ''}${mod.updatedAt && mod.changeSummary ? ' · ' : ''}${mod.changeSummary ?? ''}</p>`
+    : '';
 
   container.innerHTML = `
     <button class="back-btn" id="backBtn">← All topics</button>
@@ -27,6 +37,7 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
       <span class="eyebrow">${category ?? 'TOPIC'}</span>
       <h1>${mod.title}</h1>
       <p class="sub">${mod.summary}</p>
+      ${updateLine}
       <div class="share-actions">
         <button class="share-btn" data-action="link" aria-label="Copy link">Copy link</button>
         <button class="share-btn" data-action="summary" aria-label="Copy summary">Copy summary</button>

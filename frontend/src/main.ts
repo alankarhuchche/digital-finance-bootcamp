@@ -164,6 +164,14 @@ async function openTopic(id: string): Promise<void> {
   app.innerHTML = `<div class="loading-state"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div>`;
 
   const content = await loadModuleContent(id);
+  if (content) {
+    const meta = MODULE_INDEX.find(m => m.id === id);
+    if (meta) {
+      content.updatedAt = meta.updatedAt;
+      content.changeType = meta.changeType;
+      content.changeSummary = meta.changeSummary;
+    }
+  }
   if (!content) {
     document.title = 'Not found — Banking Rails to Digital Finance';
     app.innerHTML = `

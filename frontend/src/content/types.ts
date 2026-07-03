@@ -34,6 +34,9 @@ export interface ModuleMeta {
   title: string;
   summary: string;
   ready: boolean; // false = "coming soon" placeholder in the index
+  updatedAt?: string;       // ISO date, e.g. "2026-07-03"
+  changeType?: 'new' | 'expanded' | 'updated';
+  changeSummary?: string;   // one-line note for returning readers
 }
 
 export interface ModuleContent extends ModuleMeta {

@@ -60,6 +60,8 @@ export function renderHomePage(
 
     <p class="landing-start" id="topics-section">Start with <strong>Payments fundamentals</strong> if you're new, or jump to any topic. Topics build on each other in the order shown, but each one stands on its own.</p>
 
+    ${renderRecentlyUpdated()}
+
     <div id="topicIndex">
       ${renderCategoryIndex()}
     </div>
@@ -122,9 +124,11 @@ function renderCategoryIndex(): string {
 
 function renderTopicCard(m: (typeof MODULE_INDEX)[number]): string {
   const done = m.ready && isComplete(m.id);
+  const badgeLabel = m.changeType === 'new' ? 'New' : m.changeType === 'expanded' ? 'Expanded' : m.changeType === 'updated' ? 'Updated' : '';
   return `
     <div class="topic-card anim-stagger ${done ? 'topic-card-done' : ''}" data-id="${m.id}" data-ready="${m.ready}" role="button" tabindex="0">
       <div class="topic-info">
+        ${badgeLabel ? `<span class="topic-badge topic-badge-${m.changeType}">${badgeLabel}</span>` : ''}
         <h3>${m.title}</h3>
         <p>${m.summary}</p>
       </div>
@@ -133,10 +137,55 @@ function renderTopicCard(m: (typeof MODULE_INDEX)[number]): string {
   `;
 }
 
+function formatDate(iso: string): string {
+  const [y, m, d] = iso.split('-').map(Number);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${d} ${months[m - 1]} ${y}`;
+}
+
+function renderRecentlyUpdated(): string {
+  const updated = MODULE_INDEX
+    .filter(m => m.changeType)
+    .sort((a, b) => {
+      if (a.updatedAt && b.updatedAt) return b.updatedAt.localeCompare(a.updatedAt);
+      if (a.updatedAt) return -1;
+      if (b.updatedAt) return 1;
+      return 0;
+    })
+    .slice(0, 5);
+
+  if (updated.length === 0) return '';
+
+  const items = updated.map(m => {
+    const badge = m.changeType === 'new' ? 'New' : m.changeType === 'expanded' ? 'Expanded' : 'Updated';
+    const date = m.updatedAt ? formatDate(m.updatedAt) : '';
+    return `
+      <div class="recently-updated-item" data-id="${m.id}" role="button" tabindex="0" aria-label="Go to ${m.title}">
+        <div class="recently-updated-meta">
+          <span class="topic-badge topic-badge-${m.changeType}">${badge}</span>
+          <span>${m.title}</span>
+          ${date ? `<span>·</span><span>${date}</span>` : ''}
+        </div>
+        ${m.changeSummary ? `<p class="recently-updated-summary">${m.changeSummary}</p>` : ''}
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="recently-updated">
+      <p class="recently-updated-heading">Recently updated</p>
+      <div class="recently-updated-list">${items}</div>
+    </div>`;
+}
+
 function bindTopicCards(app: HTMLElement, navigate: (path: string) => void): void {
   app.querySelectorAll<HTMLElement>('.topic-card[data-ready="true"]').forEach(card => {
     const handler = () => navigate(`/topic/${card.dataset.id!}`);
     card.addEventListener('click', handler);
     card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } });
+  });
+  app.querySelectorAll<HTMLElement>('.recently-updated-item').forEach(item => {
+    const handler = () => navigate(`/topic/${item.dataset.id!}`);
+    item.addEventListener('click', handler);
+    item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } });
   });
 }
