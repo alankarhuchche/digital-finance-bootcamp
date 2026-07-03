@@ -4,6 +4,7 @@ Before modifying this repository, read:
 
 - `docs/ai-instructions/CONTENT_STYLE_GUIDE.md`
 - `docs/ai-instructions/CONTENT_CHANGE_CHECKLIST.md`
+- `docs/ai-instructions/VISUAL_EXPERIENCE_GUIDE.md`
 
 For any content change, follow the style guide and checklist.
 
