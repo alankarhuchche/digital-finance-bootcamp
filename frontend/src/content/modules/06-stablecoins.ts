@@ -90,7 +90,7 @@ const content: ModuleContent = {
     },
     {
       kind: 'text',
-      body: `Stablecoins are the private sector's answer to digital money. The next topic covers the public sector's response: central bank digital currencies.`,
+      body: `Stablecoins are the private sector's answer to digital money. The next topic covers the public sector's response: central bank digital currencies. For a provider and market-structure comparison — how USDC, USDT, PYUSD, RLUSD and Open USD differ by issuer model, reserve economics and regulatory posture — see the Stablecoin market structure topic.`,
     },
     {
       kind: 'quiz',

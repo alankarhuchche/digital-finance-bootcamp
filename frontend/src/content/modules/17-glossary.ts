@@ -30,6 +30,7 @@ const content: ModuleContent = {
         <p><b>Collateral mobility</b> — the ability to move collateral between systems, venues, or counterparties quickly and without friction. A key use case for tokenisation. <i>Topics 08, 21.</i></p>
         <p><b>CLS (Continuous Linked Settlement)</b> — the system that eliminates Herstatt risk in FX by settling both currencies of a trade simultaneously. <i>Topic 13.</i></p>
         <p><b>Consensus</b> — the rule a blockchain’s nodes use to agree on valid transactions without a central authority. <i>Topic 04.</i></p>
+        <p><b>Consortium stablecoin</b> — a stablecoin issued by or on behalf of a group of businesses under shared governance, as opposed to a single private issuer. Reserve earnings may be distributed among participants. Open USD is the leading announced example as of mid-2026. <i>Topic 23.</i></p>
         <p><b>CSD (Central Securities Depository)</b> — the institution that holds securities and processes settlement of securities trades. In tokenised markets, the CSD role may be replaced by the blockchain ledger itself. <i>Topic 13.</i></p>
         <p><b>Custody</b> — holding assets on someone else’s behalf; the core trust question behind CEX risk. <i>Topic 12.</i></p>
         <p><b>Deposit token</b> — a commercial bank's own deposit liability represented as a token on a blockchain. Unlike stablecoins, deposit tokens stay on the bank's balance sheet and carry deposit insurance. <i>Topic 21.</i></p>
@@ -49,6 +50,7 @@ const content: ModuleContent = {
         <p><b>Herstatt risk</b> — the risk of paying your side of a trade before confirming the other side delivered theirs. <i>Topic 13.</i></p>
         <p><b>HSM (Hardware Security Module)</b> — a tamper-resistant hardware device that generates, stores, and manages cryptographic keys. Used in payment systems, blockchain custody, and CBDC infrastructure. <i>Topic 21.</i></p>
         <p><b>Interoperability</b> — the ability of different ledgers, networks, or payment systems to exchange value and data. The unsolved problem connecting deposit tokens, stablecoins, and CBDCs across platforms. <i>Topics 04, 21, 22.</i></p>
+        <p><b>Issuer model</b> — the legal and economic structure under which a stablecoin or digital money instrument is issued: who bears the liability, who manages the reserves, and who earns the yield. Single-issuer versus consortium models produce materially different risk and economic profiles. <i>Topics 06, 23.</i></p>
         <p><b>Interchange</b> — the fee paid by the acquiring bank to the issuing bank on each card transaction; regulated by caps in the EU/UK. <i>Topic 18.</i></p>
         <p><b>ISO 20022</b> — the new global messaging standard for payment instructions, replacing older formats with richer, structured data. <i>Topic 01.</i></p>
       `,
@@ -67,16 +69,20 @@ const content: ModuleContent = {
         <p><b>MiCA (Markets in Crypto-Assets Regulation)</b> — the EU’s comprehensive crypto rulebook. <i>Topic 14.</i></p>
         <p><b>Native token</b> — a blockchain’s own base asset, used for fees and/or network security (e.g. BTC, ETH). <i>Topic 05.</i></p>
         <p><b>Netting</b> — offsetting mutual obligations so only the net difference settles, reducing the total value that must move. Contrast with gross settlement. <i>Topic 13.</i></p>
+        <p><b>Open USD</b> — a consortium stablecoin announced in June 2026 by Open Standard, publicly reported as including Visa, Mastercard, Coinbase and more than 140 businesses. Reserve earnings are publicly reported to be shared among participants after a management fee, distinguishing it from single-issuer models. Adoption, transaction volumes and regulatory treatment were unproven as of July 2026. <i>Topic 23.</i></p>
         <p><b>Open banking</b> — the regulatory framework (PSD2 in the EU, Open Banking in the UK) that requires banks to share account data and enable payment initiation through standardised APIs for authorised third parties. <i>Topic 18.</i></p>
         <p><b>Oracle</b> — a service that feeds off-chain data (prices, rates, events) to on-chain smart contracts. Oracle manipulation is a distinct failure category in DeFi. <i>Topics 04, 16.</i></p>
         <p><b>Nostro / Vostro</b> — accounts banks hold at each other for correspondent banking; nostro = "our account at your bank," vostro = the reverse. <i>Topic 01.</i></p>
+        <p><b>PYUSD</b> — PayPal's USD stablecoin, issued by PayPal on Ethereum and Solana. Targets the PayPal and Venmo user base for payments and checkout. 1:1 USD backed with cash and equivalents; reserve yield retained by PayPal. <i>Topic 23.</i></p>
         <p><b>Payment orchestration</b> — the layer that routes payments across multiple processors, methods, and rails to optimise cost, speed, and success rate. Companies like Stripe and Adyen operate as orchestrators. <i>Topic 18.</i></p>
         <p><b>Programmable money</b> — money with issuer-defined conditions attached (e.g. expiry, spending restrictions). Controversial because it implies the issuer controls how you spend. Contrast with programmable payments. <i>Topics 07, 21.</i></p>
         <p><b>Programmable payments</b> — user-defined conditions on payments (e.g. "pay when goods clear customs"). Generally accepted. Contrast with programmable money. <i>Topics 07, 21.</i></p>
         <p><b>PSD2</b> — the EU's Second Payment Services Directive, which mandated open banking APIs and strong customer authentication. <i>Topic 18.</i></p>
         <p><b>Project Agorá</b> — BIS/New York Fed-led wholesale cross-border tokenization research. <i>Topic 11.</i></p>
         <p><b>Proof of Stake / Proof of Work</b> — two consensus mechanisms; PoS uses staked tokens to validate, PoW uses computing power. <i>Topic 04.</i></p>
+        <p><b>Reserve economics</b> — the economic model that determines who earns the yield generated by a stablecoin's reserve assets. In single-issuer models, the issuer retains all yield. In a consortium model such as Open USD (as publicly reported), yield after a management fee is shared among participants. Users earn nothing in either case. <i>Topics 06, 23.</i></p>
         <p><b>Retail CBDC / Wholesale CBDC</b> — consumer-facing vs. interbank-only versions of a central bank digital currency. <i>Topic 07.</i></p>
+        <p><b>RLUSD</b> — Ripple's USD stablecoin, issued under a New York DFS trust charter and available on the XRP Ledger and Ethereum. Targets institutional and cross-border settlement flows via Ripple's existing payments network. 1:1 USD backed; reserve yield retained by Ripple. <i>Topic 23.</i></p>
         <p><b>RLN (Regulated Liability Network)</b> — a bank consortium testing shared-ledger tokenized deposits. <i>Topic 11.</i></p>
         <p><b>Rollup</b> — a Layer 2 scaling technique that bundles hundreds of transactions into a single proof submitted to the base chain. <i>Topic 04.</i></p>
         <p><b>RTGS (Real-Time Gross Settlement)</b> — a domestic central-bank settlement system with immediate, irrevocable finality (e.g. CHAPS). <i>Topic 01.</i></p>
