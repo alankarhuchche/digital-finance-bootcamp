@@ -1634,6 +1634,7 @@ svg.world-map { width: 100%; height: auto; display: block; }
 /* Track line — visual "lane" across the rail */
 .brm-rail-track {
   flex: 1; height: 2px;
+  position: relative; overflow: hidden;
   transition: background 0.2s, border-color 0.2s;
 }
 
@@ -1666,6 +1667,7 @@ svg.world-map { width: 100%; height: auto; display: block; }
 /* SANDBOX: dotted purple */
 .brm-rail[data-maturity="sandbox"] .brm-rail-track {
   height: 0;
+  overflow: visible; /* let dotted border render outside clipping box */
   border-bottom: 2px dotted rgba(199,146,232,0.28);
   margin-bottom: 2px;
 }
@@ -1787,9 +1789,66 @@ svg.world-map { width: 100%; height: auto; display: block; }
   }
 }
 
+/* ── Motion choreography ── */
+
+/* Step 1 — Source ovals: brief scale nudge on activation */
+@keyframes brm-source-activate {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.025); }
+  100% { transform: scale(1); }
+}
+.brm-seq-activate { animation: brm-source-activate 0.32s ease-out forwards; }
+
+/* Step 3 — Route core: one-shot amber bloom (does not repeat) */
+@keyframes brm-core-pulse {
+  0%   { box-shadow: 0 0 0 1px rgba(232,163,61,0.14), 0 0 18px rgba(232,163,61,0.06); }
+  35%  { box-shadow: 0 0 0 5px rgba(232,163,61,0.30), 0 0 30px rgba(232,163,61,0.16); }
+  100% { box-shadow: 0 0 0 1px rgba(232,163,61,0.14), 0 0 18px rgba(232,163,61,0.06); }
+}
+.brm-core--pulse { animation: brm-core-pulse 0.58s ease-out forwards; }
+
+/* Step 4 — Rail track: one-shot shimmer sweep (live + modernising only) */
+@keyframes brm-track-shimmer {
+  from { transform: translateX(-200%); }
+  to   { transform: translateX(400%); }
+}
+.brm-rail--shimmer:not([data-maturity="sandbox"]) .brm-rail-track::after {
+  content: '';
+  position: absolute; inset: 0; width: 40%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%);
+  animation: brm-track-shimmer 0.62s ease-out forwards;
+  pointer-events: none;
+}
+
+/* Step 5 — Settlement terminal: brief finality lock flash */
+@keyframes brm-terminal-lock {
+  0%   { box-shadow: none; }
+  28%  { box-shadow: 0 0 0 2px rgba(95,179,163,0.55), 0 0 10px rgba(95,179,163,0.24); }
+  100% { box-shadow: none; }
+}
+@keyframes brm-terminal-lock-sandbox {
+  0%   { box-shadow: none; }
+  28%  { box-shadow: 0 0 0 2px rgba(199,146,232,0.55), 0 0 10px rgba(199,146,232,0.24); }
+  100% { box-shadow: none; }
+}
+.brm-rail-terminal.brm-seq-lock {
+  animation: brm-terminal-lock 0.48s ease-out forwards;
+}
+.brm-rail[data-maturity="sandbox"] .brm-rail-terminal.brm-seq-lock {
+  animation: brm-terminal-lock-sandbox 0.48s ease-out forwards;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .brm-source, .brm-gate, .brm-core, .brm-rail, .brm-rail-track,
   .brm-rail-terminal, .brm-terminal-leg, .brm-ledger,
   .brm-caption, .brm-scenario-btn { transition: none; }
+
+  .brm-seq-activate,
+  .brm-core--pulse,
+  .brm-seq-lock { animation: none; }
+
+  .brm-rail--shimmer:not([data-maturity="sandbox"]) .brm-rail-track::after {
+    display: none;
+  }
 }

@@ -12,6 +12,20 @@ const MATURITY_LABELS: Record<string, string> = {
   emerging: 'EMERGING',
 };
 
+// Node category sets — used for sequenced activation
+const SOURCE_IDS   = new Set(ROUTE_NODES.filter(n => n.zone === 'channels').map(n => n.id));
+const GATE_IDS     = new Set(ROUTE_NODES.filter(n => n.zone === 'controls').map(n => n.id));
+const TERMINAL_IDS = new Set(['scheme-confirm', 'rtgs-finality', 'dvp']);
+const LEG_IDS      = new Set(['cash-leg', 'asset-leg']);
+const LEDGER_IDS   = new Set(ROUTE_NODES.filter(n => n.zone === 'ledgers').map(n => n.id));
+
+// Cancellation token — incremented on every scenario switch
+let seqToken = 0;
+
+// Reduced motion query
+const prefersReducedMotion = (): boolean =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 export function renderBankRouteMap(container: HTMLElement): void {
   let current = SCENARIOS[0];
 
@@ -175,45 +189,176 @@ function buildLedgers(): string {
 // ─── Scenario application ─────────────────────────────────────────────────────
 
 function applyScenario(wrapper: HTMLElement, scenario: RouteScenario): void {
+  const token = ++seqToken;
   const active = new Set(scenario.activeNodes);
+  const reduced = prefersReducedMotion();
 
-  // Scenario buttons
+  // ── Scenario buttons ──
   wrapper.querySelectorAll<HTMLButtonElement>('.brm-scenario-btn').forEach(btn => {
     const on = btn.dataset.scenario === scenario.id;
     btn.classList.toggle('brm-scenario-btn--active', on);
     btn.setAttribute('aria-pressed', String(on));
   });
 
-  // All activatable elements via data-node-id
+  // ── Reset: mute everything, clear animation classes ──
   wrapper.querySelectorAll<HTMLElement>('[data-node-id]').forEach(el => {
-    const on = active.has(el.dataset.nodeId!);
-    el.classList.toggle('brm-active', on);
-    el.classList.toggle('brm-muted', !on);
+    el.classList.remove('brm-active', 'brm-seq-activate', 'brm-seq-lock');
+    el.classList.add('brm-muted');
   });
-
-  // Rail lanes via data-rail-node-id
   wrapper.querySelectorAll<HTMLElement>('[data-rail-node-id]').forEach(el => {
-    const on = active.has(el.dataset.railNodeId!);
-    el.classList.toggle('brm-rail--active', on);
-    el.classList.toggle('brm-rail--muted', !on);
+    el.classList.remove('brm-rail--active', 'brm-rail--shimmer');
+    el.classList.add('brm-rail--muted');
   });
+  wrapper.querySelector<HTMLElement>('.brm-core')?.classList.remove('brm-core--pulse');
 
-  // Caption crossfade
+  // ── Caption crossfade ──
   const cap = wrapper.querySelector<HTMLElement>('.brm-caption');
   if (cap) {
     cap.classList.add('brm-caption--out');
     setTimeout(() => {
+      if (seqToken !== token) return;
       cap.textContent = scenario.caption;
       cap.classList.remove('brm-caption--out');
     }, 110);
   }
 
-  // aria-live
+  // ── aria-live: announce scenario, not individual steps ──
   const live = wrapper.querySelector<HTMLElement>('.brm-sr-live');
   if (live) live.textContent = scenario.ariaDescription;
 
-  // Mobile strip
+  // ── Mobile strip ──
   updateMobileStrip(wrapper, scenario);
+
+  // ── Reduced motion: skip choreography, apply final state immediately ──
+  if (reduced) {
+    applyFinalState(wrapper, active);
+    return;
+  }
+
+  // ── Sequenced choreography ──
+
+  // Step 1 — Sources: activate synchronously (no flash before step 1)
+  activateSources(wrapper, active);
+
+  // Step 2 — Control gates: staggered (150ms + 80ms per gate)
+  seq(token, 150, () => {
+    const gates = nodesByCategory(wrapper, GATE_IDS);
+    gates.forEach((gate, i) => {
+      setTimeout(() => {
+        if (seqToken !== token) return;
+        const on = active.has(gate.dataset.nodeId!);
+        gate.classList.toggle('brm-active', on);
+        gate.classList.toggle('brm-muted', !on);
+      }, i * 80);
+    });
+  });
+
+  // Step 3 — Route decision core: activate + one-shot pulse (430ms)
+  seq(token, 430, () => {
+    const core = wrapper.querySelector<HTMLElement>('[data-node-id="route-decision"]');
+    if (!core) return;
+    core.classList.remove('brm-muted');
+    core.classList.add('brm-active');
+    // Force reflow so animation restarts cleanly
+    void core.offsetWidth;
+    core.classList.add('brm-core--pulse');
+    setTimeout(() => {
+      if (seqToken !== token) return;
+      core.classList.remove('brm-core--pulse');
+    }, 650);
+  });
+
+  // Step 4 — Rail lanes + one-shot shimmer (650ms)
+  seq(token, 650, () => {
+    wrapper.querySelectorAll<HTMLElement>('[data-rail-node-id]').forEach(el => {
+      const on = active.has(el.dataset.railNodeId!);
+      el.classList.toggle('brm-rail--active', on);
+      el.classList.toggle('brm-rail--muted', !on);
+      if (on && el.dataset.maturity !== 'sandbox') {
+        el.classList.add('brm-rail--shimmer');
+        setTimeout(() => {
+          if (seqToken !== token) return;
+          el.classList.remove('brm-rail--shimmer');
+        }, 750);
+      }
+    });
+  });
+
+  // Step 5 — Settlement terminals + lock flash (900ms)
+  seq(token, 900, () => {
+    const terminals = nodesByCategory(wrapper, TERMINAL_IDS);
+    terminals.forEach(el => {
+      const on = active.has(el.dataset.nodeId!);
+      el.classList.toggle('brm-active', on);
+      el.classList.toggle('brm-muted', !on);
+      if (on) {
+        el.classList.add('brm-seq-lock');
+        setTimeout(() => el.classList.remove('brm-seq-lock'), 550);
+      }
+    });
+    // DvP legs activate alongside terminal
+    nodesByCategory(wrapper, LEG_IDS).forEach(el => {
+      const on = active.has(el.dataset.nodeId!);
+      el.classList.toggle('brm-active', on);
+      el.classList.toggle('brm-muted', !on);
+    });
+  });
+
+  // Step 6 — Evidence badges: staggered cascade (1080ms + 55ms per badge)
+  seq(token, 1080, () => {
+    const badges = nodesByCategory(wrapper, LEDGER_IDS);
+    badges.forEach((badge, i) => {
+      setTimeout(() => {
+        if (seqToken !== token) return;
+        const on = active.has(badge.dataset.nodeId!);
+        badge.classList.toggle('brm-active', on);
+        badge.classList.toggle('brm-muted', !on);
+      }, i * 55);
+    });
+  });
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function seq(token: number, delay: number, fn: () => void): void {
+  setTimeout(() => {
+    if (seqToken !== token) return;
+    fn();
+  }, delay);
+}
+
+// Returns elements whose data-node-id is in the given set, in DOM order
+function nodesByCategory(wrapper: HTMLElement, ids: Set<string>): HTMLElement[] {
+  return Array.from(
+    wrapper.querySelectorAll<HTMLElement>('[data-node-id]')
+  ).filter(el => ids.has(el.dataset.nodeId!));
+}
+
+// Sources activate first — called synchronously to avoid one-frame all-muted flash
+function activateSources(wrapper: HTMLElement, active: Set<string>): void {
+  nodesByCategory(wrapper, SOURCE_IDS).forEach(el => {
+    const on = active.has(el.dataset.nodeId!);
+    el.classList.toggle('brm-active', on);
+    el.classList.toggle('brm-muted', !on);
+    if (on) {
+      el.classList.add('brm-seq-activate');
+      setTimeout(() => el.classList.remove('brm-seq-activate'), 400);
+    }
+  });
+}
+
+// Immediate final state — used for reduced-motion and initial render
+function applyFinalState(wrapper: HTMLElement, active: Set<string>): void {
+  wrapper.querySelectorAll<HTMLElement>('[data-node-id]').forEach(el => {
+    const on = active.has(el.dataset.nodeId!);
+    el.classList.toggle('brm-active', on);
+    el.classList.toggle('brm-muted', !on);
+  });
+  wrapper.querySelectorAll<HTMLElement>('[data-rail-node-id]').forEach(el => {
+    const on = active.has(el.dataset.railNodeId!);
+    el.classList.toggle('brm-rail--active', on);
+    el.classList.toggle('brm-rail--muted', !on);
+  });
 }
 
 // ─── Mobile strip ─────────────────────────────────────────────────────────────
