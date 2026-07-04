@@ -1,0 +1,130 @@
+export type Maturity = 'live' | 'modernising' | 'sandbox' | 'emerging';
+export type ZoneId = 'channels' | 'controls' | 'route' | 'rails' | 'settlement' | 'ledgers';
+
+export interface RouteNode {
+  id: string;
+  label: string;
+  zone: ZoneId;
+  maturity?: Maturity;
+}
+
+export interface PathSegment {
+  from: string;
+  to: string;
+}
+
+export interface RouteScenario {
+  id: string;
+  label: string;
+  maturity: Maturity;
+  maturityLabel: string;
+  caption: string;
+  activeNodes: string[];
+  // Cross-zone paths only — intra-zone connections are implied by active highlighting
+  pathSegments: PathSegment[];
+  mobileStrip: string[];
+  ariaDescription: string;
+}
+
+export const ROUTE_ZONES: { id: ZoneId; label: string }[] = [
+  { id: 'channels',   label: 'Channels' },
+  { id: 'controls',   label: 'Controls' },
+  { id: 'route',      label: 'Route decision' },
+  { id: 'rails',      label: 'Rails / networks' },
+  { id: 'settlement', label: 'Settlement' },
+  { id: 'ledgers',    label: 'Ledgers & evidence' },
+];
+
+export const ROUTE_NODES: RouteNode[] = [
+  // Channels
+  { id: 'retail-mobile',   label: 'Retail mobile',    zone: 'channels' },
+  { id: 'corp-portal',     label: 'Corporate portal', zone: 'channels' },
+  { id: 'capital-markets', label: 'Capital markets',  zone: 'channels' },
+  // Controls
+  { id: 'identity-consent',    label: 'Identity & consent',    zone: 'controls' },
+  { id: 'financial-crime',     label: 'Financial crime',        zone: 'controls' },
+  { id: 'limits-policy',       label: 'Limits & policy',        zone: 'controls' },
+  { id: 'custody-eligibility', label: 'Custody & eligibility',  zone: 'controls' },
+  // Route decision — rendered as one block with chips, not individual nodes
+  { id: 'route-decision', label: 'Route decision', zone: 'route' },
+  // Rails
+  { id: 'faster-payments',    label: 'Faster Payments',        zone: 'rails', maturity: 'live' },
+  { id: 'chaps-rtgs',         label: 'CHAPS / RTGS',           zone: 'rails', maturity: 'modernising' },
+  { id: 'tokenised-asset-net', label: 'Tokenised asset network', zone: 'rails', maturity: 'sandbox' },
+  // Settlement
+  { id: 'scheme-confirm', label: 'Scheme confirmation', zone: 'settlement' },
+  { id: 'rtgs-finality',  label: 'RTGS finality',        zone: 'settlement' },
+  { id: 'dvp',            label: 'DvP',                  zone: 'settlement' },
+  { id: 'cash-leg',       label: 'Cash leg',             zone: 'settlement' },
+  { id: 'asset-leg',      label: 'Asset leg',            zone: 'settlement' },
+  // Ledgers
+  { id: 'customer-ledger', label: 'Customer ledger', zone: 'ledgers' },
+  { id: 'general-ledger',  label: 'General ledger',  zone: 'ledgers' },
+  { id: 'custody-ledger',  label: 'Custody ledger',  zone: 'ledgers' },
+  { id: 'token-ledger',    label: 'Token ledger',    zone: 'ledgers' },
+  { id: 'reconciliation',  label: 'Reconciliation',  zone: 'ledgers' },
+  { id: 'audit-evidence',  label: 'Audit evidence',  zone: 'ledgers' },
+];
+
+export const ROUTE_DECISION_CHIPS = ['Liability', 'Liquidity', 'Finality', 'Compliance', 'Reconciliation'];
+
+export const SCENARIOS: RouteScenario[] = [
+  {
+    id: 'domestic',
+    label: 'UK domestic payment',
+    maturity: 'live',
+    maturityLabel: 'LIVE',
+    caption: "Domestic account payment is already digital. The bank's job is not to find a blockchain. It is to decide whether the instruction is authorised, safe, within limits, liquid and reconcilable before it reaches Faster Payments or CHAPS.",
+    activeNodes: [
+      'retail-mobile', 'corp-portal',
+      'identity-consent', 'financial-crime', 'limits-policy',
+      'route-decision',
+      'faster-payments', 'chaps-rtgs',
+      'scheme-confirm', 'rtgs-finality',
+      'customer-ledger', 'reconciliation',
+    ],
+    pathSegments: [
+      { from: 'retail-mobile',  to: 'identity-consent' },
+      { from: 'limits-policy',  to: 'route-decision' },
+      { from: 'route-decision', to: 'faster-payments' },
+      { from: 'route-decision', to: 'chaps-rtgs' },
+      { from: 'faster-payments', to: 'scheme-confirm' },
+      { from: 'chaps-rtgs',     to: 'rtgs-finality' },
+      { from: 'scheme-confirm', to: 'customer-ledger' },
+      { from: 'rtgs-finality',  to: 'customer-ledger' },
+    ],
+    mobileStrip: [
+      'retail-mobile', 'identity-consent', 'route-decision',
+      'faster-payments', 'scheme-confirm', 'customer-ledger',
+    ],
+    ariaDescription: 'UK domestic payment route: retail mobile or corporate portal through identity and consent, financial crime checks, limits and policy, route decision — then Faster Payments or CHAPS to scheme confirmation or RTGS finality — ending in the customer ledger and reconciliation.',
+  },
+  {
+    id: 'tokenised',
+    label: 'Tokenised asset settlement',
+    maturity: 'sandbox',
+    maturityLabel: 'SANDBOX / EMERGING',
+    caption: "Tokenised asset settlement changes what moves. The asset, cash leg and rules can be coordinated digitally, but custody, eligibility, legal finality, audit evidence and reconciliation still decide whether the model is bank-grade.",
+    activeNodes: [
+      'capital-markets',
+      'custody-eligibility', 'financial-crime',
+      'route-decision',
+      'tokenised-asset-net',
+      'dvp', 'cash-leg', 'asset-leg',
+      'custody-ledger', 'general-ledger', 'token-ledger', 'audit-evidence',
+    ],
+    pathSegments: [
+      { from: 'capital-markets',    to: 'custody-eligibility' },
+      { from: 'financial-crime',    to: 'route-decision' },
+      { from: 'route-decision',     to: 'tokenised-asset-net' },
+      { from: 'tokenised-asset-net', to: 'dvp' },
+      { from: 'cash-leg',           to: 'general-ledger' },
+      { from: 'asset-leg',          to: 'token-ledger' },
+    ],
+    mobileStrip: [
+      'capital-markets', 'custody-eligibility', 'route-decision',
+      'tokenised-asset-net', 'dvp', 'audit-evidence',
+    ],
+    ariaDescription: 'Tokenised asset settlement route: capital markets through custody and eligibility, financial crime checks, route decision — then tokenised asset network to DvP with cash leg and asset leg — ending in custody ledger, general ledger, token ledger and audit evidence. This route is sandbox and emerging only.',
+  },
+];
