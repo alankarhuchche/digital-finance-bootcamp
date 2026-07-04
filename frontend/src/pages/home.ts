@@ -2,6 +2,7 @@ import { MODULE_INDEX, CATEGORIES } from '../content/registry';
 import { isComplete } from '../progress';
 import { staggerEntrance } from '../animate';
 import { renderRailExplorer } from '../viz/railExplorer';
+import { renderBankRouteMap } from '../viz/bankRouteMap';
 
 export function renderHomePage(
   app: HTMLElement,
@@ -39,10 +40,18 @@ export function renderHomePage(
     </div>
 
     <nav class="homepage-jump" aria-label="Jump to section">
+      <a href="#route-section" class="jump-link">Route map</a>
       <a href="#rails-section" class="jump-link">Explore rails</a>
       <a href="#finality-section" class="jump-link">See finality gap</a>
       <a href="#topics-section" class="jump-link">Browse topics</a>
     </nav>
+
+    <section class="brm-section" id="route-section">
+      <h2 class="section-heading">The Bank Route Map</h2>
+      <p class="section-intro">A controlled route map across today's rails and emerging digital-finance networks.</p>
+      <p class="brm-supporting">One instruction can travel through many rails. The bank's job is to choose the route that satisfies liability, liquidity, finality, compliance, reconciliation and evidence.</p>
+      <div id="bankRouteMapMount"></div>
+    </section>
 
     <section class="rail-explorer-section" id="rails-section">
       <h2 class="section-heading">Explore the rails</h2>
@@ -75,6 +84,10 @@ export function renderHomePage(
       target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  // Bank Route Map
+  const routeMapMount = app.querySelector<HTMLElement>('#bankRouteMapMount');
+  if (routeMapMount) renderBankRouteMap(routeMapMount);
 
   // Rail Explorer — load immediately (already bundled)
   const explorerMount = app.querySelector<HTMLElement>('#railExplorerMount');
