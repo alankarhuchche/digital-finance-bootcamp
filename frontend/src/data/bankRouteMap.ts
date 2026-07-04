@@ -13,6 +13,14 @@ export interface PathSegment {
   to: string;
 }
 
+export interface RouteInsight {
+  routeType: string;
+  controlFocus: string;
+  settlementModel: string;
+  mainRisk: string;
+  judgement: string;
+}
+
 export interface RouteScenario {
   id: string;
   label: string;
@@ -24,6 +32,7 @@ export interface RouteScenario {
   pathSegments: PathSegment[];
   mobileStrip: string[];
   ariaDescription: string;
+  insight: RouteInsight;
 }
 
 export const ROUTE_ZONES: { id: ZoneId; label: string }[] = [
@@ -106,6 +115,13 @@ export const SCENARIOS: RouteScenario[] = [
       'faster-payments', 'scheme-confirm', 'customer-ledger',
     ],
     ariaDescription: 'UK domestic payment route: retail mobile or corporate portal through identity and consent, financial crime checks, limits and policy, route decision — then Faster Payments or CHAPS to scheme confirmation or RTGS finality — ending in the customer ledger and reconciliation.',
+    insight: {
+      routeType: 'UK account rail',
+      controlFocus: 'Authentication, fraud, limits, liquidity and customer protection',
+      settlementModel: 'Faster Payments confirmation or CHAPS / RTGS finality depending on value and urgency',
+      mainRisk: 'Authorised push-payment fraud, limit policy, liquidity and exception handling',
+      judgement: 'The bank does not need a new rail for every domestic payment. The value is deciding whether the instruction is authorised, safe, liquid and reconcilable before it reaches the rail.',
+    },
   },
   {
     id: 'tokenised',
@@ -127,6 +143,13 @@ export const SCENARIOS: RouteScenario[] = [
       'tokenised-asset-net', 'dvp', 'audit-evidence',
     ],
     ariaDescription: 'Tokenised asset settlement route: capital markets through custody and eligibility, financial crime checks, route decision — then tokenised asset network to DvP with cash leg and asset leg — ending in custody ledger, general ledger, token ledger and audit evidence. This route is sandbox and emerging only.',
+    insight: {
+      routeType: 'Tokenised asset DvP',
+      controlFocus: 'Eligibility, custody, asset servicing, settlement finality, audit evidence and reconciliation',
+      settlementModel: 'Digital asset leg and cash leg coordinated through DvP',
+      mainRisk: 'Custody, legal finality, failed settlement, asset servicing, dispute handling and evidence quality',
+      judgement: 'Tokenisation changes what moves and how rules execute, but a bank still needs custody, eligibility, legal finality, audit evidence and reconciliation before the model is bank-grade.',
+    },
   },
   {
     id: 'cross-border',
@@ -148,6 +171,13 @@ export const SCENARIOS: RouteScenario[] = [
       'swift-correspondent', 'correspondent-settle', 'nostro-vostro',
     ],
     ariaDescription: 'Cross-border supplier payment route: corporate portal or API through identity and consent, financial crime checks, limits and policy, route decision — then SWIFT or correspondent banking to correspondent settlement — ending in general ledger, nostro and vostro accounts, reconciliation and regulatory evidence.',
+    insight: {
+      routeType: 'Correspondent banking route',
+      controlFocus: 'Sanctions, AML, FX, liquidity, nostro funding and exception handling',
+      settlementModel: 'SWIFT message flow with correspondent settlement and nostro / vostro reconciliation',
+      mainRisk: 'Settlement timing, trapped liquidity, repair queues, sanctions hits and reconciliation breaks',
+      judgement: 'ISO 20022 improves the data carried with the instruction, but it does not remove the operating weight of correspondent settlement, liquidity and exceptions.',
+    },
   },
   {
     id: 'stablecoin',
@@ -169,5 +199,12 @@ export const SCENARIOS: RouteScenario[] = [
       'stablecoin-network', 'blockchain-finality', 'token-ledger',
     ],
     ariaDescription: 'Stablecoin payment route: corporate portal or API through financial crime checks, custody and eligibility screening, route decision — then stablecoin network to blockchain finality with off-ramp — ending in token ledger, custody ledger, reconciliation and regulatory evidence. This route is emerging only.',
+    insight: {
+      routeType: 'External token-money route',
+      controlFocus: 'Eligibility, wallet screening, sanctions, custody, off-ramp and reconciliation',
+      settlementModel: 'Blockchain finality plus issuer redemption, off-ramp and legal-finality assessment',
+      mainRisk: 'Issuer model, jurisdiction, wallet risk, sanctions exposure, off-ramp dependency and ledger reconciliation',
+      judgement: 'Stablecoin payment can change the settlement venue, but it does not remove bank controls. Blockchain finality is technical confirmation; legal settlement finality depends on issuer model, jurisdiction and contractual treatment.',
+    },
   },
 ];

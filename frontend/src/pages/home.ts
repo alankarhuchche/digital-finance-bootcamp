@@ -47,8 +47,7 @@ export function renderHomePage(
     </nav>
 
     <section class="brm-section" id="route-section">
-      <h2 class="section-heading">The Bank Route Map</h2>
-      <p class="section-intro">A controlled route map across today's rails and emerging digital-finance networks.</p>
+      <h2 class="section-heading">From instruction to evidence</h2>
       <p class="brm-supporting">One instruction can travel through many rails. The bank's job is to choose the route that satisfies liability, liquidity, finality, compliance, reconciliation and evidence.</p>
       <div id="bankRouteMapMount"></div>
     </section>

@@ -141,7 +141,7 @@ button.nav-item {
 }
 
 @media (min-width: 1200px) {
-  #app { padding: 40px 60px; }
+  #app { padding: 40px 60px; max-width: 1100px; }
 }
 
 /* ============ Typography ============ */
@@ -1745,8 +1745,16 @@ svg.world-map { width: 100%; height: auto; display: block; }
 }
 
 /* Caption */
+.brm-below-map {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin-top: 14px;
+}
+
 .brm-caption-wrap {
-  margin-top: 14px; padding: 11px 14px;
+  margin-top: 0; padding: 11px 14px;
   border-left: 2px solid rgba(232,163,61,0.4);
   background: rgba(255,255,255,0.018); border-radius: 0 4px 4px 0;
 }
@@ -1755,6 +1763,42 @@ svg.world-map { width: 100%; height: auto; display: block; }
   transition: opacity 0.11s ease;
 }
 .brm-caption--out { opacity: 0; }
+
+/* Route Insight Panel */
+.brm-insight-panel {
+  margin-top: 0;
+  border: 1px solid rgba(232,163,61,0.18);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.012);
+  overflow: hidden;
+  transition: opacity 0.11s ease;
+}
+.brm-insight--out { opacity: 0; }
+.brm-insight-header {
+  padding: 7px 13px 6px;
+  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(232,163,61,0.7); font-weight: 600;
+  border-bottom: 1px solid rgba(232,163,61,0.12);
+}
+.brm-insight-fields { margin: 0; padding: 0; }
+.brm-insight-row {
+  display: grid; grid-template-columns: 100px 1fr;
+  gap: 0 10px; padding: 6px 13px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.brm-insight-row:last-child { border-bottom: none; }
+.brm-insight-row--judgement { background: rgba(255,255,255,0.018); }
+.brm-insight-label {
+  font-size: 11px; color: var(--text-dim); font-weight: 500;
+  line-height: 1.5; padding-top: 1px;
+}
+.brm-insight-value {
+  font-size: 12px; color: var(--text); line-height: 1.55;
+  margin: 0;
+}
+.brm-insight-row--judgement .brm-insight-value {
+  font-style: italic; color: var(--text-dim);
+}
 
 /* aria-live (visually hidden) */
 .brm-sr-live {
@@ -1798,6 +1842,22 @@ svg.world-map { width: 100%; height: auto; display: block; }
     text-align: center; color: var(--text-dim); font-size: 18px;
     line-height: 1; padding: 3px 0;
   }
+
+  /* Below-map wrapper: revert to stack on mobile */
+  .brm-below-map {
+    display: block;
+  }
+  .brm-caption-wrap { margin-top: 14px; }
+  .brm-insight-panel { margin-top: 10px; }
+
+  /* Insight panel: single-column stacked on mobile */
+  .brm-insight-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding: 8px 13px;
+  }
+  .brm-insight-label { font-size: 10px; }
+  .brm-insight-value { font-size: 12px; }
 }
 
 /* ── Motion choreography ── */
@@ -1853,7 +1913,7 @@ svg.world-map { width: 100%; height: auto; display: block; }
 @media (prefers-reduced-motion: reduce) {
   .brm-source, .brm-gate, .brm-core, .brm-rail, .brm-rail-track,
   .brm-rail-terminal, .brm-terminal-leg, .brm-ledger,
-  .brm-caption, .brm-scenario-btn { transition: none; }
+  .brm-caption, .brm-insight-panel, .brm-scenario-btn { transition: none; }
 
   .brm-seq-activate,
   .brm-core--pulse,

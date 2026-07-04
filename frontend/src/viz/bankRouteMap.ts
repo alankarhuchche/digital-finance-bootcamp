@@ -78,8 +78,36 @@ function buildShell(): string {
       <div class="brm-strip-nodes"></div>
     </div>
 
+    <div class="brm-below-map">
     <div class="brm-caption-wrap">
       <p class="brm-caption"></p>
+    </div>
+
+    <div class="brm-insight-panel">
+      <div class="brm-insight-header">Route insight</div>
+      <dl class="brm-insight-fields">
+        <div class="brm-insight-row">
+          <dt class="brm-insight-label">Route type</dt>
+          <dd class="brm-insight-value" data-insight="routeType"></dd>
+        </div>
+        <div class="brm-insight-row">
+          <dt class="brm-insight-label">Control focus</dt>
+          <dd class="brm-insight-value" data-insight="controlFocus"></dd>
+        </div>
+        <div class="brm-insight-row">
+          <dt class="brm-insight-label">Settlement model</dt>
+          <dd class="brm-insight-value" data-insight="settlementModel"></dd>
+        </div>
+        <div class="brm-insight-row">
+          <dt class="brm-insight-label">Main operating risk</dt>
+          <dd class="brm-insight-value" data-insight="mainRisk"></dd>
+        </div>
+        <div class="brm-insight-row brm-insight-row--judgement">
+          <dt class="brm-insight-label">Practitioner judgement</dt>
+          <dd class="brm-insight-value" data-insight="judgement"></dd>
+        </div>
+      </dl>
+    </div>
     </div>
 
     <div role="status" aria-live="polite" class="brm-sr-live"></div>`;
@@ -238,6 +266,21 @@ function applyScenario(wrapper: HTMLElement, scenario: RouteScenario): void {
     }, 110);
   }
 
+  // ── Insight panel crossfade ──
+  const panel = wrapper.querySelector<HTMLElement>('.brm-insight-panel');
+  if (panel) {
+    panel.classList.add('brm-insight--out');
+    setTimeout(() => {
+      if (seqToken !== token) return;
+      const ins = scenario.insight;
+      (['routeType', 'controlFocus', 'settlementModel', 'mainRisk', 'judgement'] as const).forEach(key => {
+        const el = panel.querySelector<HTMLElement>(`[data-insight="${key}"]`);
+        if (el) el.textContent = ins[key];
+      });
+      panel.classList.remove('brm-insight--out');
+    }, 110);
+  }
+
   // ── aria-live: announce scenario, not individual steps ──
   const live = wrapper.querySelector<HTMLElement>('.brm-sr-live');
   if (live) live.textContent = scenario.ariaDescription;
@@ -247,7 +290,7 @@ function applyScenario(wrapper: HTMLElement, scenario: RouteScenario): void {
 
   // ── Reduced motion: skip choreography, apply final state immediately ──
   if (reduced) {
-    applyFinalState(wrapper, active);
+    applyFinalState(wrapper, active, scenario);
     return;
   }
 
@@ -364,7 +407,7 @@ function activateSources(wrapper: HTMLElement, active: Set<string>): void {
 }
 
 // Immediate final state — used for reduced-motion and initial render
-function applyFinalState(wrapper: HTMLElement, active: Set<string>): void {
+function applyFinalState(wrapper: HTMLElement, active: Set<string>, scenario?: RouteScenario): void {
   wrapper.querySelectorAll<HTMLElement>('[data-node-id]').forEach(el => {
     const on = active.has(el.dataset.nodeId!);
     el.classList.toggle('brm-active', on);
@@ -375,6 +418,16 @@ function applyFinalState(wrapper: HTMLElement, active: Set<string>): void {
     el.classList.toggle('brm-rail--active', on);
     el.classList.toggle('brm-rail--muted', !on);
   });
+  if (scenario) {
+    const panel = wrapper.querySelector<HTMLElement>('.brm-insight-panel');
+    if (panel) {
+      const ins = scenario.insight;
+      (['routeType', 'controlFocus', 'settlementModel', 'mainRisk', 'judgement'] as const).forEach(key => {
+        const el = panel.querySelector<HTMLElement>(`[data-insight="${key}"]`);
+        if (el) el.textContent = ins[key];
+      });
+    }
+  }
 }
 
 // ─── Mobile strip ─────────────────────────────────────────────────────────────
