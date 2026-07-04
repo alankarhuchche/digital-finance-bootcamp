@@ -50,6 +50,9 @@ export function renderHomePage(
       <h2 class="section-heading">From instruction to evidence</h2>
       <p class="brm-supporting">One instruction can travel through many rails. The bank's job is to choose the route that satisfies liability, liquidity, finality, compliance, reconciliation and evidence.</p>
       <div id="bankRouteMapMount"></div>
+      <div class="brm-topics-cta">
+        <a href="#topics-section" class="brm-topics-link">Explore all 23 topics →</a>
+      </div>
     </section>
 
     <section class="rail-explorer-section" id="rails-section">
@@ -75,8 +78,8 @@ export function renderHomePage(
     </div>
   `;
 
-  // Jump links — smooth scroll to anchors
-  app.querySelectorAll<HTMLElement>('.jump-link').forEach(link => {
+  // Smooth scroll for all anchor links in the homepage (jump links + topic CTA)
+  app.querySelectorAll<HTMLElement>('.jump-link, .brm-topics-link').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const target = app.querySelector(link.getAttribute('href')!);

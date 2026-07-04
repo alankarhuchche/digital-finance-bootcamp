@@ -199,6 +199,15 @@ h2, .block-heading {
 .jump-link:hover { border-color: var(--amber); color: var(--text); }
 .jump-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 
+@media (max-width: 767px) {
+  .homepage-jump { gap: 10px; margin: 24px 0 8px; }
+  .jump-link {
+    padding: 10px 16px; font-size: 13px;
+    border-color: rgba(232,163,61,0.3);
+    background: rgba(232,163,61,0.05);
+  }
+}
+
 /* ============ Hero contrast ============ */
 .hero-contrast {
   display: grid;
@@ -1471,6 +1480,18 @@ svg.world-map { width: 100%; height: auto; display: block; }
 
 /* ============ Bank Route Map ============ */
 .brm-section { margin: 32px 0 36px; }
+.brm-topics-cta {
+  display: flex; justify-content: flex-end;
+  margin-top: 16px;
+}
+.brm-topics-link {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px; color: var(--amber);
+  text-decoration: none;
+  transition: opacity 0.12s;
+}
+.brm-topics-link:hover { opacity: 0.75; }
+.brm-topics-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
 .brm-supporting {
   font-size: 13px; color: var(--text-dim); line-height: 1.6;
   margin: 0 0 20px; max-width: 680px;
@@ -1849,6 +1870,7 @@ svg.world-map { width: 100%; height: auto; display: block; }
   }
   .brm-caption-wrap { margin-top: 14px; }
   .brm-insight-panel { margin-top: 10px; }
+  .brm-topics-cta { justify-content: flex-start; }
 
   /* Insight panel: single-column stacked on mobile */
   .brm-insight-row {
