@@ -15,8 +15,8 @@ const MATURITY_LABELS: Record<string, string> = {
 // Node category sets — used for sequenced activation
 const SOURCE_IDS   = new Set(ROUTE_NODES.filter(n => n.zone === 'channels').map(n => n.id));
 const GATE_IDS     = new Set(ROUTE_NODES.filter(n => n.zone === 'controls').map(n => n.id));
-const TERMINAL_IDS = new Set(['scheme-confirm', 'rtgs-finality', 'dvp']);
-const LEG_IDS      = new Set(['cash-leg', 'asset-leg']);
+const TERMINAL_IDS = new Set(['scheme-confirm', 'rtgs-finality', 'correspondent-settle', 'blockchain-finality', 'dvp']);
+const LEG_IDS      = new Set(['cash-leg', 'asset-leg', 'off-ramp']);
 const LEDGER_IDS   = new Set(ROUTE_NODES.filter(n => n.zone === 'ledgers').map(n => n.id));
 
 // Cancellation token — incremented on every scenario switch
@@ -136,6 +136,22 @@ function buildRailsPanel(): string {
       terminalNodeId: 'rtgs-finality',
       terminalLabel: 'RTGS finality',
       legs: null,
+    },
+    {
+      nodeId: 'swift-correspondent',
+      label: 'SWIFT / correspondent',
+      maturity: 'modernising',
+      terminalNodeId: 'correspondent-settle',
+      terminalLabel: 'Correspondent settlement',
+      legs: null,
+    },
+    {
+      nodeId: 'stablecoin-network',
+      label: 'Stablecoin network',
+      maturity: 'emerging',
+      terminalNodeId: 'blockchain-finality',
+      terminalLabel: 'Blockchain finality',
+      legs: [{ id: 'off-ramp', label: 'Off-ramp' }],
     },
     {
       nodeId: 'tokenised-asset-net',
@@ -274,7 +290,7 @@ function applyScenario(wrapper: HTMLElement, scenario: RouteScenario): void {
       const on = active.has(el.dataset.railNodeId!);
       el.classList.toggle('brm-rail--active', on);
       el.classList.toggle('brm-rail--muted', !on);
-      if (on && el.dataset.maturity !== 'sandbox') {
+      if (on && el.dataset.maturity !== 'sandbox' && el.dataset.maturity !== 'emerging') {
         el.classList.add('brm-rail--shimmer');
         setTimeout(() => {
           if (seqToken !== token) return;

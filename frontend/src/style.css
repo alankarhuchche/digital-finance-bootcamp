@@ -1664,6 +1664,17 @@ svg.world-map { width: 100%; height: auto; display: block; }
   );
 }
 
+/* EMERGING: dashed amber — less confident than LIVE/MODERNISING, not yet a working rail */
+.brm-rail[data-maturity="emerging"] .brm-rail-track {
+  height: 0;
+  overflow: visible;
+  border-bottom: 2px dashed rgba(232,163,61,0.28);
+  margin-bottom: 2px;
+}
+.brm-rail[data-maturity="emerging"].brm-rail--active .brm-rail-track {
+  border-bottom-color: rgba(232,163,61,0.65);
+}
+
 /* SANDBOX: dotted purple */
 .brm-rail[data-maturity="sandbox"] .brm-rail-track {
   height: 0;
@@ -1812,7 +1823,7 @@ svg.world-map { width: 100%; height: auto; display: block; }
   from { transform: translateX(-200%); }
   to   { transform: translateX(400%); }
 }
-.brm-rail--shimmer:not([data-maturity="sandbox"]) .brm-rail-track::after {
+.brm-rail--shimmer:not([data-maturity="sandbox"]):not([data-maturity="emerging"]) .brm-rail-track::after {
   content: '';
   position: absolute; inset: 0; width: 40%;
   background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%);
@@ -1848,7 +1859,7 @@ svg.world-map { width: 100%; height: auto; display: block; }
   .brm-core--pulse,
   .brm-seq-lock { animation: none; }
 
-  .brm-rail--shimmer:not([data-maturity="sandbox"]) .brm-rail-track::after {
+  .brm-rail--shimmer:not([data-maturity="sandbox"]):not([data-maturity="emerging"]) .brm-rail-track::after {
     display: none;
   }
 }
