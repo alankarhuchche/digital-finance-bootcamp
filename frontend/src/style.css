@@ -2152,6 +2152,40 @@ svg.world-map { width: 100%; height: auto; display: block; }
   padding-top: 12px;
 }
 
+/* Flow sequence nodes — show movement order through active layers */
+.wmv-seq-node {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+.wmv-seq-node--active {
+  opacity: 1;
+  border-color: var(--wmv-accent, var(--amber));
+  color: var(--wmv-accent, var(--amber));
+}
+.wmv-seq-node--pulse {
+  opacity: 1;
+  border-color: var(--wmv-accent, var(--amber));
+  color: var(--wmv-accent, var(--amber));
+  animation: wmv-seq-pulse 0.65s ease forwards;
+}
+@keyframes wmv-seq-pulse {
+  0%   { opacity: 0.3; transform: scale(0.75); }
+  45%  { opacity: 1;   transform: scale(1.18); }
+  100% { opacity: 1;   transform: scale(1); }
+}
+
 /* Mobile */
 @media (max-width: 767px) {
   .wmv-wrap { padding: 14px 12px 12px; gap: 8px; overflow: hidden; }
@@ -2161,6 +2195,7 @@ svg.world-map { width: 100%; height: auto; display: block; }
   .wmv-layer-label { font-size: 12px; }
   .wmv-layer-sub { font-size: 10px; }
   .wmv-glyph { display: none; }
+  .wmv-seq-node { width: 16px; height: 16px; font-size: 8px; }
   .wmv-subtitle { font-size: 11px; overflow-wrap: break-word; word-break: break-word; white-space: normal; }
   .wmv-layer-sub { overflow-wrap: break-word; word-break: break-word; }
 }
@@ -2168,4 +2203,6 @@ svg.world-map { width: 100%; height: auto; display: block; }
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .wmv-layer, .wmv-caption { transition: none; }
+  .wmv-seq-node { transition: none; }
+  .wmv-seq-node--pulse { animation: none; }
 }

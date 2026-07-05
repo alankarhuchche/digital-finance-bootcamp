@@ -1,6 +1,7 @@
 // whatMovesVisual.ts
 // What Actually Moves — layered canvas visual.
 // Four modes: Today's account payment · DLT same network · DLT across networks · Stablecoin access.
+// Phase 8: flow sequence markers — numbered nodes activate in mode.sequence order, not DOM order.
 
 interface WmvLayer {
   id: string;
@@ -239,6 +240,7 @@ export function renderWhatMovesVisual(container: HTMLElement): void {
     row.style.setProperty('--wmv-accent', layer.accentColor);
     row.innerHTML = `
       <span class="wmv-layer-num" aria-hidden="true">0${i + 1}</span>
+      <span class="wmv-seq-node" aria-hidden="true"></span>
       <span class="wmv-layer-main">
         <span class="wmv-layer-label">${layer.label}</span>
         <span class="wmv-layer-sub">${layer.sublabel}</span>
@@ -268,7 +270,7 @@ function applyMode(wrap: HTMLElement, mode: WmvMode): void {
     btn.classList.toggle('wmv-mode-btn--active', isActive);
   });
 
-  // Reset all layers to muted immediately; restore default sublabels then apply overrides
+  // Reset all layers to muted immediately; restore default sublabels then apply overrides; clear seq nodes
   wrap.querySelectorAll<HTMLElement>('.wmv-layer').forEach(row => {
     row.classList.remove('wmv-layer--active');
     row.classList.add('wmv-layer--muted');
@@ -277,6 +279,11 @@ function applyMode(wrap: HTMLElement, mode: WmvMode): void {
     const subEl = row.querySelector<HTMLElement>('.wmv-layer-sub');
     if (subEl && defaultLayer) {
       subEl.textContent = mode.sublabelOverrides?.[layerId] ?? defaultLayer.sublabel;
+    }
+    const seqNode = row.querySelector<HTMLElement>('.wmv-seq-node');
+    if (seqNode) {
+      seqNode.textContent = '';
+      seqNode.className = 'wmv-seq-node';
     }
   });
 
@@ -287,8 +294,12 @@ function applyMode(wrap: HTMLElement, mode: WmvMode): void {
   }
 
   if (prefersReducedMotion()) {
-    // Apply full final state immediately — no timeouts
-    mode.activeIds.forEach(id => activateLayer(wrap, id));
+    // Apply full final state immediately — no timeouts; seq nodes appear without animation
+    // token passed but irrelevant here: no setTimeout fires in the false-animate path
+    mode.sequence.forEach(({ layerId }, idx) => {
+      activateLayer(wrap, layerId);
+      activateSeqNode(wrap, layerId, idx + 1, false, token);
+    });
     if (caption) {
       caption.textContent = mode.caption;
       caption.style.opacity = '1';
@@ -296,11 +307,12 @@ function applyMode(wrap: HTMLElement, mode: WmvMode): void {
     return;
   }
 
-  // Sequenced activation
-  mode.sequence.forEach(({ layerId, delay }) => {
+  // Sequenced activation — layer row + seq node in the same callback, same token guard
+  mode.sequence.forEach(({ layerId, delay }, idx) => {
     setTimeout(() => {
       if (seqToken !== token) return;
       activateLayer(wrap, layerId);
+      activateSeqNode(wrap, layerId, idx + 1, true, token);
     }, delay);
   });
 
@@ -319,4 +331,25 @@ function activateLayer(wrap: HTMLElement, layerId: string): void {
   if (!row) return;
   row.classList.remove('wmv-layer--muted');
   row.classList.add('wmv-layer--active');
+}
+
+// Activates a flow sequence node on the given layer row.
+// stepNum is the 1-based position in the mode's sequence (reflects mode order, not DOM order).
+// animate: true = brief pulse, then settles; false = instant final state (reduced-motion path).
+// token: the seqToken value at the time of scheduling — pulse cleanup checks it before mutating.
+function activateSeqNode(wrap: HTMLElement, layerId: string, stepNum: number, animate: boolean, token: number): void {
+  const row = wrap.querySelector<HTMLElement>(`.wmv-layer[data-layer-id="${layerId}"]`);
+  if (!row) return;
+  const seqNode = row.querySelector<HTMLElement>('.wmv-seq-node');
+  if (!seqNode) return;
+  seqNode.textContent = String(stepNum);
+  if (animate) {
+    seqNode.className = 'wmv-seq-node wmv-seq-node--pulse';
+    setTimeout(() => {
+      if (seqToken !== token) return;
+      seqNode.className = 'wmv-seq-node wmv-seq-node--active';
+    }, 680);
+  } else {
+    seqNode.className = 'wmv-seq-node wmv-seq-node--active';
+  }
 }

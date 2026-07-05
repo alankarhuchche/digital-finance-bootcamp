@@ -360,6 +360,14 @@ Scope:
 - INTEGRATION_STALENESS_REVIEW run and passed.
 Quality gates run: All seven gates including INTEGRATION_STALENESS_REVIEW.
 
+### Phase 7 — Connected-flow review (complete, review-only)
+Scope: read-only review assessing whether the visual communicates movement or only row highlighting.
+Finding: visual was accurate but read as a row highlighter. Sequence of activation existed but left no permanent trace. A connected-flow overlay was recommended. Connector lines deferred due to Mode 4 non-top-to-bottom sequence. Sequence nodes approved for Phase 8.
+
+### Phase 8 — Flow sequence markers (complete)
+Added subtle numbered sequence nodes derived from `mode.sequence`. Connector lines deliberately deferred because Mode 4 sequence is not top-to-bottom.
+Quality gates run: All seven gates including INTEGRATION_STALENESS_REVIEW. All pass.
+
 ---
 
 ## Testing and validation checklist
