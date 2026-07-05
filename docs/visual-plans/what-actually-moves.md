@@ -1,13 +1,17 @@
 # What Actually Moves? — Implementation Plan
 
 ## Status
-Phase 0 complete. Phase 1 not yet approved.
+Complete. All implementation phases are complete.
+
+Route confirmed: `/topic/what-actually-moves`.
+
+Final visual modes: Today's account payment, DLT same network, DLT across networks, Stablecoin access.
 
 ## Page identity
 
 **Title:** What actually moves?
 **Subtitle:** A simple guide to messages, money, ledgers, settlement and tokenised value.
-**Route:** `/topic/what-actually-moves` (to be confirmed at Phase 1)
+**Route:** `/topic/what-actually-moves`
 **Position:** First conceptual page under DLT Basics, before deeper DLT platform, smart-contract, tokenisation or stablecoin topics.
 **Audience:** Senior banking, payments, engineering, risk and strategy practitioners.
 
@@ -302,7 +306,7 @@ Framing: present old rails as modernising infrastructure that DLT sits alongside
 Output: `docs/visual-plans/what-actually-moves.md` and `docs/quality-gates/*.md`.
 No page implementation.
 
-### Phase 1 — Page skeleton (not yet approved)
+### Phase 1 — Page skeleton (complete)
 Scope:
 - Create topic file and register it under DLT Basics.
 - Add opening thesis.
@@ -312,48 +316,49 @@ Scope:
 - Add short quiz (three to four questions).
 - No custom animation.
 - No visual canvas.
-Quality gates to run: AI_WRITING_REVIEW, PAYMENTS_DLT_ACCURACY_REVIEW, OVERCLAIMING_RISK_REVIEW, MOBILE_ACCESSIBILITY_REVIEW.
+Quality gates run: AI_WRITING_REVIEW, PAYMENTS_DLT_ACCURACY_REVIEW, OVERCLAIMING_RISK_REVIEW, MOBILE_ACCESSIBILITY_REVIEW.
 
-### Phase 2 — Visual MVP (not yet approved)
+### Phase 2 — Visual MVP (complete)
 Scope:
-- Build custom visual with Mode 1 (today's account payment) and Mode 2 (DLT same network) only.
+- Build custom visual with Mode 1 (today's account payment) and Mode 2 (DLT same network).
 - Implement common layer canvas.
 - Add mode selector (pill/tab row).
-- Add mode-specific simple explanation cards below visual.
+- Add mode-specific captions below visual.
 - Add reduced-motion support.
-- Add mobile strip layout.
-Quality gates to run: PREMIUM_VISUAL_REVIEW, ANIMATION_INTERACTION_REVIEW, PAYMENTS_DLT_ACCURACY_REVIEW, MOBILE_ACCESSIBILITY_REVIEW, OVERCLAIMING_RISK_REVIEW.
+- Add mobile wrap layout.
+Quality gates run: PREMIUM_VISUAL_REVIEW, ANIMATION_INTERACTION_REVIEW, PAYMENTS_DLT_ACCURACY_REVIEW, MOBILE_ACCESSIBILITY_REVIEW, OVERCLAIMING_RISK_REVIEW.
 
-### Phase 3 — QA pass (not yet approved)
+### Phase 3 — QA pass (complete)
 Scope:
 - Editorial QA: thesis, cards, matrix, quiz.
-- Visual QA: canvas, modes 1 and 2, mobile strip, reduced-motion.
-- Overclaiming check on all content so far.
+- Visual QA: canvas, modes 1 and 2, mobile layout, reduced-motion.
+- Overclaiming check on all content.
 - Build and console verification.
-Quality gates to run: All six gates.
+Quality gates run: All six gates.
 
-### Phase 4 — Add DLT across networks (not yet approved)
+### Phase 4 — Add DLT across networks (complete)
 Scope:
-- Add Mode 3 (DLT across networks) to visual.
-- Show gateway/issuer/custodian as a control point.
-- Update explanation cards and glossary if needed.
-Quality gates to run: All six gates.
+- Added Mode 3 (DLT across networks) to visual.
+- Interoperability layer shown as a control point.
+- Caption updated with accuracy fix.
+Quality gates run: All six gates.
 
-### Phase 5 — Add stablecoin access mode (not yet approved)
+### Phase 5 — Add stablecoin access mode (complete)
 Scope:
-- Add Mode 4 (stablecoin access by UK bank).
-- Add stablecoin role lens section.
-- Add CARF/reporting layer badge.
-- Confirm bank is not necessarily issuer in all paths.
-Quality gates to run: All six gates.
+- Added Mode 4 (stablecoin access by UK bank).
+- Sublabel override mechanism added for mode-specific layer descriptions.
+- CARF/reporting shown in accounting layer, not settlement layer.
+- Bank explicitly not implied to be issuer.
+Quality gates run: All six gates.
 
-### Phase 6 — Final integration polish (not yet approved)
+### Phase 6 — Final integration polish (complete)
 Scope:
-- Cross-link from DLT Basics, Settlement, Stablecoins and relevant topics.
-- Confirm topic ordering and registry metadata.
-- Confirm topic grid / recently updated behaviour.
-- Final build and full manual QA.
-Quality gates to run: All six gates.
+- Block reorder: old rails stack moved before stablecoin role lens.
+- Registry and module metadata updated to reflect four-mode visual.
+- Visual file header comment updated.
+- Mode 2 caption em-dashes removed.
+- INTEGRATION_STALENESS_REVIEW run and passed.
+Quality gates run: All seven gates including INTEGRATION_STALENESS_REVIEW.
 
 ---
 

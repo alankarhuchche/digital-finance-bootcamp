@@ -7,8 +7,8 @@ const content: ModuleContent = {
   summary: 'Messages, ledger postings, settlement assets and on-ledger tokens are not the same thing. Understanding the difference is the prerequisite for any serious discussion of DLT, stablecoins or tokenised value.',
   ready: true,
   updatedAt: '2026-07-05',
-  changeType: 'expanded',
-  changeSummary: 'Added animated two-mode layer canvas visual.',
+  changeType: 'new',
+  changeSummary: 'Added four-mode animated layer visual.',
   blocks: [
     {
       kind: 'text',
@@ -135,6 +135,45 @@ const content: ModuleContent = {
       },
     },
     {
+      kind: 'stack',
+      heading: 'Old rails: modernising, not obsolete',
+      data: [
+        {
+          id: 'faster-payments',
+          number: '01',
+          label: 'Faster Payments',
+          colorClass: 's1',
+          detail: `Live UK account-to-account rail for retail and SME payments. Payment messages are exchanged in real time and the receiver can be credited quickly; interbank settlement is deferred net settlement through settlement accounts at the Bank of England. The message, customer posting and settlement movement are distinct even in an immediate payment.`,
+          examples: 'Status: LIVE',
+        },
+        {
+          id: 'chaps-rtgs',
+          number: '02',
+          label: 'CHAPS / RTGS',
+          colorClass: 's2',
+          detail: `UK high-value same-day settlement rail. CHAPS and RTGS migrated to ISO 20022 in 2023 and continue to modernise through richer structured data, extended operating hours and RTGS renewal. RTGS settlement is central bank money — this is the settlement asset for UK interbank obligations.`,
+          examples: 'Status: MODERNISING — ISO 20022 live; richer data and hours expanding',
+        },
+        {
+          id: 'swift-cbpr',
+          number: '03',
+          label: 'SWIFT / CBPR+',
+          colorClass: 's3',
+          detail: `Cross-border messaging standard. CBPR+ moved cross-border payment messaging to ISO 20022, giving richer structured data. SWIFT is still a messaging network — settlement occurs through correspondent banking, nostro/vostro balances, local clearing or other settlement arrangements.`,
+          examples: 'Status: MODERNISING — ISO 20022 adoption and data quality still maturing',
+        },
+        {
+          id: 'correspondent',
+          number: '04',
+          label: 'Correspondent banking',
+          colorClass: 's4',
+          detail: `Cross-border settlement mechanism based on nostro and vostro accounts held between banks. Pre-funded liquidity pools settle obligations across borders. Still a core mechanism for cross-border bank payments. Modernising through richer data and compliance tooling, not being replaced.`,
+          examples: 'Status: MODERNISING — remains primary cross-border settlement mechanism',
+        },
+      ],
+      note: `Old rails carry the vast majority of global payment volume. DLT-based models are emerging in controlled, wholesale and prototype contexts. The two operate in parallel.`,
+    },
+    {
       kind: 'matrix',
       heading: 'Stablecoin access by a UK bank: role and obligations',
       data: {
@@ -220,45 +259,6 @@ const content: ModuleContent = {
     {
       kind: 'text',
       body: `CARF (Crypto-Asset Reporting Framework) is an additional reporting obligation for cryptoasset activity. It is not a payment settlement mechanism and is not the same as payment scheme reporting. Whether it applies to a given bank depends on its role and the activity type. It belongs in the reporting and evidence layer, not the settlement movement layer.`,
-    },
-    {
-      kind: 'stack',
-      heading: 'Old rails: modernising, not obsolete',
-      data: [
-        {
-          id: 'faster-payments',
-          number: '01',
-          label: 'Faster Payments',
-          colorClass: 's1',
-          detail: `Live UK account-to-account rail for retail and SME payments. Payment messages are exchanged in real time and the receiver can be credited quickly; interbank settlement is deferred net settlement through settlement accounts at the Bank of England. The message, customer posting and settlement movement are distinct even in an immediate payment.`,
-          examples: 'Status: LIVE',
-        },
-        {
-          id: 'chaps-rtgs',
-          number: '02',
-          label: 'CHAPS / RTGS',
-          colorClass: 's2',
-          detail: `UK high-value same-day settlement rail. CHAPS and RTGS migrated to ISO 20022 in 2023 and continue to modernise through richer structured data, extended operating hours and RTGS renewal. RTGS settlement is central bank money — this is the settlement asset for UK interbank obligations.`,
-          examples: 'Status: MODERNISING — ISO 20022 live; richer data and hours expanding',
-        },
-        {
-          id: 'swift-cbpr',
-          number: '03',
-          label: 'SWIFT / CBPR+',
-          colorClass: 's3',
-          detail: `Cross-border messaging standard. CBPR+ moved cross-border payment messaging to ISO 20022, giving richer structured data. SWIFT is still a messaging network — settlement occurs through correspondent banking, nostro/vostro balances, local clearing or other settlement arrangements.`,
-          examples: 'Status: MODERNISING — ISO 20022 adoption and data quality still maturing',
-        },
-        {
-          id: 'correspondent',
-          number: '04',
-          label: 'Correspondent banking',
-          colorClass: 's4',
-          detail: `Cross-border settlement mechanism based on nostro and vostro accounts held between banks. Pre-funded liquidity pools settle obligations across borders. Still a core mechanism for cross-border bank payments. Modernising through richer data and compliance tooling, not being replaced.`,
-          examples: 'Status: MODERNISING — remains primary cross-border settlement mechanism',
-        },
-      ],
-      note: `Old rails carry the vast majority of global payment volume. DLT-based models are emerging in controlled, wholesale and prototype contexts. The two operate in parallel.`,
     },
     {
       kind: 'quiz',

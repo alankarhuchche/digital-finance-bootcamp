@@ -1,7 +1,6 @@
 // whatMovesVisual.ts
-// Two-mode layered canvas visual for the "What actually moves?" topic page.
-// Phase 2: Mode 1 (today's account payment) and Mode 2 (DLT same network).
-// Designed to support Mode 3 and Mode 4 addition in future phases via MODES array.
+// What Actually Moves — layered canvas visual.
+// Four modes: Today's account payment · DLT same network · DLT across networks · Stablecoin access.
 
 interface WmvLayer {
   id: string;
@@ -22,6 +21,7 @@ interface WmvMode {
   activeIds: Set<string>;
   sequence: WmvStep[];
   caption: string;
+  sublabelOverrides?: Record<string, string>;
 }
 
 const LAYERS: WmvLayer[] = [
@@ -56,7 +56,7 @@ const LAYERS: WmvLayer[] = [
   {
     id: 'interop',
     label: 'Interoperability / access layer',
-    sublabel: 'Gateway, bridge or custodian connecting separate networks',
+    sublabel: 'Gateway, issuer, custodian or access route between networks',
     accentColor: '#E8A33D',
     typeClass: 'wmv-glyph--gate',
   },
@@ -100,7 +100,42 @@ const MODES: WmvMode[] = [
       { layerId: 'accounting',      delay: 700 },
       { layerId: 'evidence',        delay: 980 },
     ],
-    caption: 'DLT is cleanest when value already exists on-ledger and both participants are in the same network. An instruction still exists — a signed network transaction or smart-contract call — but it is not a traditional payment scheme message. Funding, accounting, custody and evidence still apply. DLT adds a funded on-ledger state; it does not replace the bank ledger.',
+    caption: 'DLT is cleanest when value already exists on-ledger and both participants are in the same network. An instruction still exists: a signed network transaction or smart-contract call. It is not a traditional payment scheme message. Funding, accounting, custody and evidence still apply. DLT adds a funded on-ledger state; it does not replace the bank ledger.',
+  },
+  {
+    id: 'mode3',
+    label: 'DLT across networks',
+    activeIds: new Set(['customer-ledger', 'token-ledger', 'interop', 'accounting', 'evidence']),
+    sequence: [
+      { layerId: 'customer-ledger', delay: 0 },
+      { layerId: 'token-ledger',    delay: 300 },
+      { layerId: 'interop',         delay: 620 },
+      { layerId: 'accounting',      delay: 980 },
+      { layerId: 'evidence',        delay: 1240 },
+    ],
+    caption: 'Across ledgers, interoperability becomes the new settlement problem. A bridge, gateway, issuer, custodian, agent or common platform may connect the networks, but access, liquidity, finality, liability and reconciliation still matter. Off-ramp or redemption may still reconnect the flow to bank-money settlement.',
+    sublabelOverrides: {
+      'interop': 'lock / burn / redeem → gateway / issuer / custodian → mint / release / off-ramp',
+    },
+  },
+  {
+    id: 'mode4',
+    label: 'Stablecoin access',
+    activeIds: new Set(['customer-ledger', 'interop', 'token-ledger', 'accounting', 'evidence']),
+    sequence: [
+      { layerId: 'customer-ledger', delay: 0 },
+      { layerId: 'interop',         delay: 340 },
+      { layerId: 'token-ledger',    delay: 680 },
+      { layerId: 'accounting',      delay: 1040 },
+      { layerId: 'evidence',        delay: 1300 },
+    ],
+    caption: 'A UK bank providing access to a USD stablecoin may not be the issuer. It may provide custody, wallet access, exchange, payment facilitation or off-ramp services. That adds issuer dependency, wallet controls, sanctions screening, reporting, accounting and redemption risk. Off-ramp or redemption may still reconnect the flow to bank-money settlement.',
+    sublabelOverrides: {
+      'token-ledger': 'external issuer / USD stablecoin network',
+      'interop':      'custody / wallet / exchange / off-ramp access',
+      'accounting':   'wallet controls · CARF/reporting · accounting',
+      'evidence':     'redemption evidence · audit trail · reconciliation',
+    },
   },
 ];
 
@@ -233,10 +268,16 @@ function applyMode(wrap: HTMLElement, mode: WmvMode): void {
     btn.classList.toggle('wmv-mode-btn--active', isActive);
   });
 
-  // Reset all layers to muted immediately
+  // Reset all layers to muted immediately; restore default sublabels then apply overrides
   wrap.querySelectorAll<HTMLElement>('.wmv-layer').forEach(row => {
     row.classList.remove('wmv-layer--active');
     row.classList.add('wmv-layer--muted');
+    const layerId = row.dataset.layerId ?? '';
+    const defaultLayer = LAYERS.find(l => l.id === layerId);
+    const subEl = row.querySelector<HTMLElement>('.wmv-layer-sub');
+    if (subEl && defaultLayer) {
+      subEl.textContent = mode.sublabelOverrides?.[layerId] ?? defaultLayer.sublabel;
+    }
   });
 
   // Caption crossfade
