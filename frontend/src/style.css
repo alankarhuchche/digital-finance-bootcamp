@@ -1945,3 +1945,227 @@ svg.world-map { width: 100%; height: auto; display: block; }
     display: none;
   }
 }
+
+/* ============ What Moves Visual ============ */
+.wmv-wrap {
+  margin: 20px 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(14, 42, 67, 0.6);
+  border: 1px solid rgba(159, 183, 204, 0.1);
+  border-radius: 8px;
+  padding: 20px 20px 16px;
+}
+
+.wmv-title-row { display: flex; flex-direction: column; gap: 4px; }
+.wmv-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--amber);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+.wmv-subtitle {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: 0;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Mode selector */
+.wmv-mode-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+.wmv-mode-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  padding: 7px 16px;
+  border: 1px solid rgba(159, 183, 204, 0.2);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  min-height: 36px;
+  line-height: 1;
+}
+.wmv-mode-btn:hover { border-color: rgba(232, 163, 61, 0.4); color: var(--text); }
+.wmv-mode-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.wmv-mode-btn--active {
+  border-color: var(--amber);
+  color: var(--amber);
+  background: rgba(232, 163, 61, 0.07);
+}
+
+/* Layer rows */
+.wmv-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 4px;
+}
+.wmv-layer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 5px;
+  border-left: 3px solid transparent;
+  background: rgba(255, 255, 255, 0.02);
+  transition: opacity 0.32s ease, border-color 0.32s ease, background 0.32s ease;
+  min-height: 50px;
+}
+.wmv-layer--muted { opacity: 0.22; }
+.wmv-layer--active {
+  opacity: 1;
+  border-left-color: var(--wmv-accent, var(--amber));
+  background: rgba(255, 255, 255, 0.035);
+}
+.wmv-layer-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  min-width: 20px;
+  flex-shrink: 0;
+}
+.wmv-layer-main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.wmv-layer-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+.wmv-layer-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.35;
+}
+
+/* Glyph column — right-side decorative type indicators */
+.wmv-glyph {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 90px;
+  justify-content: flex-end;
+}
+
+/* Ledger glyph */
+.wmv-glyph--ledger { gap: 5px; }
+.wmv-ledger-box {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(232, 163, 61, 0.28);
+  color: var(--amber);
+}
+.wmv-ledger-box--cr { border-color: rgba(95, 179, 163, 0.28); color: var(--teal); }
+.wmv-ledger-arrow { font-size: 11px; color: var(--text-dim); }
+
+/* Message glyph — dotted amber line */
+.wmv-glyph--msg { gap: 3px; }
+.wmv-msg-line {
+  width: 42px;
+  height: 0;
+  border-top: 2px dashed rgba(232, 163, 61, 0.55);
+}
+.wmv-msg-arr { font-size: 14px; color: var(--amber); line-height: 1; font-weight: 300; }
+
+/* Settlement glyph — solid teal line */
+.wmv-glyph--settle { gap: 3px; }
+.wmv-settle-line {
+  width: 42px;
+  height: 3px;
+  background: rgba(95, 179, 163, 0.65);
+  border-radius: 1.5px;
+}
+.wmv-settle-arr { font-size: 14px; color: var(--teal); line-height: 1; font-weight: 300; }
+
+/* Token glyph — purple nodes */
+.wmv-glyph--token { gap: 5px; }
+.wmv-token-node {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(199, 146, 232, 0.4);
+  color: #C792E8;
+  flex-shrink: 0;
+}
+.wmv-token-line {
+  width: 20px;
+  height: 0;
+  border-top: 2px solid rgba(199, 146, 232, 0.5);
+}
+
+/* Gate glyph */
+.wmv-glyph--gate { }
+.wmv-gate-box {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  padding: 3px 6px;
+  border: 1px dashed rgba(232, 163, 61, 0.35);
+  border-radius: 3px;
+  color: rgba(232, 163, 61, 0.6);
+  letter-spacing: 0.06em;
+}
+
+/* Accounting / evidence chips */
+.wmv-glyph--acc, .wmv-glyph--ev { flex-wrap: wrap; }
+.wmv-chip {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: rgba(95, 179, 163, 0.08);
+  border: 1px solid rgba(95, 179, 163, 0.18);
+  color: var(--teal);
+  white-space: nowrap;
+}
+
+/* Caption */
+.wmv-caption {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin: 2px 0 0;
+  min-height: 58px;
+  transition: opacity 0.22s ease;
+  border-top: 1px solid rgba(159, 183, 204, 0.07);
+  padding-top: 12px;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .wmv-wrap { padding: 14px 12px 12px; gap: 8px; overflow: hidden; }
+  .wmv-mode-btn { min-height: 44px; padding: 10px 12px; font-size: 11px; flex: 1 1 140px; text-align: center; }
+  .wmv-mode-row { gap: 6px; flex-wrap: wrap; }
+  .wmv-layer { gap: 8px; padding: 8px 10px; min-height: 52px; }
+  .wmv-layer-label { font-size: 12px; }
+  .wmv-layer-sub { font-size: 10px; }
+  .wmv-glyph { display: none; }
+  .wmv-subtitle { font-size: 11px; overflow-wrap: break-word; word-break: break-word; white-space: normal; }
+  .wmv-layer-sub { overflow-wrap: break-word; word-break: break-word; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .wmv-layer, .wmv-caption { transition: none; }
+}

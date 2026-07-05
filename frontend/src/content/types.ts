@@ -26,7 +26,8 @@ export type ContentBlock =
   | { kind: 'quiz'; heading?: string; data: QuizSpec }
   | { kind: 'money-cards'; heading?: string; data: MoneyCardsSpec }
   | { kind: 'callout'; heading?: string; data: CalloutSpec }
-  | { kind: 'comparison'; heading?: string; data: ComparisonSpec };
+  | { kind: 'comparison'; heading?: string; data: ComparisonSpec }
+  | { kind: 'what-moves-visual'; heading?: string };
 
 export interface ModuleMeta {
   id: string;

@@ -11,6 +11,7 @@ import { renderQuiz } from '../viz/quiz';
 import { renderMoneyCards } from '../viz/moneyCards';
 import { renderCallout } from '../viz/callout';
 import { renderComparison } from '../viz/comparison';
+import { renderWhatMovesVisual } from '../viz/whatMovesVisual';
 import { renderChatWidget } from '../chat';
 import { buildTopicLink, buildTopicSummaryText, buildLinkedInSnippet, copyAndToast } from '../utils/share';
 import { enhanceTerms, bindTermPopovers } from '../viz/termHelp';
@@ -153,6 +154,9 @@ async function renderBlock(section: HTMLElement, block: ContentBlock, topicUrl: 
       break;
     case 'comparison':
       renderComparison(mount, block.data, block.heading);
+      break;
+    case 'what-moves-visual':
+      renderWhatMovesVisual(mount);
       break;
   }
 }

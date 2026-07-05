@@ -5,6 +5,7 @@ export const MODULE_INDEX: ModuleMeta[] = [
   { id: 'existing-rails', number: '01', title: 'The existing rails', summary: 'SWIFT, RTGS, correspondent banking — the cross-border baseline everything else responds to.', ready: true },
   { id: 'forms-of-money', number: '02', title: 'Forms of money', summary: 'Six kinds of money compared — cash, deposits, e-money, CBDC, tokenized deposits, stablecoins.', ready: true },
   { id: 'risk-benefit', number: '03', title: 'Who carries the risk', summary: 'The same instrument looks different to a customer, a bank, and a central bank.', ready: true },
+  { id: 'what-actually-moves', number: '24', title: 'What actually moves?', summary: 'Messages, ledger postings, settlement assets and on-ledger tokens are not the same thing. Understanding the difference is the prerequisite for any serious discussion of DLT, stablecoins or tokenised value.', ready: true, updatedAt: '2026-07-05', changeType: 'new', changeSummary: 'New concept page with animated two-mode layer canvas.' },
   { id: 'dlt-basics', number: '04', title: 'DLT & blockchain basics', summary: 'Platform choice, consensus, finality and smart-contract controls for banking practitioners.', ready: true, updatedAt: '2026-07-03', changeType: 'expanded', changeSummary: 'Added banking-focused platform comparison, decision lens and smart-contract controls matrix.' },
   { id: 'crypto-assets', number: '05', title: 'Crypto assets', summary: 'Not all crypto is trying to be money — native tokens, utility tokens, governance tokens, security tokens.', ready: true },
   { id: 'stablecoins', number: '06', title: 'Stablecoins', summary: 'Four mechanisms, four failure modes, and how the issuers actually make money.', ready: true, updatedAt: '2026-07-03', changeType: 'expanded', changeSummary: 'Linked to the new stablecoin market structure comparison.' },
@@ -31,6 +32,7 @@ const LOADERS: Record<string, () => Promise<{ default: ModuleContent }>> = {
   'existing-rails': () => import('./modules/01-existing-rails'),
   'forms-of-money': () => import('./modules/02-forms-of-money'),
   'risk-benefit': () => import('./modules/03-risk-benefit'),
+  'what-actually-moves': () => import('./modules/24-what-actually-moves'),
   'dlt-basics': () => import('./modules/04-dlt-basics'),
   'crypto-assets': () => import('./modules/05-crypto-assets'),
   stablecoins: () => import('./modules/06-stablecoins'),
@@ -59,7 +61,7 @@ export interface Category {
 
 export const CATEGORIES: Category[] = [
   { label: "Today's rails", ids: ['payments-fundamentals', 'existing-rails', 'forms-of-money', 'risk-benefit'] },
-  { label: 'The technology', ids: ['dlt-basics', 'crypto-assets'] },
+  { label: 'The technology', ids: ['what-actually-moves', 'dlt-basics', 'crypto-assets'] },
   { label: 'New instruments', ids: ['stablecoins', 'cbdc', 'tokenization', 'deposit-tokens', 'stablecoin-market-structure'] },
   { label: 'Markets & scale', ids: ['defi', 'market-sizing', 'global-initiatives', 'market-structure', 'settlement'] },
   { label: 'Rules & reality', ids: ['digital-identity', 'regulation', 'privacy', 'bank-strategy', 'failure-modes'] },
