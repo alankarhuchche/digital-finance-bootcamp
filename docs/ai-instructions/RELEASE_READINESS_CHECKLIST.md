@@ -16,6 +16,7 @@ All items must be PASS or explicitly documented as DEFERRED with human approval 
 
 ## Quality gates
 
+- [ ] CONTENT_EVIDENCE_REVIEW — PASS (full evidence packet included in phase reports for all content-changing phases)
 - [ ] AI_WRITING_REVIEW — PASS
 - [ ] PAYMENTS_DLT_ACCURACY_REVIEW or SWIFT_BANKING_ACCURACY_REVIEW — PASS
 - [ ] OVERCLAIMING_RISK_REVIEW — PASS
@@ -111,6 +112,7 @@ All items must be PASS or explicitly documented as DEFERRED with human approval 
 - [ ] All deferred items documented and accepted
 - [ ] Human has confirmed commit is approved
 - [ ] Commit message agreed
+- [ ] Commit message contains no AI tool attribution, co-author lines, generated-by lines, or model/vendor signatures (unless repository owner has explicitly requested them)
 
 ---
 

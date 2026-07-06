@@ -38,6 +38,7 @@ The following are prohibited in every run, without exception:
 - Do not omit a required quality gate and claim overall PASS.
 - Do not defer a failing gate item without explicit documented justification.
 - Do not report a build as clean without running the build command and citing the result.
+- Do not claim content quality gates (AI_WRITING_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, OVERCLAIMING_RISK_REVIEW, PAYMENTS_DLT_ACCURACY_REVIEW) passed without running CONTENT_EVIDENCE_REVIEW first and including the full evidence packet in the report before the gate verdicts. The evidence packet must appear before the quality gate verdicts so a reviewer reads the exact content before the conclusions. A summary of what the content says is not a substitute for showing the exact content.
 
 ### Content accuracy — SWIFT and banking
 
@@ -72,6 +73,7 @@ The following are prohibited in every run, without exception:
 - Do not commit changes without explicit human approval.
 - Do not push to remote without explicit human approval.
 - Do not mark a phase complete if INTEGRATION_STALENESS_REVIEW has not been run.
+- Do not include AI tool attribution, Claude co-author lines, generated-by lines, or model/vendor signatures in commit messages unless the repository owner explicitly requests them for that commit.
 
 ---
 

@@ -97,6 +97,7 @@ When the human says "commit", the AI:
 1. Confirms the commit message is agreed.
 2. Stages only the files that are part of the approved phase.
 3. Does not stage `.claude/` or other session files.
-4. Commits.
-5. Confirms the commit hash.
-6. Does not push unless separately instructed.
+4. Does not include AI tool attribution, Claude co-author lines, generated-by lines, or model/vendor signatures in the commit message unless the repository owner has explicitly requested them for that commit.
+5. Commits.
+6. Confirms the commit hash.
+7. Does not push unless separately instructed.
