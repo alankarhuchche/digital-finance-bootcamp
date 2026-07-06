@@ -8,7 +8,7 @@ const content: ModuleContent = {
   ready: false,
   updatedAt: '2026-07-06',
   changeType: 'new',
-  changeSummary: 'New concept page: SWIFT estate as controlled messaging layer. Static content. Interactive visual to follow.',
+  changeSummary: 'New concept page: SWIFT estate as controlled messaging layer. Operating-map visual with roles 1 and 2 active.',
   blocks: [
     {
       kind: 'text',

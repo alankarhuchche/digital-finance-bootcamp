@@ -1,8 +1,6 @@
 // swiftGatewayVisual.ts
 // Inside a bank SWIFT gateway — operating-map visual.
-// Phase 3 polish: primary/secondary chip hierarchy, column connectors,
-// structured insight panel, settlement boundary clearly outside SWIFT estate.
-// Roles 2–6 present as disabled selector chips; content not yet implemented.
+// Roles 1 and 2 active. Roles 3–6 present as disabled selector chips; content not yet implemented.
 // Settlement boundary is structurally outside the SWIFT estate — never path-active.
 // No money tokens animate through SWIFT. ACK/NACK = processing status, not settlement finality.
 
@@ -28,7 +26,7 @@ interface RoleConfig {
 
 const ROLES = [
   { id: 'r1', label: '01 · Channel and secure access', enabled: true },
-  { id: 'r2', label: '02 · Scheme connector',          enabled: false },
+  { id: 'r2', label: '02 · Scheme connector',          enabled: true },
   { id: 'r3', label: '03 · Routing and transformation',enabled: false },
   { id: 'r4', label: '04 · Controls and repair',       enabled: false },
   { id: 'r5', label: '05 · Contingency entry',         enabled: false },
@@ -132,6 +130,24 @@ const ROLE_CONFIGS: Record<string, RoleConfig> = {
       { zoneId: 'evidence', chipIds: ['ack-nack', 'route-decision', 'audit'],        contextChipIds: ['archive'],        seqNum: 6 },
     ],
   },
+  r2: {
+    caption: 'Role 2 — Scheme and market-infrastructure connector',
+    fields: [
+      { label: 'Role type',              value: 'Scheme / infrastructure connectivity' },
+      { label: 'What SWIFT provides',    value: 'Controlled messaging, access and routing' },
+      { label: 'What SWIFT does not do', value: 'Scheme settlement or finality' },
+      { label: 'Control focus',          value: 'Membership, service, message type and destination routing' },
+    ],
+    insight: 'In this role, the SWIFT estate helps the bank connect to schemes, services or market infrastructures through controlled messaging and access arrangements. The estate classifies and routes messages by service, BIC, scheme, membership and backend ownership. The settlement arrangement remains outside SWIFT and depends on the relevant scheme, account structure or market infrastructure.',
+    path: [
+      { zoneId: 'entry',    chipIds: ['scheme-portal', 'api-channel'],            contextChipIds: ['score-macug'],    seqNum: 1 },
+      { zoneId: 'boundary', chipIds: ['auth', 'entitlement'],                     contextChipIds: ['secure-zone-c'],  seqNum: 2 },
+      { zoneId: 'fabric',   chipIds: ['classify'],                                contextChipIds: ['validate'],       seqNum: 3 },
+      { zoneId: 'routing',  chipIds: ['bic', 'service', 'scheme-r', 'membership'],                                   seqNum: 4 },
+      { zoneId: 'dest',     chipIds: ['payments', 'treasury'],                                                        seqNum: 5 },
+      { zoneId: 'evidence', chipIds: ['ack-nack', 'route-decision', 'audit'],     contextChipIds: ['archive'],        seqNum: 6 },
+    ],
+  },
 };
 
 // ─── render entry point ───────────────────────────────────────────────────────
@@ -165,9 +181,10 @@ export function renderSwiftGatewayVisual(container: HTMLElement): void {
 
 function buildShell(): string {
   const roleBtns = ROLES.map(r => {
-    const disabled = r.enabled ? '' : 'disabled aria-disabled="true"';
-    const cls      = r.enabled ? 'sgv-role-btn--active' : 'sgv-role-btn--pending';
-    const pressed  = r.enabled ? 'true' : 'false';
+    const isDefault = r.id === 'r1';
+    const disabled  = r.enabled ? '' : 'disabled aria-disabled="true"';
+    const cls       = !r.enabled ? 'sgv-role-btn--pending' : isDefault ? 'sgv-role-btn--active' : '';
+    const pressed   = isDefault ? 'true' : 'false';
     return `<button class="sgv-role-btn ${cls}" data-role="${r.id}" aria-pressed="${pressed}" ${disabled}>${r.label}</button>`;
   }).join('\n');
 
