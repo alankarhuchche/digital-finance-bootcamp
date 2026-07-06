@@ -1,0 +1,8 @@
+{
+  "topic": "swift-gateway",
+  "runs_root": "docs/ai-runs",
+  "claude_outbox": "docs/ai-runs/swift-gateway/claude-outbox",
+  "reviewer_inbox": "docs/ai-runs/swift-gateway/reviewer-inbox",
+  "reviewer_outbox": "docs/ai-runs/swift-gateway/reviewer-outbox",
+  "claude_inbox": "docs/ai-runs/swift-gateway/claude-inbox"
+}

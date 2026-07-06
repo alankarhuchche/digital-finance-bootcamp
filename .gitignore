@@ -10,3 +10,11 @@ backend/target/
 .idea/
 .vscode/
 *.log
+
+# Local AI handoff artifacts
+.claude/
+docs/ai-runs/*/phase-*-report.md
+docs/ai-runs/*/claude-inbox/
+docs/ai-runs/*/claude-outbox/
+docs/ai-runs/*/reviewer-inbox/
+docs/ai-runs/*/reviewer-outbox/
