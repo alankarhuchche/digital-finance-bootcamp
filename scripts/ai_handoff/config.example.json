@@ -1,5 +1,10 @@
 {
   "topic": "swift-gateway",
+  "model": "gpt-5.5",
+  "review_temperature": 0,
+  "max_output_tokens": 4096,
+  "stop_on_verdicts": ["WARN", "FAIL", "NEEDS FIX"],
+  "reviewer_prompt_path": "scripts/ai_handoff/reviewer_prompt.md",
   "runs_root": "docs/ai-runs",
   "claude_outbox": "docs/ai-runs/swift-gateway/claude-outbox",
   "reviewer_inbox": "docs/ai-runs/swift-gateway/reviewer-inbox",

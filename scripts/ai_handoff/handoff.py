@@ -22,6 +22,7 @@ STOP_TERMS = (
     "WARN",
     "do not commit",
     "human review required",
+    "human review required: yes",
 )
 REQUIRED_REPORT_PATTERNS = (
     ("Files changed", re.compile(r"files changed", re.IGNORECASE)),
