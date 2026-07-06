@@ -1,6 +1,6 @@
 // swiftGatewayVisual.ts
 // Inside a bank SWIFT gateway — operating-map visual.
-// Roles 1, 2 and 3 active. Roles 4–6 present as disabled selector chips; content not yet implemented.
+// Roles 1, 2, 3 and 4 active. Roles 5–6 present as disabled selector chips; content not yet implemented.
 // Settlement boundary is structurally outside the SWIFT estate — never path-active.
 // No money tokens animate through SWIFT. ACK/NACK = processing status, not settlement finality.
 
@@ -28,7 +28,7 @@ const ROLES = [
   { id: 'r1', label: '01 · Channel and secure access', enabled: true },
   { id: 'r2', label: '02 · Scheme connector',          enabled: true },
   { id: 'r3', label: '03 · Routing and transformation',enabled: true },
-  { id: 'r4', label: '04 · Controls and repair',       enabled: false },
+  { id: 'r4', label: '04 · Controls and repair',       enabled: true },
   { id: 'r5', label: '05 · Contingency entry',         enabled: false },
   { id: 'r6', label: '06 · Evidence and archive',      enabled: false },
 ];
@@ -164,6 +164,23 @@ const ROLE_CONFIGS: Record<string, RoleConfig> = {
       { zoneId: 'routing',  chipIds: ['msg-family', 'bic', 'backend-owner', 'service'],                                                  seqNum: 4 },
       { zoneId: 'dest',     chipIds: ['payments', 'treasury', 'trade', 'securities'],                                                    seqNum: 5 },
       { zoneId: 'evidence', chipIds: ['route-decision', 'audit'],                           contextChipIds: ['archive', 'gpi-uetr'],    seqNum: 6 },
+    ],
+  },
+  r4: {
+    caption: 'Role 4 — Controls, sanctions and repair orchestrator',
+    fields: [
+      { label: 'Role type',              value: 'Control orchestration' },
+      { label: 'What SWIFT provides',    value: 'Controlled message progression and evidence' },
+      { label: 'What SWIFT does not do', value: 'Own every specialist control' },
+      { label: 'Control focus',          value: 'Validation, screening, repair and release state' },
+    ],
+    insight: 'In this role, the SWIFT estate orchestrates controls around the message. It may route messages through specialist validation, sanctions, financial-crime, repair or workflow applications, then preserve the outcome as hold, release, reject, repair or status evidence. ACK / NACK and gpi events describe message or tracking state; they do not prove settlement finality.',
+    path: [
+      { zoneId: 'entry',    chipIds: ['corporate-fi', 'api-channel'],                       contextChipIds: ['scheme-portal'],          seqNum: 1 },
+      { zoneId: 'boundary', chipIds: ['auth', 'entitlement'],                               contextChipIds: ['secure-zone-c'],          seqNum: 2 },
+      { zoneId: 'fabric',   chipIds: ['validate', 'screen', 'repair'],                      contextChipIds: ['classify', 'prioritise'], seqNum: 3 },
+      { zoneId: 'routing',  chipIds: ['service', 'msg-family', 'backend-owner'],                                                         seqNum: 4 },
+      { zoneId: 'evidence', chipIds: ['ack-nack', 'route-decision', 'audit', 'archive'],    contextChipIds: ['gpi-uetr'],               seqNum: 5 },
     ],
   },
 };
