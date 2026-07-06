@@ -27,7 +27,8 @@ export type ContentBlock =
   | { kind: 'money-cards'; heading?: string; data: MoneyCardsSpec }
   | { kind: 'callout'; heading?: string; data: CalloutSpec }
   | { kind: 'comparison'; heading?: string; data: ComparisonSpec }
-  | { kind: 'what-moves-visual'; heading?: string };
+  | { kind: 'what-moves-visual'; heading?: string }
+  | { kind: 'swift-gateway-visual'; heading?: string };
 
 export interface ModuleMeta {
   id: string;

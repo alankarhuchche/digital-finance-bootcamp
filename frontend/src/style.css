@@ -2206,3 +2206,277 @@ svg.world-map { width: 100%; height: auto; display: block; }
   .wmv-seq-node { transition: none; }
   .wmv-seq-node--pulse { animation: none; }
 }
+
+/* ============ SWIFT Gateway Operating Map (sgv) ============ */
+
+.sgv-wrapper {
+  font-size: 13px;
+}
+
+/* Role selector */
+.sgv-role-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.sgv-role-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  padding: 8px 13px;
+  min-height: 44px;
+  border-radius: 4px;
+  border: 1px solid var(--grid);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  text-align: left;
+}
+.sgv-role-btn--active {
+  border-color: var(--amber);
+  color: var(--amber);
+  background: rgba(232,163,61,0.07);
+}
+.sgv-role-btn--pending {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+.sgv-role-btn:not([disabled]):hover {
+  border-color: rgba(232,163,61,0.5);
+  color: var(--text);
+}
+
+/* Three-column operating map with connectors */
+.sgv-map {
+  display: grid;
+  grid-template-columns: 1fr 26px 1.35fr 26px 1.15fr;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: start;
+}
+
+/* Column connectors */
+.sgv-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  color: var(--grid);
+  transition: color 0.25s;
+  user-select: none;
+}
+.sgv-connector-glyph {
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 300;
+  margin-top: -2px;
+}
+.sgv-connector--active {
+  color: rgba(232,163,61,0.45);
+}
+
+.sgv-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Zones */
+.sgv-zone {
+  border: 1px solid var(--grid);
+  border-radius: 6px;
+  padding: 11px 12px 13px;
+  transition: border-color 0.22s, background 0.22s, opacity 0.22s;
+}
+
+.sgv-zone--boundary {
+  border-color: rgba(95,179,163,0.45);
+  background: rgba(95,179,163,0.03);
+}
+
+.sgv-zone--outside {
+  border-style: dashed;
+  border-color: rgba(95,179,163,0.2);
+  background: transparent;
+}
+
+.sgv-zone--path-active {
+  border-color: rgba(232,163,61,0.6);
+  background: rgba(232,163,61,0.04);
+}
+.sgv-zone--boundary.sgv-zone--path-active {
+  border-color: rgba(232,163,61,0.7);
+}
+
+.sgv-zone--muted {
+  opacity: 0.35;
+}
+
+/* Zone labels */
+.sgv-zone-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 9px;
+}
+.sgv-zone--boundary .sgv-zone-label {
+  color: var(--teal);
+}
+.sgv-zone--outside .sgv-zone-label {
+  color: rgba(95,179,163,0.5);
+}
+.sgv-zone--path-active .sgv-zone-label {
+  color: var(--amber);
+}
+.sgv-zone--boundary.sgv-zone--path-active .sgv-zone-label {
+  color: var(--amber);
+}
+
+/* Chips */
+.sgv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.sgv-chip {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid rgba(255,255,255,0.07);
+  color: var(--text-dim);
+  background: rgba(14,42,67,0.5);
+  transition: border-color 0.18s, color 0.18s, background 0.18s;
+  position: relative;
+}
+
+/* Primary active chip — strong emphasis */
+.sgv-chip--primary {
+  border-color: rgba(232,163,61,0.72);
+  color: var(--amber);
+  background: rgba(232,163,61,0.13);
+  font-weight: 500;
+}
+
+/* Context chip — soft ambient highlight */
+.sgv-chip--context {
+  border-color: rgba(232,163,61,0.28);
+  color: rgba(232,163,61,0.6);
+  background: rgba(232,163,61,0.05);
+}
+
+/* Sequence badge on first primary chip of each path step */
+.sgv-chip--seq::before {
+  content: attr(data-seq);
+  position: absolute;
+  top: -9px;
+  left: -9px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--amber);
+  color: var(--ink);
+  font-size: 8px;
+  font-weight: 700;
+  font-family: 'IBM Plex Mono', monospace;
+  line-height: 17px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Lower row: evidence + settlement */
+.sgv-lower {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+/* Insight panel */
+.sgv-insight {
+  border: 1px solid rgba(232,163,61,0.18);
+  border-radius: 6px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.012);
+}
+
+.sgv-insight-role {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(232,163,61,0.75);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(232,163,61,0.12);
+}
+
+/* Structured key-value fields */
+.sgv-insight-fields {
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+}
+.sgv-insight-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 0 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.sgv-insight-row:last-child { border-bottom: none; }
+.sgv-insight-dt {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  padding-top: 1px;
+}
+.sgv-insight-dd {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.sgv-insight-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  margin: 0;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .sgv-map {
+    grid-template-columns: 1fr;
+  }
+  .sgv-connector {
+    display: none;
+  }
+  .sgv-lower {
+    grid-template-columns: 1fr;
+  }
+  .sgv-chip--seq::before {
+    top: -8px;
+    left: -8px;
+  }
+  .sgv-insight-row {
+    grid-template-columns: 140px 1fr;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .sgv-zone, .sgv-chip { transition: none; }
+}

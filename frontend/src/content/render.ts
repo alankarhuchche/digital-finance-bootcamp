@@ -12,6 +12,7 @@ import { renderMoneyCards } from '../viz/moneyCards';
 import { renderCallout } from '../viz/callout';
 import { renderComparison } from '../viz/comparison';
 import { renderWhatMovesVisual } from '../viz/whatMovesVisual';
+import { renderSwiftGatewayVisual } from '../viz/swiftGatewayVisual';
 import { renderChatWidget } from '../chat';
 import { buildTopicLink, buildTopicSummaryText, buildLinkedInSnippet, copyAndToast } from '../utils/share';
 import { enhanceTerms, bindTermPopovers } from '../viz/termHelp';
@@ -157,6 +158,9 @@ async function renderBlock(section: HTMLElement, block: ContentBlock, topicUrl: 
       break;
     case 'what-moves-visual':
       renderWhatMovesVisual(mount);
+      break;
+    case 'swift-gateway-visual':
+      renderSwiftGatewayVisual(mount);
       break;
   }
 }

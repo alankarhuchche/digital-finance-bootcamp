@@ -15,8 +15,7 @@ const content: ModuleContent = {
       body: `The SWIFT estate is where financial messages become controlled, routed, evidenced and reportable bank obligations.\n\nIn a large bank, the estate is more than a SWIFT connection. It operates as a controlled channel for corporates and financial institutions, a connector to domestic schemes and market infrastructures, a routing and transformation layer, a sanctions and repair orchestration point, a gpi and status processor, a contingency entry route, a secure-zone control surface, and a raw-message evidence source for reporting, reconciliation, audit and legal retention.`,
     },
     {
-      kind: 'text',
-      body: `[The SWIFT estate switchboard — an interactive role-driven visual — will appear here in a future phase. The six roles and their layer dependencies are described in the stack below.]`,
+      kind: 'swift-gateway-visual',
     },
     {
       kind: 'stack',
