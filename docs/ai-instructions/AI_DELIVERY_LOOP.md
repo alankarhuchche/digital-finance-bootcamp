@@ -77,6 +77,7 @@ For each gate:
 
 Minimum gates for every content phase:
 
+- CONTENT_EVIDENCE_REVIEW — mandatory for any phase that creates or modifies topic content (text blocks, stack cards, matrix rows, quiz questions, captions, role labels, placeholder text, metadata). This is not a checklist gate — it is an evidence-generation step. Produce the full evidence packet before running any other content gate. Do not run AI_WRITING_REVIEW or domain accuracy gates until the packet is complete and appears in the report.
 - AI_WRITING_REVIEW
 - The domain accuracy gate that applies to the page (SWIFT_BANKING_ACCURACY_REVIEW for the SWIFT gateway page; PAYMENTS_DLT_ACCURACY_REVIEW for DLT/stablecoin/tokenised-rail content; both gates if a section compares the two)
 - OVERCLAIMING_RISK_REVIEW

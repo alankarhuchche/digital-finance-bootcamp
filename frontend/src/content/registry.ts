@@ -3,6 +3,7 @@ import type { ModuleMeta, ModuleContent } from './types';
 export const MODULE_INDEX: ModuleMeta[] = [
   { id: 'payments-fundamentals', number: '18', title: 'Payments fundamentals', summary: 'How money actually moves when you tap your card — the four-party model, interchange, and settlement.', ready: true, updatedAt: '2026-07-03', changeType: 'updated', changeSummary: 'Opening prose and section heading sharpened.' },
   { id: 'existing-rails', number: '01', title: 'The existing rails', summary: 'SWIFT, RTGS, correspondent banking — the cross-border baseline everything else responds to.', ready: true },
+  { id: 'swift-bank-gateway', number: '25', title: 'Inside a bank SWIFT gateway', summary: 'The SWIFT estate is a controlled financial messaging layer — not a send/receive pipe, not a settlement rail, and not a liquidity manager. Understanding its six roles clarifies what it does, what it does not do, and why it is treated as a high-impact control surface.', ready: false, updatedAt: '2026-07-06', changeType: 'new', changeSummary: 'New concept page: SWIFT estate as controlled messaging layer. Static content. Interactive visual to follow.' },
   { id: 'forms-of-money', number: '02', title: 'Forms of money', summary: 'Six kinds of money compared — cash, deposits, e-money, CBDC, tokenized deposits, stablecoins.', ready: true },
   { id: 'risk-benefit', number: '03', title: 'Who carries the risk', summary: 'The same instrument looks different to a customer, a bank, and a central bank.', ready: true },
   { id: 'what-actually-moves', number: '24', title: 'What actually moves?', summary: 'Messages, ledger postings, settlement assets and on-ledger tokens are not the same thing. Understanding the difference is the prerequisite for any serious discussion of DLT, stablecoins or tokenised value.', ready: true, updatedAt: '2026-07-05', changeType: 'new', changeSummary: 'New concept page with four-mode animated layer visual.'},
@@ -30,6 +31,7 @@ export const MODULE_INDEX: ModuleMeta[] = [
 const LOADERS: Record<string, () => Promise<{ default: ModuleContent }>> = {
   'payments-fundamentals': () => import('./modules/18-payments-fundamentals'),
   'existing-rails': () => import('./modules/01-existing-rails'),
+  'swift-bank-gateway': () => import('./modules/25-swift-bank-gateway'),
   'forms-of-money': () => import('./modules/02-forms-of-money'),
   'risk-benefit': () => import('./modules/03-risk-benefit'),
   'what-actually-moves': () => import('./modules/24-what-actually-moves'),
@@ -60,7 +62,7 @@ export interface Category {
 }
 
 export const CATEGORIES: Category[] = [
-  { label: "Today's rails", ids: ['payments-fundamentals', 'existing-rails', 'forms-of-money', 'risk-benefit'] },
+  { label: "Today's rails", ids: ['payments-fundamentals', 'existing-rails', 'swift-bank-gateway', 'forms-of-money', 'risk-benefit'] },
   { label: 'The technology', ids: ['what-actually-moves', 'dlt-basics', 'crypto-assets'] },
   { label: 'New instruments', ids: ['stablecoins', 'cbdc', 'tokenization', 'deposit-tokens', 'stablecoin-market-structure'] },
   { label: 'Markets & scale', ids: ['defi', 'market-sizing', 'global-initiatives', 'market-structure', 'settlement'] },

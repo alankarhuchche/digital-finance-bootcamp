@@ -28,6 +28,7 @@ Reference this file at the start of any implementation run to locate the files y
 
 | File | When to use |
 |---|---|
+| `docs/quality-gates/CONTENT_EVIDENCE_REVIEW.md` | Any phase that creates or modifies topic content — exposes exact text for human verification |
 | `docs/quality-gates/AI_WRITING_REVIEW.md` | Every content phase |
 | `docs/quality-gates/PAYMENTS_DLT_ACCURACY_REVIEW.md` | Any content about payment rails, DLT, stablecoins, settlement |
 | `docs/quality-gates/SWIFT_BANKING_ACCURACY_REVIEW.md` | All phases of the SWIFT gateway page |

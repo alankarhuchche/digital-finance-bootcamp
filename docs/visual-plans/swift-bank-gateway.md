@@ -2,9 +2,9 @@
 
 ## Status
 
-Planning complete. Implementation not yet started.
+Phases 1 and 2 complete (page skeleton, registry entry, static content blocks). Phase 3 (visual shell — role 1) not yet started.
 
-Route: `/topic/swift-bank-gateway` (to be confirmed at Phase 1)
+Route: `/topic/swift-bank-gateway` (confirmed)
 
 ---
 
@@ -314,7 +314,7 @@ Scope:
 - Add loader to `LOADERS` in `registry.ts`.
 - No content blocks yet. Type-check and build must pass.
 
-Quality gates: AI_WRITING_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, INTEGRATION_STALENESS_REVIEW.
+Quality gates: CONTENT_EVIDENCE_REVIEW, AI_WRITING_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, INTEGRATION_STALENESS_REVIEW.
 
 ### Phase 2 — Static content blocks, no visual
 
@@ -323,7 +323,7 @@ Scope:
 - No visual component yet. Visual block placeholder as `{ kind: 'text', body: '[Visual to follow]' }`.
 - All content must pass all relevant quality gates before Phase 3 begins.
 
-Quality gates: AI_WRITING_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, OVERCLAIMING_RISK_REVIEW, INTEGRATION_STALENESS_REVIEW.
+Quality gates: CONTENT_EVIDENCE_REVIEW, AI_WRITING_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, OVERCLAIMING_RISK_REVIEW, INTEGRATION_STALENESS_REVIEW.
 
 ### Phase 3 — Visual shell and role 1 only
 
@@ -335,7 +335,7 @@ Scope:
 - `seqToken` cancellation, `prefersReducedMotion()` path, sequence nodes, `sublabelOverrides` all required from the start.
 - Replace the placeholder text block with `{ kind: 'swift-gateway-visual' }`.
 
-Quality gates: PREMIUM_VISUAL_REVIEW, ANIMATION_INTERACTION_REVIEW, MOBILE_ACCESSIBILITY_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, INTEGRATION_STALENESS_REVIEW.
+Quality gates: CONTENT_EVIDENCE_REVIEW, PREMIUM_VISUAL_REVIEW, ANIMATION_INTERACTION_REVIEW, MOBILE_ACCESSIBILITY_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, INTEGRATION_STALENESS_REVIEW.
 
 ### Phase 4 — Add role 2: scheme and market-infrastructure connector
 
@@ -344,7 +344,7 @@ Scope:
 - Verify all cancellation, reduced-motion and accessibility requirements from Phase 3 remain intact.
 - Verify Layer 10 treatment unchanged.
 
-Quality gates: PREMIUM_VISUAL_REVIEW, ANIMATION_INTERACTION_REVIEW, MOBILE_ACCESSIBILITY_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, INTEGRATION_STALENESS_REVIEW.
+Quality gates: CONTENT_EVIDENCE_REVIEW, PREMIUM_VISUAL_REVIEW, ANIMATION_INTERACTION_REVIEW, MOBILE_ACCESSIBILITY_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, INTEGRATION_STALENESS_REVIEW.
 
 ### Phase 5 — Add role 3: message-family routing and transformation
 
@@ -352,7 +352,7 @@ Scope:
 - Add role 3 to `swiftGatewayVisual.ts`.
 - Verify all prior requirements remain intact.
 
-Quality gates: PREMIUM_VISUAL_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, INTEGRATION_STALENESS_REVIEW.
+Quality gates: CONTENT_EVIDENCE_REVIEW, PREMIUM_VISUAL_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, INTEGRATION_STALENESS_REVIEW.
 
 ### Phase 6 — Add role 4: controls, sanctions and repair
 
@@ -361,7 +361,7 @@ Scope:
 - Chips and sublabels must make clear the estate orchestrates controls, not owns all controls.
 - gpi/ACK caption must be accurate: tracking state, not settlement state.
 
-Quality gates: PREMIUM_VISUAL_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, OVERCLAIMING_RISK_REVIEW, INTEGRATION_STALENESS_REVIEW.
+Quality gates: CONTENT_EVIDENCE_REVIEW, PREMIUM_VISUAL_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, OVERCLAIMING_RISK_REVIEW, INTEGRATION_STALENESS_REVIEW.
 
 ### Phase 7 — Add role 5: contingency entry route
 
@@ -371,7 +371,7 @@ Scope:
 - Caption must state contingency bypasses a failed upstream system, not controls.
 - This is the highest accuracy-risk role. Review caption against SWIFT_BANKING_ACCURACY_REVIEW section 6 before marking PASS.
 
-Quality gates: PREMIUM_VISUAL_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, OVERCLAIMING_RISK_REVIEW, INTEGRATION_STALENESS_REVIEW.
+Quality gates: CONTENT_EVIDENCE_REVIEW, PREMIUM_VISUAL_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, OVERCLAIMING_RISK_REVIEW, INTEGRATION_STALENESS_REVIEW.
 
 ### Phase 8 — Add role 6: evidence, archive and reporting
 
@@ -380,7 +380,7 @@ Scope:
 - Caption must state raw message data is evidence, not accounting truth or settlement truth.
 - Reconciliation requirement must be reflected.
 
-Quality gates: PREMIUM_VISUAL_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, INTEGRATION_STALENESS_REVIEW.
+Quality gates: CONTENT_EVIDENCE_REVIEW, PREMIUM_VISUAL_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, INTEGRATION_STALENESS_REVIEW.
 
 ### Phase 9 — Premium visual, mobile, accessibility and interaction polish
 
@@ -391,7 +391,7 @@ Scope:
 - Accessibility verification: aria-pressed, role="status", aria-hidden, focus rings, keyboard navigation.
 - Rapid mode-switch test: 4 clicks at <200ms, no ghost state.
 
-Quality gates: PREMIUM_VISUAL_REVIEW, ANIMATION_INTERACTION_REVIEW, MOBILE_ACCESSIBILITY_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, OVERCLAIMING_RISK_REVIEW, INTEGRATION_STALENESS_REVIEW.
+Quality gates: CONTENT_EVIDENCE_REVIEW, PREMIUM_VISUAL_REVIEW, ANIMATION_INTERACTION_REVIEW, MOBILE_ACCESSIBILITY_REVIEW, SWIFT_BANKING_ACCURACY_REVIEW, OVERCLAIMING_RISK_REVIEW, INTEGRATION_STALENESS_REVIEW.
 
 ### Phase 10 — Final integration staleness and release readiness
 
@@ -401,13 +401,14 @@ Scope:
 - Confirm all file header comments, visual plan status, registry metadata and doc references describe the final implementation state.
 - Present complete 12-point phase completion report for human sign-off.
 
-Quality gates: All seven gates. INTEGRATION_STALENESS_REVIEW mandatory.
+Quality gates: All gates including CONTENT_EVIDENCE_REVIEW and INTEGRATION_STALENESS_REVIEW mandatory.
 
 ---
 
 ## 18. Quality gates to run
 
-Required at every phase:
+Required at every phase that adds or changes content (all phases for this page):
+- `docs/quality-gates/CONTENT_EVIDENCE_REVIEW.md`
 - `docs/quality-gates/AI_WRITING_REVIEW.md`
 - `docs/quality-gates/SWIFT_BANKING_ACCURACY_REVIEW.md`
 - `docs/quality-gates/INTEGRATION_STALENESS_REVIEW.md`
