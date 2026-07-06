@@ -1,6 +1,6 @@
 // swiftGatewayVisual.ts
 // Inside a bank SWIFT gateway — operating-map visual.
-// Roles 1 and 2 active. Roles 3–6 present as disabled selector chips; content not yet implemented.
+// Roles 1, 2 and 3 active. Roles 4–6 present as disabled selector chips; content not yet implemented.
 // Settlement boundary is structurally outside the SWIFT estate — never path-active.
 // No money tokens animate through SWIFT. ACK/NACK = processing status, not settlement finality.
 
@@ -27,7 +27,7 @@ interface RoleConfig {
 const ROLES = [
   { id: 'r1', label: '01 · Channel and secure access', enabled: true },
   { id: 'r2', label: '02 · Scheme connector',          enabled: true },
-  { id: 'r3', label: '03 · Routing and transformation',enabled: false },
+  { id: 'r3', label: '03 · Routing and transformation',enabled: true },
   { id: 'r4', label: '04 · Controls and repair',       enabled: false },
   { id: 'r5', label: '05 · Contingency entry',         enabled: false },
   { id: 'r6', label: '06 · Evidence and archive',      enabled: false },
@@ -146,6 +146,24 @@ const ROLE_CONFIGS: Record<string, RoleConfig> = {
       { zoneId: 'routing',  chipIds: ['bic', 'service', 'scheme-r', 'membership'],                                   seqNum: 4 },
       { zoneId: 'dest',     chipIds: ['payments', 'treasury'],                                                        seqNum: 5 },
       { zoneId: 'evidence', chipIds: ['ack-nack', 'route-decision', 'audit'],     contextChipIds: ['archive'],        seqNum: 6 },
+    ],
+  },
+  r3: {
+    caption: 'Role 3 — Message-family routing and transformation',
+    fields: [
+      { label: 'Role type',              value: 'Message routing and transformation' },
+      { label: 'What SWIFT provides',    value: 'Classification, transformation and routing' },
+      { label: 'What SWIFT does not do', value: 'Change the economic obligation' },
+      { label: 'Control focus',          value: 'Message family, format, service and backend owner' },
+    ],
+    insight: 'In this role, the SWIFT estate acts as a message-family switchboard. It classifies MT, ISO 20022 and file traffic, may transform or enrich messages where coexistence or migration requires it, and routes them by BIC, service, message family and backend ownership. Transformation supports interoperability and migration; it does not by itself change settlement finality or create accounting truth.',
+    path: [
+      { zoneId: 'entry',    chipIds: ['api-channel', 'internal-file'],                      contextChipIds: ['corporate-fi'],           seqNum: 1 },
+      { zoneId: 'boundary', chipIds: ['auth', 'entitlement'],                               contextChipIds: ['secure-zone-c'],          seqNum: 2 },
+      { zoneId: 'fabric',   chipIds: ['classify', 'transform'],                             contextChipIds: ['validate', 'prioritise'], seqNum: 3 },
+      { zoneId: 'routing',  chipIds: ['msg-family', 'bic', 'backend-owner', 'service'],                                                  seqNum: 4 },
+      { zoneId: 'dest',     chipIds: ['payments', 'treasury', 'trade', 'securities'],                                                    seqNum: 5 },
+      { zoneId: 'evidence', chipIds: ['route-decision', 'audit'],                           contextChipIds: ['archive', 'gpi-uetr'],    seqNum: 6 },
     ],
   },
 };

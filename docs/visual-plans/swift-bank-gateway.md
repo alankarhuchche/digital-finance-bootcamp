@@ -2,7 +2,7 @@
 
 ## Status
 
-Phases 1, 2, 3 and 4 complete. Phase 3 delivered an operating-map visual shell (3-column layout: entry points, SWIFT secure boundary + control fabric, routing brain + bank destinations; lower row: status/evidence + settlement boundary outside SWIFT estate). Role 1 (Channel and secure access layer) and Role 2 (Scheme and market-infrastructure connector) active paths implemented with sequence markers and insight panels. Roles 3–6 present as disabled selector chips. Phase 5 (role 3: message-family routing and transformation) not yet started.
+Phases 1–5 complete. Operating-map visual shell: 3-column desktop layout (entry points · SWIFT secure boundary + control fabric · routing brain + bank destinations), lower row (status/evidence + settlement boundary outside SWIFT estate). Roles 1–3 active with sequence markers and insight panels. Roles 4–6 present as disabled selector chips. Phase 6 (role 4: controls, sanctions and repair orchestrator) not yet committed.
 
 Route: `/topic/swift-bank-gateway` (confirmed)
 
