@@ -1,7 +1,7 @@
 // SWIFT estate role-route map visual.
-// Phases A–B4: Roles 1–5 implemented. Role 6 disabled.
+// Phases A–B5: Roles 1–6 implemented.
 // Direction model (B1.5): bank systems (left) ⇄ SWIFT estate ⇄ external / network side (right).
-// Role 1 = inbound channel. Role 2 = outbound gateway / scheme connector. Role 3 = bidirectional routing and transformation. Role 4 = control overlay. Role 5 = controlled contingency entry.
+// Role 1 = inbound channel. Role 2 = outbound gateway / scheme connector. Role 3 = bidirectional routing and transformation. Role 4 = control overlay. Role 5 = controlled contingency entry. Role 6 = evidence overlay.
 // Settlement is structurally outside the SWIFT estate — no active route into it.
 // No money tokens. ACK/NACK = processing status, not settlement finality.
 // Wired as a prototype preview block; not yet the live teaching visual. Do not set ready: true.
@@ -33,7 +33,7 @@ interface SrmRoleData {
   evidActive: string[];
   evidContext: string[];
   outsideNote?: string;
-  direction: 'inbound' | 'outbound' | 'bidirectional' | 'overlay' | 'contingency';
+  direction: 'inbound' | 'outbound' | 'bidirectional' | 'overlay' | 'contingency' | 'evidence';
   caption: string;
   insight: SrmInsight;
   mobileNodes: Array<{ label: string; sub: string; kind: 'sources' | 'boundary' | 'core' | 'dest' | 'evidence' }>;
@@ -85,6 +85,13 @@ const RAIL_DEFS: Array<{ id: string; label: string; terminalLabel: string }> = [
   { id: 'contingency-release',        label: 'Release / hold',          terminalLabel: 'Controlled contingency state' },
   { id: 'contingency-reconciliation', label: 'Reconciliation evidence', terminalLabel: 'Controlled contingency state' },
   { id: 'contingency-retention',      label: 'Retention',               terminalLabel: 'Controlled contingency state' },
+  // Role 6 — evidence and retrieval paths (terminal is evidence record, not settlement or accounting truth)
+  { id: 'evid-message-archive',    label: 'Message archive',         terminalLabel: 'Evidence record' },
+  { id: 'evid-route-history',      label: 'Route decision history',  terminalLabel: 'Evidence record' },
+  { id: 'evid-repair-trail',       label: 'Repair trail',            terminalLabel: 'Evidence record' },
+  { id: 'evid-ack-history',        label: 'ACK / NACK history',      terminalLabel: 'Evidence record' },
+  { id: 'evid-reporting-extract',  label: 'Reporting extract',       terminalLabel: 'Evidence record' },
+  { id: 'evid-investigation-pack', label: 'Investigation pack',      terminalLabel: 'Evidence record' },
 ];
 
 // Right column — external/network side (source for inbound; destination for outbound)
@@ -113,7 +120,7 @@ const OUTSIDE_NODES = [
   'RTGS', 'Nostro / vostro', 'Local clearing', 'Market infrastructure', 'Bank ledgers',
 ];
 
-// ── Role selector metadata (all 6; r1–r5 enabled through Phase B4) ──────────
+// ── Role selector metadata (all 6; r1–r6 enabled through Phase B5) ──────────
 
 const ROLE_META = [
   { id: 'r1', label: '01 · Channel and secure access', enabled: true },
@@ -121,10 +128,10 @@ const ROLE_META = [
   { id: 'r3', label: '03 · Routing and transformation', enabled: true },
   { id: 'r4', label: '04 · Controls and repair',        enabled: true },
   { id: 'r5', label: '05 · Contingency entry',          enabled: true },
-  { id: 'r6', label: '06 · Evidence and archive',       enabled: false },
+  { id: 'r6', label: '06 · Evidence and archive',       enabled: true },
 ];
 
-// ── Role data (r1–r5; direction model corrected in Phase B1.5) ────────────────
+// ── Role data (r1–r6; direction model corrected in Phase B1.5) ────────────────
 
 const ROLE_CONFIGS: Record<string, SrmRoleData> = {
   r1: {
@@ -325,6 +332,50 @@ const ROLE_CONFIGS: Record<string, SrmRoleData> = {
       { label: 'Controlled contingency intake',                                   sub: 'Estate function',           kind: 'core'     },
       { label: 'Manual intake · Approval · Sanctions screen · Release / hold',   sub: 'Control-mandate lanes',     kind: 'dest'     },
       { label: 'Audit · Archive · Reconciliation evidence · Retention',           sub: 'Evidence',                  kind: 'evidence' },
+    ],
+  },
+
+  r6: {
+    functionLabel: 'Evidence, archive and reporting',
+    functionChips: ['Archive', 'Audit trail', 'Investigation', 'Reporting'],
+    bankSideActive:  [],
+    bankSideContext: ['payments', 'treasury', 'securities', 'reporting'],
+    railIds: [
+      'evid-message-archive', 'evid-route-history', 'evid-repair-trail',
+      'evid-ack-history', 'evid-reporting-extract', 'evid-investigation-pack',
+    ],
+    servicePanelLabel: 'Evidence and retrieval paths',
+    servicePanelNote:  'Evidence supports investigation and reconciliation; it is not settlement or accounting truth.',
+    externalActive:  [],
+    externalContext: ['corporate-fi', 'correspondent-fi', 'scheme-service'],
+    evidActive:  ['ack-nack', 'route-decision', 'audit', 'archive', 'repair-trail', 'gpi-uetr', 'investigation', 'reconciliation-evid', 'retention-evid'],
+    evidContext: [],
+    outsideNote: 'Raw message evidence must be reconciled with ledgers, settlement records and operational books.',
+    direction: 'evidence',
+    caption:
+      'In this role, the SWIFT estate acts as an evidence surface. Message states, route ' +
+      'decisions, acknowledgements, repair history, archive records and reporting extracts can ' +
+      'support operations, investigations, audit and reconciliation. This evidence must still be ' +
+      'reconciled with bank ledgers, settlement records and operational books; raw SWIFT message ' +
+      'data is not accounting truth or proof of settlement finality.',
+    insight: {
+      roleType:     'Evidence and archive layer',
+      whatProvides: 'Message evidence, archive and reporting support',
+      whatNotDo:    'Accounting truth or settlement proof',
+      controlFocus: 'Audit, retention, investigation and reconciliation support',
+      paragraph:
+        'In this role, the SWIFT estate acts as an evidence surface. Message states, route ' +
+        'decisions, acknowledgements, repair history, archive records and reporting extracts can ' +
+        'support operations, investigations, audit and reconciliation. This evidence must still be ' +
+        'reconciled with bank ledgers, settlement records and operational books; raw SWIFT message ' +
+        'data is not accounting truth or proof of settlement finality.',
+    },
+    mobileNodes: [
+      { label: 'Payments · Treasury · Securities · Reporting', sub: 'Bank systems (context)',   kind: 'sources'  },
+      { label: 'Authentication · Entitlement · Signing',        sub: 'SWIFT boundary (context)', kind: 'boundary' },
+      { label: 'Evidence, archive and reporting',               sub: 'Estate function',           kind: 'core'     },
+      { label: 'Message archive · Route history · Repair trail · Reporting extract', sub: 'Evidence paths', kind: 'dest' },
+      { label: 'Audit · Archive · Route decision · ACK / NACK · gpi / UETR',        sub: 'Evidence (all active)', kind: 'evidence' },
     ],
   },
 };
@@ -545,6 +596,7 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
                : d === 'outbound'      ? '→ Outbound gateway'
                : d === 'bidirectional' ? '↔ Bidirectional routing'
                : d === 'contingency'   ? '→ Controlled contingency'
+               : d === 'evidence'      ? '◼ Evidence overlay'
                :                        '◆ Control overlay';
     dirBadge.textContent = text;
     dirBadge.classList.add(`srm-direction-badge--${d}`);
