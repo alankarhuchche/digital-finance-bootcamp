@@ -1,7 +1,7 @@
 // SWIFT estate role-route map visual.
-// Phases A–B2: Roles 1–3 implemented. Roles 4–6 disabled.
+// Phases A–B3: Roles 1–4 implemented. Roles 5–6 disabled.
 // Direction model (B1.5): bank systems (left) ⇄ SWIFT estate ⇄ external / network side (right).
-// Role 1 = inbound channel. Role 2 = outbound gateway / scheme connector. Role 3 = bidirectional routing and transformation.
+// Role 1 = inbound channel. Role 2 = outbound gateway / scheme connector. Role 3 = bidirectional routing and transformation. Role 4 = control overlay.
 // Settlement is structurally outside the SWIFT estate — no active route into it.
 // No money tokens. ACK/NACK = processing status, not settlement finality.
 // Wired as a prototype preview block; not yet the live teaching visual. Do not set ready: true.
@@ -72,6 +72,12 @@ const RAIL_DEFS: Array<{ id: string; label: string; terminalLabel: string }> = [
   { id: 'iso-pacs',         label: 'ISO 20022 pacs',         terminalLabel: 'Routed message' },
   { id: 'iso-camt',         label: 'ISO 20022 camt',         terminalLabel: 'Routed message' },
   { id: 'trade-securities', label: 'Trade / securities',     terminalLabel: 'Routed message' },
+  // Role 4 — control outcome lanes (terminal is disposition state, not settlement)
+  { id: 'control-validate', label: 'Validate',               terminalLabel: 'Disposition state' },
+  { id: 'control-screen',   label: 'Screen',                 terminalLabel: 'Disposition state' },
+  { id: 'control-repair',   label: 'Repair queue',           terminalLabel: 'Disposition state' },
+  { id: 'control-hold',     label: 'Hold / reject',          terminalLabel: 'Disposition state' },
+  { id: 'control-release',  label: 'Release',                terminalLabel: 'Disposition state' },
 ];
 
 // Right column — external/network side (source for inbound; destination for outbound)
@@ -89,6 +95,7 @@ const EVID_NODES = [
   { id: 'route-decision', label: 'Route decision' },
   { id: 'audit',          label: 'Audit' },
   { id: 'archive',        label: 'Archive' },
+  { id: 'repair-trail',   label: 'Repair trail' },
   { id: 'gpi-uetr',       label: 'gpi / UETR' },
   { id: 'investigation',  label: 'Investigation evidence' },
 ];
@@ -97,18 +104,18 @@ const OUTSIDE_NODES = [
   'RTGS', 'Nostro / vostro', 'Local clearing', 'Market infrastructure', 'Bank ledgers',
 ];
 
-// ── Role selector metadata (all 6; r1–r2 enabled in Phase B1) ───────────────
+// ── Role selector metadata (all 6; r1–r4 enabled through Phase B3) ──────────
 
 const ROLE_META = [
   { id: 'r1', label: '01 · Channel and secure access', enabled: true },
   { id: 'r2', label: '02 · Scheme connector',           enabled: true },
   { id: 'r3', label: '03 · Routing and transformation', enabled: true },
-  { id: 'r4', label: '04 · Controls and repair',        enabled: false },
+  { id: 'r4', label: '04 · Controls and repair',        enabled: true },
   { id: 'r5', label: '05 · Contingency entry',          enabled: false },
   { id: 'r6', label: '06 · Evidence and archive',       enabled: false },
 ];
 
-// ── Role data (r1–r3; direction model corrected in Phase B1.5) ────────────────
+// ── Role data (r1–r4; direction model corrected in Phase B1.5) ────────────────
 
 const ROLE_CONFIGS: Record<string, SrmRoleData> = {
   r1: {
@@ -226,6 +233,45 @@ const ROLE_CONFIGS: Record<string, SrmRoleData> = {
       { label: 'Message routing and transformation',                     sub: 'Estate function',          kind: 'core'     },
       { label: 'Corporate / FI · Correspondent / FI · Scheme access',   sub: 'External / network side',  kind: 'dest'     },
       { label: 'Route decision · Audit · Archive · ACK / NACK',         sub: 'Evidence',                 kind: 'evidence' },
+    ],
+  },
+
+  r4: {
+    functionLabel: 'Controls, screening and repair',
+    functionChips: ['Validate', 'Screen', 'Repair', 'Release / hold'],
+    bankSideActive:  [],
+    bankSideContext: ['payments', 'treasury', 'reporting'],
+    railIds: ['control-validate', 'control-screen', 'control-repair', 'control-hold', 'control-release'],
+    servicePanelLabel: 'Control outcome lanes',
+    servicePanelNote:  'Control outcomes determine message disposition; they do not prove settlement finality.',
+    externalActive:  [],
+    externalContext: ['corporate-fi', 'correspondent-fi', 'api-channel'],
+    evidActive:  ['audit', 'route-decision', 'repair-trail', 'ack-nack', 'archive'],
+    evidContext: ['investigation'],
+    outsideNote: 'Control disposition is not settlement finality.',
+    direction: 'overlay',
+    caption:
+      'In this role, the SWIFT estate helps orchestrate message controls, screening outcomes, ' +
+      'repair workflows and release or hold decisions. Specialist control systems may sit around ' +
+      'the estate, but the gateway records the controlled disposition path. A released or ' +
+      'acknowledged message is not the same as settlement finality.',
+    insight: {
+      roleType:     'Control and repair overlay',
+      whatProvides: 'Controlled disposition and evidence',
+      whatNotDo:    'Final settlement or universal control ownership',
+      controlFocus: 'Validation, screening, repair, hold and release',
+      paragraph:
+        'In this role, the SWIFT estate helps orchestrate message controls, screening outcomes, ' +
+        'repair workflows and release or hold decisions. Specialist control systems may sit around ' +
+        'the estate, but the gateway records the controlled disposition path. A released or ' +
+        'acknowledged message is not the same as settlement finality.',
+    },
+    mobileNodes: [
+      { label: 'Payments · Treasury · Reporting',                              sub: 'Bank systems (context)',  kind: 'sources'  },
+      { label: 'Authentication · Entitlement · Signing',                       sub: 'SWIFT boundary',         kind: 'boundary' },
+      { label: 'Controls, screening and repair',                               sub: 'Estate function',        kind: 'core'     },
+      { label: 'Validate · Screen · Repair · Hold / reject · Release',        sub: 'Control outcomes',       kind: 'dest'     },
+      { label: 'Audit · Route decision · Repair trail · ACK / NACK',          sub: 'Evidence',               kind: 'evidence' },
     ],
   },
 };
@@ -445,7 +491,7 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
     const text = d === 'inbound'       ? '← Inbound channel'
                : d === 'outbound'      ? '→ Outbound gateway'
                : d === 'bidirectional' ? '↔ Bidirectional routing'
-               :                        '↔ Control overlay';
+               :                        '◆ Control overlay';
     dirBadge.textContent = text;
     dirBadge.classList.add(`srm-direction-badge--${d}`);
   }

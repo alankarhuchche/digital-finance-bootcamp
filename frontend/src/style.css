@@ -2482,9 +2482,9 @@ svg.world-map { width: 100%; height: auto; display: block; }
 }
 
 /* ============================================================
-   SWIFT Role Map (SRM) — Phases A–B2 prototype
+   SWIFT Role Map (SRM) — Phases A–B3 prototype
    Direction model: bank systems ⇄ SWIFT estate ⇄ external / network side
-   Role 1 inbound channel. Role 2 outbound gateway / scheme connector. Role 3 bidirectional routing and transformation.
+   Role 1 inbound channel. Role 2 outbound gateway. Role 3 bidirectional routing. Role 4 control overlay.
    Settlement is structurally outside the estate — never path-active.
    Prefix: srm-  (distinct from sgv- chip-board and brm- bank route map)
    ============================================================ */
