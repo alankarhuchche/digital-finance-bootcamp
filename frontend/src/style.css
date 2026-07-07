@@ -2751,12 +2751,24 @@ svg.world-map { width: 100%; height: auto; display: block; }
   font-size: 8.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase;
   color: var(--text-dim); opacity: 0.45; margin-bottom: 8px;
 }
-.srm-outside-nodes { display: flex; flex-wrap: wrap; gap: 6px; }
+.srm-outside-nodes { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
 .srm-outside-node {
   font-size: 10px; color: var(--text-dim); opacity: 0.4;
   padding: 3px 9px; border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.06);
 }
+
+/* ── Role-specific notes (service panel and outside-SWIFT block) ── */
+.srm-service-note {
+  font-size: 10.5px; color: var(--text-dim); font-style: italic;
+  margin: 6px 0 0; line-height: 1.5; opacity: 0.7;
+}
+.srm-service-note:empty { display: none; }
+.srm-outside-note {
+  font-size: 10.5px; color: var(--text-dim); font-style: italic;
+  margin: 6px 0 0; line-height: 1.5; opacity: 0.6;
+}
+.srm-outside-note:empty { display: none; }
 
 /* ── Below map: caption + insight ── */
 .srm-below-map {

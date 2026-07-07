@@ -1,5 +1,5 @@
 // SWIFT estate role-route map visual.
-// Phase A: Role 1 (Channel and secure access) implemented. Roles 2–6 disabled.
+// Phases A–B1: Roles 1–2 implemented. Roles 3–6 disabled.
 // Settlement is structurally outside the SWIFT estate — no active route into it.
 // No money tokens. ACK/NACK = processing status, not settlement finality.
 // Wired as a prototype preview block; not yet the live teaching visual. Do not set ready: true.
@@ -24,10 +24,13 @@ interface SrmRoleData {
   sourcesActive: string[];
   sourcesContext: string[];
   railIds: string[];
+  servicePanelLabel?: string;  // overrides 'Service path' region label if set
+  servicePanelNote?: string;   // optional note below rail panel
   destsActive: string[];
   destsContext: string[];
   evidActive: string[];
   evidContext: string[];
+  outsideNote?: string;        // role-specific note inside outside-SWIFT block
   caption: string;
   insight: SrmInsight;
   mobileNodes: Array<{ label: string; sub: string; kind: 'sources' | 'boundary' | 'core' | 'dest' | 'evidence' }>;
@@ -36,10 +39,11 @@ interface SrmRoleData {
 // ── Static node definitions ───────────────────────────────────────────────────
 
 const SOURCE_NODES = [
-  { id: 'corporate-fi', label: 'Corporate / FI' },
-  { id: 'secure-web',   label: 'Secure web' },
-  { id: 'api-channel',  label: 'API channel' },
-  { id: 'score-macug',  label: 'SCORE / MA-CUG' },
+  { id: 'corporate-fi',   label: 'Corporate / FI' },
+  { id: 'secure-web',     label: 'Secure web' },
+  { id: 'api-channel',    label: 'API channel' },
+  { id: 'score-macug',    label: 'SCORE / MA-CUG' },
+  { id: 'scheme-service', label: 'Scheme / service access' },
 ];
 
 const BOUNDARY_GATES = [
@@ -50,36 +54,47 @@ const BOUNDARY_GATES = [
 ];
 
 const RAIL_DEFS: Array<{ id: string; label: string; terminalLabel: string }> = [
-  { id: 'access-path', label: 'Controlled access path', terminalLabel: 'Authenticated message' },
+  { id: 'access-path',     label: 'Controlled access path', terminalLabel: 'Authenticated message' },
+  // Role 2 — scheme / service connectivity rails (terminal is messaging handoff, not settlement)
+  { id: 'chaps',           label: 'CHAPS',                  terminalLabel: 'Scheme / service interface' },
+  { id: 'bacs',            label: 'Bacs',                   terminalLabel: 'Scheme / service interface' },
+  { id: 'target-services', label: 'TARGET services',        terminalLabel: 'Scheme / service interface' },
+  { id: 'sepa-related',    label: 'SEPA-related services',  terminalLabel: 'Scheme / service interface' },
+  { id: 'cls',             label: 'CLS',                    terminalLabel: 'Scheme / service interface' },
+  { id: 'crest',           label: 'CREST',                  terminalLabel: 'Scheme / service interface' },
 ];
 
 const DEST_NODES = [
-  { id: 'payments', label: 'Payments' },
-  { id: 'treasury', label: 'Treasury' },
+  { id: 'payments',   label: 'Payments' },
+  { id: 'treasury',   label: 'Treasury' },
+  { id: 'securities', label: 'Securities' },
+  { id: 'reporting',  label: 'Reporting / investigation' },
 ];
 
 const EVID_NODES = [
   { id: 'ack-nack',       label: 'ACK / NACK' },
   { id: 'route-decision', label: 'Route decision' },
   { id: 'audit',          label: 'Audit' },
+  { id: 'archive',        label: 'Archive' },
+  { id: 'investigation',  label: 'Investigation evidence' },
 ];
 
 const OUTSIDE_NODES = [
   'RTGS', 'Nostro / vostro', 'Local clearing', 'Market infrastructure', 'Bank ledgers',
 ];
 
-// ── Role selector metadata (all 6, only r1 enabled in Phase A) ───────────────
+// ── Role selector metadata (all 6; r1–r2 enabled in Phase B1) ───────────────
 
 const ROLE_META = [
   { id: 'r1', label: '01 · Channel and secure access', enabled: true },
-  { id: 'r2', label: '02 · Scheme connector',           enabled: false },
+  { id: 'r2', label: '02 · Scheme connector',           enabled: true },
   { id: 'r3', label: '03 · Routing and transformation', enabled: false },
   { id: 'r4', label: '04 · Controls and repair',        enabled: false },
   { id: 'r5', label: '05 · Contingency entry',          enabled: false },
   { id: 'r6', label: '06 · Evidence and archive',       enabled: false },
 ];
 
-// ── Role data (only r1 in Phase A) ───────────────────────────────────────────
+// ── Role data (r1 and r2 in Phase B1) ────────────────────────────────────────
 
 const ROLE_CONFIGS: Record<string, SrmRoleData> = {
   r1: {
@@ -114,6 +129,46 @@ const ROLE_CONFIGS: Record<string, SrmRoleData> = {
       { label: 'Controlled access and authentication',       sub: 'Estate function', kind: 'core'     },
       { label: 'Payments',                                   sub: 'Bank destination',kind: 'dest'     },
       { label: 'ACK / NACK · Route decision · Audit',       sub: 'Evidence',        kind: 'evidence' },
+    ],
+  },
+
+  r2: {
+    functionLabel: 'Scheme and service connectivity',
+    functionChips: ['Service', 'Membership', 'BIC', 'Message rules'],
+    sourcesActive:  ['scheme-service', 'api-channel'],
+    sourcesContext: ['corporate-fi', 'secure-web'],
+    railIds: ['chaps', 'bacs', 'target-services', 'sepa-related', 'cls', 'crest'],
+    servicePanelLabel: 'Example service / infrastructure connectivity contexts',
+    servicePanelNote:  'Access model, messaging path and participant role vary by service.',
+    destsActive:  ['payments', 'treasury'],
+    destsContext: ['securities', 'reporting'],
+    evidActive:  ['ack-nack', 'route-decision', 'audit', 'archive'],
+    evidContext: ['investigation'],
+    outsideNote: 'Settlement depends on scheme, account structure or market infrastructure.',
+    caption:
+      'In this role, the SWIFT estate helps the bank connect to schemes, services or market ' +
+      'infrastructures through controlled messaging and access arrangements. The estate ' +
+      'classifies and routes messages by service, BIC, scheme, membership and backend ' +
+      'ownership. SWIFT provides the messaging connection — settlement depends on the scheme, ' +
+      'account structure or market infrastructure outside the SWIFT estate.',
+    insight: {
+      roleType:     'Scheme / infrastructure connectivity',
+      whatProvides: 'Controlled messaging, access and routing',
+      whatNotDo:    'Scheme settlement or finality',
+      controlFocus: 'Membership, service, message type and destination routing',
+      paragraph:
+        'In this role, the SWIFT estate helps the bank connect to schemes, services or market ' +
+        'infrastructures through controlled messaging and access arrangements. The estate ' +
+        'classifies and routes messages by service, BIC, membership and backend ownership. ' +
+        'The settlement arrangement remains outside SWIFT and depends on the relevant scheme, ' +
+        'account structure or market infrastructure.',
+    },
+    mobileNodes: [
+      { label: 'Scheme / service access · API channel',             sub: 'Sources',         kind: 'sources'  },
+      { label: 'Authentication · Entitlement · Signing',            sub: 'SWIFT boundary',  kind: 'boundary' },
+      { label: 'Scheme and service connectivity',                   sub: 'Estate function', kind: 'core'     },
+      { label: 'Payments · Treasury',                               sub: 'Bank destination',kind: 'dest'     },
+      { label: 'ACK / NACK · Route decision · Audit · Archive',    sub: 'Evidence',        kind: 'evidence' },
     ],
   },
 };
@@ -220,8 +275,9 @@ function buildShell(): string {
         </div>
 
         <div class="srm-service-panel">
-          <div class="srm-region-label">Service path</div>
+          <div class="srm-region-label" data-srm-service-label>Service path</div>
           ${railNodes}
+          <p class="srm-service-note" data-srm-service-note></p>
         </div>
 
         <div class="srm-destinations">
@@ -244,6 +300,7 @@ function buildShell(): string {
     <div class="srm-outside">
       <div class="srm-outside-header">Outside SWIFT — settlement and accounting truth</div>
       <div class="srm-outside-nodes">${outsideNodes}</div>
+      <p class="srm-outside-note" data-srm-outside-note></p>
     </div>
 
     <div class="srm-below-map">
@@ -345,6 +402,16 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
       panel.classList.remove('srm-insight--out');
     }, 110);
   }
+
+  // ── Service panel label and note ──
+  const serviceLabelEl = wrapper.querySelector<HTMLElement>('[data-srm-service-label]');
+  if (serviceLabelEl) serviceLabelEl.textContent = role.servicePanelLabel ?? 'Service path';
+  const serviceNoteEl = wrapper.querySelector<HTMLElement>('[data-srm-service-note]');
+  if (serviceNoteEl) serviceNoteEl.textContent = role.servicePanelNote ?? '';
+
+  // ── Outside-SWIFT note ──
+  const outsideNoteEl = wrapper.querySelector<HTMLElement>('[data-srm-outside-note]');
+  if (outsideNoteEl) outsideNoteEl.textContent = role.outsideNote ?? '';
 
   // ── aria-live ──
   const live = wrapper.querySelector<HTMLElement>('.srm-sr-live');
