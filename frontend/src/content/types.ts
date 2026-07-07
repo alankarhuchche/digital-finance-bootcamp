@@ -28,7 +28,8 @@ export type ContentBlock =
   | { kind: 'callout'; heading?: string; data: CalloutSpec }
   | { kind: 'comparison'; heading?: string; data: ComparisonSpec }
   | { kind: 'what-moves-visual'; heading?: string }
-  | { kind: 'swift-gateway-visual'; heading?: string };
+  | { kind: 'swift-gateway-visual'; heading?: string }
+  | { kind: 'swift-role-map-preview'; heading?: string };
 
 export interface ModuleMeta {
   id: string;

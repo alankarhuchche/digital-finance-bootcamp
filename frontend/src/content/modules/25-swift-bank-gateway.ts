@@ -18,6 +18,9 @@ const content: ModuleContent = {
       kind: 'swift-gateway-visual',
     },
     {
+      kind: 'swift-role-map-preview',
+    },
+    {
       kind: 'stack',
       heading: 'The six roles of a bank SWIFT estate',
       data: [
