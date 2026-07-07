@@ -1,7 +1,7 @@
 // SWIFT estate role-route map visual.
-// Phases A–B3: Roles 1–4 implemented. Roles 5–6 disabled.
+// Phases A–B4: Roles 1–5 implemented. Role 6 disabled.
 // Direction model (B1.5): bank systems (left) ⇄ SWIFT estate ⇄ external / network side (right).
-// Role 1 = inbound channel. Role 2 = outbound gateway / scheme connector. Role 3 = bidirectional routing and transformation. Role 4 = control overlay.
+// Role 1 = inbound channel. Role 2 = outbound gateway / scheme connector. Role 3 = bidirectional routing and transformation. Role 4 = control overlay. Role 5 = controlled contingency entry.
 // Settlement is structurally outside the SWIFT estate — no active route into it.
 // No money tokens. ACK/NACK = processing status, not settlement finality.
 // Wired as a prototype preview block; not yet the live teaching visual. Do not set ready: true.
@@ -33,7 +33,7 @@ interface SrmRoleData {
   evidActive: string[];
   evidContext: string[];
   outsideNote?: string;
-  direction: 'inbound' | 'outbound' | 'bidirectional' | 'overlay';
+  direction: 'inbound' | 'outbound' | 'bidirectional' | 'overlay' | 'contingency';
   caption: string;
   insight: SrmInsight;
   mobileNodes: Array<{ label: string; sub: string; kind: 'sources' | 'boundary' | 'core' | 'dest' | 'evidence' }>;
@@ -78,6 +78,13 @@ const RAIL_DEFS: Array<{ id: string; label: string; terminalLabel: string }> = [
   { id: 'control-repair',   label: 'Repair queue',           terminalLabel: 'Disposition state' },
   { id: 'control-hold',     label: 'Hold / reject',          terminalLabel: 'Disposition state' },
   { id: 'control-release',  label: 'Release',                terminalLabel: 'Disposition state' },
+  // Role 5 — control-mandate lanes (terminal is controlled contingency state, not settlement)
+  { id: 'contingency-intake',         label: 'Manual intake',           terminalLabel: 'Controlled contingency state' },
+  { id: 'contingency-approval',       label: 'Approval check',          terminalLabel: 'Controlled contingency state' },
+  { id: 'contingency-sanctions',      label: 'Sanctions screen',        terminalLabel: 'Controlled contingency state' },
+  { id: 'contingency-release',        label: 'Release / hold',          terminalLabel: 'Controlled contingency state' },
+  { id: 'contingency-reconciliation', label: 'Reconciliation evidence', terminalLabel: 'Controlled contingency state' },
+  { id: 'contingency-retention',      label: 'Retention',               terminalLabel: 'Controlled contingency state' },
 ];
 
 // Right column — external/network side (source for inbound; destination for outbound)
@@ -91,31 +98,33 @@ const EXTERNAL_NODES = [
 ];
 
 const EVID_NODES = [
-  { id: 'ack-nack',       label: 'ACK / NACK' },
-  { id: 'route-decision', label: 'Route decision' },
-  { id: 'audit',          label: 'Audit' },
-  { id: 'archive',        label: 'Archive' },
-  { id: 'repair-trail',   label: 'Repair trail' },
-  { id: 'gpi-uetr',       label: 'gpi / UETR' },
-  { id: 'investigation',  label: 'Investigation evidence' },
+  { id: 'ack-nack',            label: 'ACK / NACK' },
+  { id: 'route-decision',      label: 'Route decision' },
+  { id: 'audit',               label: 'Audit' },
+  { id: 'archive',             label: 'Archive' },
+  { id: 'repair-trail',        label: 'Repair trail' },
+  { id: 'gpi-uetr',            label: 'gpi / UETR' },
+  { id: 'investigation',       label: 'Investigation evidence' },
+  { id: 'reconciliation-evid', label: 'Reconciliation evidence' },
+  { id: 'retention-evid',      label: 'Retention' },
 ];
 
 const OUTSIDE_NODES = [
   'RTGS', 'Nostro / vostro', 'Local clearing', 'Market infrastructure', 'Bank ledgers',
 ];
 
-// ── Role selector metadata (all 6; r1–r4 enabled through Phase B3) ──────────
+// ── Role selector metadata (all 6; r1–r5 enabled through Phase B4) ──────────
 
 const ROLE_META = [
   { id: 'r1', label: '01 · Channel and secure access', enabled: true },
   { id: 'r2', label: '02 · Scheme connector',           enabled: true },
   { id: 'r3', label: '03 · Routing and transformation', enabled: true },
   { id: 'r4', label: '04 · Controls and repair',        enabled: true },
-  { id: 'r5', label: '05 · Contingency entry',          enabled: false },
+  { id: 'r5', label: '05 · Contingency entry',          enabled: true },
   { id: 'r6', label: '06 · Evidence and archive',       enabled: false },
 ];
 
-// ── Role data (r1–r4; direction model corrected in Phase B1.5) ────────────────
+// ── Role data (r1–r5; direction model corrected in Phase B1.5) ────────────────
 
 const ROLE_CONFIGS: Record<string, SrmRoleData> = {
   r1: {
@@ -272,6 +281,50 @@ const ROLE_CONFIGS: Record<string, SrmRoleData> = {
       { label: 'Controls, screening and repair',                               sub: 'Estate function',        kind: 'core'     },
       { label: 'Validate · Screen · Repair · Hold / reject · Release',        sub: 'Control outcomes',       kind: 'dest'     },
       { label: 'Audit · Route decision · Repair trail · ACK / NACK',          sub: 'Evidence',               kind: 'evidence' },
+    ],
+  },
+
+  r5: {
+    functionLabel: 'Controlled contingency intake',
+    functionChips: ['Approval', 'Segregation of duties', 'Sanctions screening', 'Release / hold'],
+    bankSideActive:  ['contingency-entry', 'internal-app', 'payments'],
+    bankSideContext: ['treasury', 'reporting'],
+    railIds: [
+      'contingency-intake', 'contingency-approval', 'contingency-sanctions',
+      'contingency-release', 'contingency-reconciliation', 'contingency-retention',
+    ],
+    servicePanelLabel: 'Control-mandate lanes',
+    servicePanelNote:  'Contingency may bypass a failed upstream layer; it must not bypass controls.',
+    externalActive:  [],
+    externalContext: ['corporate-fi', 'correspondent-fi', 'api-channel'],
+    evidActive:  ['audit', 'archive', 'route-decision', 'reconciliation-evid', 'retention-evid'],
+    evidContext: ['ack-nack', 'investigation'],
+    outsideNote: 'Contingency entry does not override accounting, settlement or reconciliation.',
+    direction: 'contingency',
+    caption:
+      'In this role, the SWIFT estate may provide controlled contingency entry when an upstream ' +
+      'channel, workflow tool or payment platform is impaired. This can bypass the failed upstream ' +
+      'layer, but it must not bypass approval, entitlement, segregation of duties, sanctions ' +
+      'screening, accounting, settlement, reconciliation, audit evidence or retention. The estate ' +
+      'is high-impact because it can accept instructions directly when other layers cannot.',
+    insight: {
+      roleType:     'Controlled contingency entry',
+      whatProvides: 'Protected alternate entry and evidence',
+      whatNotDo:    'Bypass controls or settle money',
+      controlFocus: 'Approval, entitlement, segregation of duties and audit',
+      paragraph:
+        'In this role, the SWIFT estate may provide controlled contingency entry when an upstream ' +
+        'channel, workflow tool or payment platform is impaired. This can bypass the failed upstream ' +
+        'layer, but it must not bypass approval, entitlement, segregation of duties, sanctions ' +
+        'screening, accounting, settlement, reconciliation, audit evidence or retention. The estate ' +
+        'is high-impact because it can accept instructions directly when other layers cannot.',
+    },
+    mobileNodes: [
+      { label: 'Contingency entry · Internal app / file · Payments',             sub: 'Bank systems (active)',     kind: 'sources'  },
+      { label: 'Authentication · Entitlement · Signing',                          sub: 'SWIFT boundary',            kind: 'boundary' },
+      { label: 'Controlled contingency intake',                                   sub: 'Estate function',           kind: 'core'     },
+      { label: 'Manual intake · Approval · Sanctions screen · Release / hold',   sub: 'Control-mandate lanes',     kind: 'dest'     },
+      { label: 'Audit · Archive · Reconciliation evidence · Retention',           sub: 'Evidence',                  kind: 'evidence' },
     ],
   },
 };
@@ -491,6 +544,7 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
     const text = d === 'inbound'       ? '← Inbound channel'
                : d === 'outbound'      ? '→ Outbound gateway'
                : d === 'bidirectional' ? '↔ Bidirectional routing'
+               : d === 'contingency'   ? '→ Controlled contingency'
                :                        '◆ Control overlay';
     dirBadge.textContent = text;
     dirBadge.classList.add(`srm-direction-badge--${d}`);
@@ -565,8 +619,8 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
         gate.classList.add('srm-gate--active');
       }, i * 80);
     });
-    // Boundary band gets focus in Role 1 — boundary is the primary teaching point
-    if (roleId === 'r1') {
+    // Boundary band gets focus in Role 1 (access) and Role 5 (contingency) — boundary is the primary teaching point
+    if (roleId === 'r1' || roleId === 'r5') {
       setTimeout(() => {
         if (seqToken !== token) return;
         wrapper.querySelector<HTMLElement>('[data-srm-boundary]')
@@ -661,7 +715,7 @@ function applyFinalState(wrapper: HTMLElement, role: SrmRoleData): void {
   activateBankSide(wrapper, role);
   Array.from(wrapper.querySelectorAll<HTMLElement>('[data-srm-gate]'))
     .forEach(el => el.classList.add('srm-gate--active'));
-  if (role.railIds.includes('access-path')) {
+  if (role.railIds.includes('access-path') || role.railIds.includes('contingency-intake')) {
     wrapper.querySelector<HTMLElement>('[data-srm-boundary]')
       ?.classList.add('srm-boundary-band--focus');
   }
