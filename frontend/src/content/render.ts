@@ -12,7 +12,6 @@ import { renderMoneyCards } from '../viz/moneyCards';
 import { renderCallout } from '../viz/callout';
 import { renderComparison } from '../viz/comparison';
 import { renderWhatMovesVisual } from '../viz/whatMovesVisual';
-import { renderSwiftGatewayVisual } from '../viz/swiftGatewayVisual';
 import { renderSwiftRoleMap } from '../viz/swiftRoleMap';
 import { renderChatWidget } from '../chat';
 import { buildTopicLink, buildTopicSummaryText, buildLinkedInSnippet, copyAndToast } from '../utils/share';
@@ -160,25 +159,8 @@ async function renderBlock(section: HTMLElement, block: ContentBlock, topicUrl: 
     case 'what-moves-visual':
       renderWhatMovesVisual(mount);
       break;
-    case 'swift-gateway-visual':
-      renderSwiftGatewayVisual(mount);
+    case 'swift-role-map':
+      renderSwiftRoleMap(mount);
       break;
-    case 'swift-role-map-preview': {
-      const banner = document.createElement('div');
-      banner.className = 'srm-preview-banner';
-      banner.innerHTML =
-        '<span class="srm-preview-tag">Prototype preview</span>' +
-        '<span class="srm-preview-title">SWIFT role-route map</span>';
-      mount.appendChild(banner);
-      const notice = document.createElement('p');
-      notice.className = 'srm-preview-notice';
-      notice.textContent =
-        'This prototype is shown for visual review and is not yet the live teaching visual.';
-      mount.appendChild(notice);
-      const visual = document.createElement('div');
-      mount.appendChild(visual);
-      renderSwiftRoleMap(visual);
-      break;
-    }
   }
 }

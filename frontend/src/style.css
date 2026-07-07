@@ -2482,36 +2482,13 @@ svg.world-map { width: 100%; height: auto; display: block; }
 }
 
 /* ============================================================
-   SWIFT Role Map (SRM) — Phases A–B5 prototype
+   SWIFT Role Map (SRM) — Phases A–B5
    Direction model: bank systems ⇄ SWIFT estate ⇄ external / network side
    Role 1 inbound channel. Role 2 outbound gateway. Role 3 bidirectional routing. Role 4 control overlay. Role 5 controlled contingency entry. Role 6 evidence overlay.
    Settlement is structurally outside the estate — never path-active.
    Prefix: srm-  (distinct from sgv- chip-board and brm- bank route map)
    ============================================================ */
 
-/* ── Prototype preview banner (Phase A.1 — temporary, removed at cutover) ── */
-.srm-preview-banner {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 14px;
-  border-left: 3px solid rgba(232,163,61,0.55);
-  border-radius: 0 4px 4px 0;
-  background: rgba(232,163,61,0.06);
-  margin-bottom: 8px;
-}
-.srm-preview-tag {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-  color: rgba(232,163,61,0.75);
-  padding: 2px 7px; border-radius: 3px;
-  background: rgba(232,163,61,0.12);
-}
-.srm-preview-title {
-  font-size: 13px; color: var(--text); font-weight: 500;
-}
-.srm-preview-notice {
-  font-size: 12px; color: var(--text-dim); font-style: italic;
-  margin: 0 0 16px; line-height: 1.55;
-}
 
 /* ── Wrapper ── */
 .srm-wrapper { display: flex; flex-direction: column; gap: 0; font-size: 13px; }

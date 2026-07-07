@@ -6,19 +6,16 @@ const content: ModuleContent = {
   title: 'Inside a bank SWIFT gateway',
   summary: 'The SWIFT estate is a controlled financial messaging layer — not a send/receive pipe, not a settlement rail, and not a liquidity manager. Understanding its six roles clarifies what it does, what it does not do, and why it is treated as a high-impact control surface.',
   ready: false,
-  updatedAt: '2026-07-06',
+  updatedAt: '2026-07-07',
   changeType: 'new',
-  changeSummary: 'New concept page: SWIFT estate as controlled messaging layer. Operating-map visual with roles 1–5 active.',
+  changeSummary: 'Route-map visual promoted as live teaching visual — all six roles active. Chip-board visual removed from page. Topic pending final release review.',
   blocks: [
     {
       kind: 'text',
       body: `The SWIFT estate is where financial messages become controlled, routed, evidenced and reportable bank obligations.\n\nIn a large bank, the estate is more than a SWIFT connection. It operates as a controlled channel for corporates and financial institutions, a connector to domestic schemes and market infrastructures, a routing and transformation layer, a sanctions and repair orchestration point, a gpi and status processor, a contingency entry route, a secure-zone control surface, and a raw-message evidence source for reporting, reconciliation, audit and legal retention.`,
     },
     {
-      kind: 'swift-gateway-visual',
-    },
-    {
-      kind: 'swift-role-map-preview',
+      kind: 'swift-role-map',
     },
     {
       kind: 'stack',

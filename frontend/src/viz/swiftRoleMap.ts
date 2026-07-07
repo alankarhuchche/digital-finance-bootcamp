@@ -4,7 +4,7 @@
 // Role 1 = inbound channel. Role 2 = outbound gateway / scheme connector. Role 3 = bidirectional routing and transformation. Role 4 = control overlay. Role 5 = controlled contingency entry. Role 6 = evidence overlay.
 // Settlement is structurally outside the SWIFT estate — no active route into it.
 // No money tokens. ACK/NACK = processing status, not settlement finality.
-// Wired as a prototype preview block; not yet the live teaching visual. Do not set ready: true.
+// Live teaching visual for /topic/swift-bank-gateway. Topic ready status is managed in 25-swift-bank-gateway.ts.
 
 let seqToken = 0;
 const prefersReducedMotion = (): boolean =>
