@@ -281,7 +281,7 @@ function buildShell(): string {
         </div>
 
         <div class="srm-destinations">
-          <div class="srm-region-label">Bank destinations</div>
+          <div class="srm-region-label">Bank processing systems</div>
           ${destNodes}
         </div>
 
