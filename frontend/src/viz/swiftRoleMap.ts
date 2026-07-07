@@ -1,7 +1,7 @@
 // SWIFT estate role-route map visual.
-// Phases A–B1.5: Roles 1–2 implemented. Roles 3–6 disabled.
+// Phases A–B2: Roles 1–3 implemented. Roles 4–6 disabled.
 // Direction model (B1.5): bank systems (left) ⇄ SWIFT estate ⇄ external / network side (right).
-// Role 1 = inbound channel. Role 2 = outbound gateway / scheme connector.
+// Role 1 = inbound channel. Role 2 = outbound gateway / scheme connector. Role 3 = bidirectional routing and transformation.
 // Settlement is structurally outside the SWIFT estate — no active route into it.
 // No money tokens. ACK/NACK = processing status, not settlement finality.
 // Wired as a prototype preview block; not yet the live teaching visual. Do not set ready: true.
@@ -67,15 +67,21 @@ const RAIL_DEFS: Array<{ id: string; label: string; terminalLabel: string }> = [
   { id: 'sepa-related',    label: 'SEPA-related services',  terminalLabel: 'Scheme / service interface' },
   { id: 'cls',             label: 'CLS',                    terminalLabel: 'Scheme / service interface' },
   { id: 'crest',           label: 'CREST',                  terminalLabel: 'Scheme / service interface' },
+  // Role 3 — message / service-family routing paths (terminal is routed message, not settlement)
+  { id: 'mt-payment',       label: 'MT payment messages',    terminalLabel: 'Routed message' },
+  { id: 'iso-pacs',         label: 'ISO 20022 pacs',         terminalLabel: 'Routed message' },
+  { id: 'iso-camt',         label: 'ISO 20022 camt',         terminalLabel: 'Routed message' },
+  { id: 'trade-securities', label: 'Trade / securities',     terminalLabel: 'Routed message' },
 ];
 
 // Right column — external/network side (source for inbound; destination for outbound)
 const EXTERNAL_NODES = [
-  { id: 'corporate-fi',   label: 'Corporate / FI' },
-  { id: 'secure-web',     label: 'Secure web' },
-  { id: 'api-channel',    label: 'API channel' },
-  { id: 'score-macug',    label: 'SCORE / MA-CUG' },
-  { id: 'scheme-service', label: 'Scheme / service access' },
+  { id: 'corporate-fi',    label: 'Corporate / FI' },
+  { id: 'correspondent-fi',label: 'Correspondent / FI' },
+  { id: 'secure-web',      label: 'Secure web' },
+  { id: 'api-channel',     label: 'API channel' },
+  { id: 'score-macug',     label: 'SCORE / MA-CUG' },
+  { id: 'scheme-service',  label: 'Scheme / service access' },
 ];
 
 const EVID_NODES = [
@@ -83,6 +89,7 @@ const EVID_NODES = [
   { id: 'route-decision', label: 'Route decision' },
   { id: 'audit',          label: 'Audit' },
   { id: 'archive',        label: 'Archive' },
+  { id: 'gpi-uetr',       label: 'gpi / UETR' },
   { id: 'investigation',  label: 'Investigation evidence' },
 ];
 
@@ -95,13 +102,13 @@ const OUTSIDE_NODES = [
 const ROLE_META = [
   { id: 'r1', label: '01 · Channel and secure access', enabled: true },
   { id: 'r2', label: '02 · Scheme connector',           enabled: true },
-  { id: 'r3', label: '03 · Routing and transformation', enabled: false },
+  { id: 'r3', label: '03 · Routing and transformation', enabled: true },
   { id: 'r4', label: '04 · Controls and repair',        enabled: false },
   { id: 'r5', label: '05 · Contingency entry',          enabled: false },
   { id: 'r6', label: '06 · Evidence and archive',       enabled: false },
 ];
 
-// ── Role data (r1 and r2; direction model corrected in Phase B1.5) ────────────
+// ── Role data (r1–r3; direction model corrected in Phase B1.5) ────────────────
 
 const ROLE_CONFIGS: Record<string, SrmRoleData> = {
   r1: {
@@ -178,6 +185,47 @@ const ROLE_CONFIGS: Record<string, SrmRoleData> = {
       { label: 'Scheme and service connectivity',                   sub: 'Estate function',       kind: 'core'     },
       { label: 'Scheme / service interface',                        sub: 'External connectivity', kind: 'dest'     },
       { label: 'ACK / NACK · Route decision · Audit · Archive',    sub: 'Evidence',              kind: 'evidence' },
+    ],
+  },
+
+  r3: {
+    functionLabel: 'Message routing and transformation',
+    functionChips: ['Classify', 'Validate', 'Transform / enrich', 'Route'],
+    bankSideActive:  ['payments', 'treasury', 'securities'],
+    bankSideContext: ['reporting', 'internal-app'],
+    railIds: ['mt-payment', 'iso-pacs', 'iso-camt', 'trade-securities'],
+    servicePanelLabel: 'Message and service-family connectivity paths',
+    servicePanelNote:  'Transformation applies where coexistence, service rules or backend ownership require it.',
+    externalActive:  ['corporate-fi', 'correspondent-fi', 'scheme-service'],
+    externalContext: ['api-channel', 'score-macug'],
+    evidActive:  ['route-decision', 'audit', 'archive', 'ack-nack'],
+    evidContext: ['gpi-uetr', 'investigation'],
+    outsideNote: 'Routing and transformation do not create settlement or accounting truth.',
+    direction: 'bidirectional',
+    caption:
+      'In this role, the SWIFT estate classifies messages, validates required fields, ' +
+      'transforms or enriches data where coexistence or service rules require it, and routes ' +
+      'messages between bank systems and the external SWIFT/network side. This supports ' +
+      'migration and interoperability, but it does not change the underlying obligation, ' +
+      'create accounting truth or make settlement final.',
+    insight: {
+      roleType:     'Routing and transformation layer',
+      whatProvides: 'Classification, transformation and routing evidence',
+      whatNotDo:    'Change obligations or settle money',
+      controlFocus: 'Message family, service rules, BICs and backend ownership',
+      paragraph:
+        'In this role, the SWIFT estate classifies messages, validates required fields, ' +
+        'transforms or enriches data where coexistence or service rules require it, and routes ' +
+        'messages between bank systems and the external SWIFT/network side. This supports ' +
+        'migration and interoperability, but it does not change the underlying obligation, ' +
+        'create accounting truth or make settlement final.',
+    },
+    mobileNodes: [
+      { label: 'Payments · Treasury · Securities',                       sub: 'Bank systems',             kind: 'sources'  },
+      { label: 'Authentication · Entitlement · Signing',                 sub: 'SWIFT boundary',           kind: 'boundary' },
+      { label: 'Message routing and transformation',                     sub: 'Estate function',          kind: 'core'     },
+      { label: 'Corporate / FI · Correspondent / FI · Scheme access',   sub: 'External / network side',  kind: 'dest'     },
+      { label: 'Route decision · Audit · Archive · ACK / NACK',         sub: 'Evidence',                 kind: 'evidence' },
     ],
   },
 };
@@ -396,7 +444,7 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
     const d = role.direction;
     const text = d === 'inbound'       ? '← Inbound channel'
                : d === 'outbound'      ? '→ Outbound gateway'
-               : d === 'bidirectional' ? '⇄ Bidirectional'
+               : d === 'bidirectional' ? '↔ Bidirectional routing'
                :                        '↔ Control overlay';
     dirBadge.textContent = text;
     dirBadge.classList.add(`srm-direction-badge--${d}`);
