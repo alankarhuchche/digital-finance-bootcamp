@@ -1,6 +1,6 @@
 // swiftGatewayVisual.ts
 // Inside a bank SWIFT gateway — operating-map visual.
-// Roles 1, 2, 3 and 4 active. Roles 5–6 present as disabled selector chips; content not yet implemented.
+// Roles 1–5 active. Role 6 present as a disabled selector chip; content not yet implemented.
 // Settlement boundary is structurally outside the SWIFT estate — never path-active.
 // No money tokens animate through SWIFT. ACK/NACK = processing status, not settlement finality.
 
@@ -29,7 +29,7 @@ const ROLES = [
   { id: 'r2', label: '02 · Scheme connector',          enabled: true },
   { id: 'r3', label: '03 · Routing and transformation',enabled: true },
   { id: 'r4', label: '04 · Controls and repair',       enabled: true },
-  { id: 'r5', label: '05 · Contingency entry',         enabled: false },
+  { id: 'r5', label: '05 · Contingency entry',         enabled: true },
   { id: 'r6', label: '06 · Evidence and archive',      enabled: false },
 ];
 
@@ -37,12 +37,17 @@ const ZONES: Zone[] = [
   {
     id: 'entry', label: 'Entry points',
     chips: [
-      { id: 'corporate-fi',  label: 'Corporate / FI' },
-      { id: 'score-macug',   label: 'SCORE / MA-CUG' },
-      { id: 'secure-web',    label: 'Secure web' },
-      { id: 'api-channel',   label: 'API channel' },
-      { id: 'scheme-portal', label: 'Scheme portal' },
-      { id: 'internal-file', label: 'Internal app / file channel' },
+      { id: 'corporate-fi',       label: 'Corporate / FI' },
+      { id: 'score-macug',        label: 'SCORE / MA-CUG' },
+      { id: 'secure-web',         label: 'Secure web' },
+      { id: 'api-channel',        label: 'API channel' },
+      { id: 'scheme-portal',      label: 'Scheme portal' },
+      { id: 'internal-file',      label: 'Internal app / file channel' },
+      { id: 'contingency-entry',  label: 'Contingency entry' },
+      { id: 'manual-instruction', label: 'Manual instruction' },
+      { id: 'file-api-fallback',  label: 'File / API fallback' },
+      { id: 'failed-upstream',    label: 'Failed upstream channel' },
+      { id: 'workflow-outage',    label: 'Workflow outage' },
     ],
   },
   {
@@ -57,12 +62,17 @@ const ZONES: Zone[] = [
   {
     id: 'fabric', label: 'SWIFT control fabric',
     chips: [
-      { id: 'classify',   label: 'Classify' },
-      { id: 'validate',   label: 'Validate' },
-      { id: 'transform',  label: 'Transform / enrich' },
-      { id: 'screen',     label: 'Screen' },
-      { id: 'repair',     label: 'Repair' },
-      { id: 'prioritise', label: 'Prioritise' },
+      { id: 'classify',         label: 'Classify' },
+      { id: 'validate',         label: 'Validate' },
+      { id: 'transform',        label: 'Transform / enrich' },
+      { id: 'screen',           label: 'Screen' },
+      { id: 'repair',           label: 'Repair' },
+      { id: 'prioritise',       label: 'Prioritise' },
+      { id: 'approval',         label: 'Approval' },
+      { id: 'seg-duties',       label: 'Segregation of duties' },
+      { id: 'sanctions-screen', label: 'Sanctions screening' },
+      { id: 'release-hold',     label: 'Release / hold' },
+      { id: 'monitoring',       label: 'Monitoring' },
     ],
   },
   {
@@ -74,6 +84,7 @@ const ZONES: Zone[] = [
       { id: 'membership',    label: 'Membership' },
       { id: 'msg-family',    label: 'Message family' },
       { id: 'backend-owner', label: 'Backend owner' },
+      { id: 'priority',      label: 'Priority' },
     ],
   },
   {
@@ -90,12 +101,14 @@ const ZONES: Zone[] = [
   {
     id: 'evidence', label: 'Status and evidence',
     chips: [
-      { id: 'ack-nack',       label: 'ACK / NACK' },
-      { id: 'gpi-uetr',       label: 'gpi / UETR' },
-      { id: 'repair-trail',   label: 'Repair trail' },
-      { id: 'route-decision', label: 'Route decision' },
-      { id: 'archive',        label: 'Archive' },
-      { id: 'audit',          label: 'Audit' },
+      { id: 'ack-nack',             label: 'ACK / NACK' },
+      { id: 'gpi-uetr',             label: 'gpi / UETR' },
+      { id: 'repair-trail',         label: 'Repair trail' },
+      { id: 'route-decision',       label: 'Route decision' },
+      { id: 'archive',              label: 'Archive' },
+      { id: 'audit',                label: 'Audit' },
+      { id: 'reconciliation-evid',  label: 'Reconciliation evidence' },
+      { id: 'retention',            label: 'Retention' },
     ],
   },
   {
@@ -181,6 +194,24 @@ const ROLE_CONFIGS: Record<string, RoleConfig> = {
       { zoneId: 'fabric',   chipIds: ['validate', 'screen', 'repair'],                      contextChipIds: ['classify', 'prioritise'], seqNum: 3 },
       { zoneId: 'routing',  chipIds: ['service', 'msg-family', 'backend-owner'],                                                         seqNum: 4 },
       { zoneId: 'evidence', chipIds: ['ack-nack', 'route-decision', 'audit', 'archive'],    contextChipIds: ['gpi-uetr'],               seqNum: 5 },
+    ],
+  },
+  r5: {
+    caption: 'Role 5 — Contingency entry route',
+    fields: [
+      { label: 'Role type',              value: 'Controlled fallback entry' },
+      { label: 'What SWIFT provides',    value: 'Protected alternate entry and evidence' },
+      { label: 'What SWIFT does not do', value: 'Bypass controls or settle money' },
+      { label: 'Control focus',          value: 'Approval, entitlement, segregation of duties and audit' },
+    ],
+    insight: 'In this role, the SWIFT estate may provide controlled contingency entry when an upstream channel, workflow tool or payment platform is impaired. This can bypass the failed upstream layer, but it must not bypass approval, entitlement, segregation of duties, sanctions screening, accounting, settlement, reconciliation, audit evidence or retention. The estate is high-impact because it can accept instructions directly when other layers cannot.',
+    path: [
+      { zoneId: 'entry',    chipIds: ['contingency-entry', 'manual-instruction', 'file-api-fallback'],                    contextChipIds: ['failed-upstream', 'workflow-outage'],  seqNum: 1 },
+      { zoneId: 'boundary', chipIds: ['auth', 'entitlement', 'signing'],                                                                                                           seqNum: 2 },
+      { zoneId: 'fabric',   chipIds: ['approval', 'seg-duties', 'sanctions-screen', 'validate', 'release-hold'],          contextChipIds: ['repair', 'monitoring'],               seqNum: 3 },
+      { zoneId: 'routing',  chipIds: ['service', 'backend-owner', 'priority'],                                                                                                     seqNum: 4 },
+      { zoneId: 'dest',     chipIds: ['payments', 'treasury'],                                                                                                                     seqNum: 5 },
+      { zoneId: 'evidence', chipIds: ['audit', 'archive', 'route-decision', 'reconciliation-evid', 'retention'],          contextChipIds: ['ack-nack'],                           seqNum: 6 },
     ],
   },
 };

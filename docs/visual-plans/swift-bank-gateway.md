@@ -2,7 +2,7 @@
 
 ## Status
 
-Phases 1–6 complete (not yet committed). Operating-map visual shell: 3-column desktop layout (entry points · SWIFT secure boundary + control fabric · routing brain + bank destinations), lower row (status/evidence + settlement boundary outside SWIFT estate). Roles 1–4 active with sequence markers and insight panels. Roles 5–6 present as disabled selector chips. Phase 7 (role 5: contingency entry route) not yet planned for implementation.
+Phases 1–7 complete (not yet committed). Operating-map visual shell (chip-board grammar): 3-column desktop layout (entry points · SWIFT secure boundary + control fabric · routing brain + bank destinations), lower row (status/evidence + settlement boundary outside SWIFT estate). Roles 1–5 active with sequence markers and insight panels. Role 6 present as a disabled selector chip; content not yet implemented. Phase 8 (role 6: evidence and archive) not yet started.
 
 Route: `/topic/swift-bank-gateway` (confirmed)
 
