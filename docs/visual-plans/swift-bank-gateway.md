@@ -4,7 +4,7 @@
 
 Phases 1–7 complete (not yet committed). Operating-map visual shell (chip-board grammar): 3-column desktop layout (entry points · SWIFT secure boundary + control fabric · routing brain + bank destinations), lower row (status/evidence + settlement boundary outside SWIFT estate). Roles 1–5 active with sequence markers and insight panels. Role 6 present as a disabled selector chip; content not yet implemented. Phase 8 (role 6: evidence and archive) not yet started.
 
-Parallel prototype — Phase A started: new route-map visual (`frontend/src/viz/swiftRoleMap.ts`) created alongside the chip-board visual. Role 1 (Channel and secure access) implemented with BRM grammar: directed source→estate→service-path→destination layout, boundary gates, function core, evidence band, settlement block structurally outside estate. Roles 2–6 present as disabled selector buttons. Not yet wired into render.ts or types.ts — safe parallel prototype only.
+Parallel prototype — Phase A complete, Phase A.1 preview wiring complete: new route-map visual (`frontend/src/viz/swiftRoleMap.ts`) created alongside the chip-board visual. Role 1 (Channel and secure access) implemented with BRM grammar: directed source→estate→service-path→destination layout, boundary gates, function core, evidence band, settlement block structurally outside estate. Roles 2–6 present as disabled selector buttons. Wired into render.ts and types.ts as `swift-role-map-preview` block kind — prototype preview block appears below the chip-board visual, labelled "Prototype preview — SWIFT role-route map". Not yet the live teaching block; chip-board remains live above it.
 
 Route: `/topic/swift-bank-gateway` (confirmed)
 

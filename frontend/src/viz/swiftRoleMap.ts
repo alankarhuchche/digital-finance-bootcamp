@@ -2,7 +2,7 @@
 // Phase A: Role 1 (Channel and secure access) implemented. Roles 2–6 disabled.
 // Settlement is structurally outside the SWIFT estate — no active route into it.
 // No money tokens. ACK/NACK = processing status, not settlement finality.
-// Do not set ready: true — not yet wired into render.ts.
+// Wired as a prototype preview block; not yet the live teaching visual. Do not set ready: true.
 
 let seqToken = 0;
 const prefersReducedMotion = (): boolean =>
