@@ -568,7 +568,7 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
   wrapper.querySelectorAll<HTMLElement>('[data-srm-gate]').forEach(el =>
     el.classList.remove('srm-gate--active'));
   wrapper.querySelectorAll<HTMLElement>('[data-srm-rail]').forEach(el =>
-    el.classList.remove('srm-rail--active', 'srm-rail--shimmer'));
+    el.classList.remove('srm-rail--active', 'srm-rail--shimmer', 'srm-rail--shown'));
   wrapper.querySelectorAll<HTMLElement>('[data-srm-dest]').forEach(el =>
     el.classList.remove('srm-dest--active', 'srm-dest--context'));
   wrapper.querySelectorAll<HTMLElement>('[data-srm-evid]').forEach(el =>
@@ -577,6 +577,12 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
     ?.classList.remove('srm-core--active', 'srm-core--pulse');
   wrapper.querySelector<HTMLElement>('[data-srm-boundary]')
     ?.classList.remove('srm-boundary-band--focus');
+
+  // Show only current role's rails immediately — prevents map sizing around all 27 rails
+  const visibleRails = new Set(role.railIds);
+  wrapper.querySelectorAll<HTMLElement>('[data-srm-rail]').forEach(el => {
+    el.classList.toggle('srm-rail--shown', visibleRails.has(el.dataset.srmRail ?? ''));
+  });
 
   // ── Function core content update ──
   const coreLabel = wrapper.querySelector<HTMLElement>('[data-srm-core-label]');

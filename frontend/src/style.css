@@ -2646,16 +2646,24 @@ svg.world-map { width: 100%; height: auto; display: block; }
 }
 
 /* ── Service / path panel ── */
-.srm-service-panel { display: flex; flex-direction: column; gap: 0; }
+.srm-service-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  column-gap: 8px;
+  align-items: start;
+}
+.srm-service-panel > .srm-region-label,
+.srm-service-panel > .srm-service-note { grid-column: 1 / -1; }
 
 .srm-rail {
-  padding: 6px 0 8px;
+  display: none;
+  padding: 5px 0 7px;
   border-bottom: 1px solid rgba(255,255,255,0.04);
   opacity: 0.22;
   transition: opacity 0.18s;
 }
-.srm-rail:last-child { border-bottom: none; }
-.srm-rail--active { opacity: 1; }
+.srm-rail--shown { display: block; }
+.srm-rail--active { opacity: 1; background: rgba(232,163,61,0.04); border-radius: 3px; }
 
 .srm-rail-head { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
 .srm-rail-name { font-size: 10.5px; color: var(--text); }
@@ -2673,8 +2681,8 @@ svg.world-map { width: 100%; height: auto; display: block; }
 }
 
 .srm-rail-terminal {
-  min-width: 108px; max-width: 126px;
-  padding: 5px 8px;
+  min-width: 72px; max-width: 110px;
+  padding: 4px 7px;
   border-left: 2px solid rgba(95,179,163,0.18);
   border-radius: 0 4px 4px 0;
   background: rgba(95,179,163,0.02);
@@ -2709,7 +2717,7 @@ svg.world-map { width: 100%; height: auto; display: block; }
 
 /* ── Evidence band ── */
 .srm-evidence-band {
-  margin-top: 12px;
+  margin-top: 8px;
   padding: 9px 12px 11px;
   border: 1px solid rgba(255,255,255,0.05);
   border-radius: 4px;
@@ -2737,7 +2745,7 @@ svg.world-map { width: 100%; height: auto; display: block; }
 
 /* ── Outside SWIFT — settlement block ── */
 .srm-outside {
-  margin-top: 12px;
+  margin-top: 8px;
   padding: 10px 14px 12px;
   border: 1px dashed rgba(255,255,255,0.11);
   border-radius: 4px;
