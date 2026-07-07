@@ -5,10 +5,10 @@ const content: ModuleContent = {
   number: '25',
   title: 'Inside a bank SWIFT gateway',
   summary: 'The SWIFT estate is a controlled financial messaging layer — not a send/receive pipe, not a settlement rail, and not a liquidity manager. Understanding its six roles clarifies what it does, what it does not do, and why it is treated as a high-impact control surface.',
-  ready: false,
+  ready: true,
   updatedAt: '2026-07-07',
   changeType: 'new',
-  changeSummary: 'Route-map visual promoted as live teaching visual — all six roles active. Chip-board visual removed from page. Topic pending final release review.',
+  changeSummary: 'Route-map visual released as live teaching visual — all six SWIFT estate roles active.',
   blocks: [
     {
       kind: 'text',
