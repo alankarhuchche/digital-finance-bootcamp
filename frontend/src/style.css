@@ -2482,8 +2482,9 @@ svg.world-map { width: 100%; height: auto; display: block; }
 }
 
 /* ============================================================
-   SWIFT Role Map (SRM) — Phase A prototype
-   Role-route map visual: sources → estate → service path → destinations
+   SWIFT Role Map (SRM) — Phases A–B1.5 prototype
+   Direction model: bank systems ⇄ SWIFT estate ⇄ external / network side
+   Role 1 inbound channel. Role 2 outbound gateway / scheme connector.
    Settlement is structurally outside the estate — never path-active.
    Prefix: srm-  (distinct from sgv- chip-board and brm- bank route map)
    ============================================================ */
@@ -2538,6 +2539,22 @@ svg.world-map { width: 100%; height: auto; display: block; }
 }
 .srm-role-btn--pending { opacity: 0.35; cursor: not-allowed; }
 .srm-role-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+/* ── Direction badge ── */
+.srm-direction-row { margin: 7px 0 0; padding: 0; }
+.srm-direction-badge {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-dim);
+}
+.srm-direction-badge:empty { display: none; }
+.srm-direction-badge--inbound  { border-color: rgba(122,167,217,0.35); color: rgba(122,167,217,0.85); }
+.srm-direction-badge--outbound { border-color: rgba(95,179,163,0.35);  color: rgba(95,179,163,0.85);  }
+.srm-direction-badge--bidirectional { border-color: rgba(232,163,61,0.35); color: rgba(232,163,61,0.85); }
+.srm-direction-badge--overlay  { border-color: rgba(157,126,201,0.35); color: rgba(157,126,201,0.85); }
 
 /* ── Region labels ── */
 .srm-region-label {

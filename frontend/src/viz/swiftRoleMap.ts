@@ -1,5 +1,7 @@
 // SWIFT estate role-route map visual.
-// Phases A–B1: Roles 1–2 implemented. Roles 3–6 disabled.
+// Phases A–B1.5: Roles 1–2 implemented. Roles 3–6 disabled.
+// Direction model (B1.5): bank systems (left) ⇄ SWIFT estate ⇄ external / network side (right).
+// Role 1 = inbound channel. Role 2 = outbound gateway / scheme connector.
 // Settlement is structurally outside the SWIFT estate — no active route into it.
 // No money tokens. ACK/NACK = processing status, not settlement finality.
 // Wired as a prototype preview block; not yet the live teaching visual. Do not set ready: true.
@@ -21,16 +23,17 @@ interface SrmInsight {
 interface SrmRoleData {
   functionLabel: string;
   functionChips: string[];
-  sourcesActive: string[];
-  sourcesContext: string[];
+  bankSideActive: string[];     // left column — bank-internal systems active for this role
+  bankSideContext: string[];    // left column — bank-internal systems shown as context
   railIds: string[];
-  servicePanelLabel?: string;  // overrides 'Service path' region label if set
-  servicePanelNote?: string;   // optional note below rail panel
-  destsActive: string[];
-  destsContext: string[];
+  servicePanelLabel?: string;
+  servicePanelNote?: string;
+  externalActive: string[];     // right column — external/network side nodes active for this role
+  externalContext: string[];    // right column — external/network side nodes shown as context
   evidActive: string[];
   evidContext: string[];
-  outsideNote?: string;        // role-specific note inside outside-SWIFT block
+  outsideNote?: string;
+  direction: 'inbound' | 'outbound' | 'bidirectional' | 'overlay';
   caption: string;
   insight: SrmInsight;
   mobileNodes: Array<{ label: string; sub: string; kind: 'sources' | 'boundary' | 'core' | 'dest' | 'evidence' }>;
@@ -38,12 +41,14 @@ interface SrmRoleData {
 
 // ── Static node definitions ───────────────────────────────────────────────────
 
-const SOURCE_NODES = [
-  { id: 'corporate-fi',   label: 'Corporate / FI' },
-  { id: 'secure-web',     label: 'Secure web' },
-  { id: 'api-channel',    label: 'API channel' },
-  { id: 'score-macug',    label: 'SCORE / MA-CUG' },
-  { id: 'scheme-service', label: 'Scheme / service access' },
+// Left column — bank-internal systems (source for outbound; destination for inbound)
+const BANK_SIDE_NODES = [
+  { id: 'payments',          label: 'Payments' },
+  { id: 'treasury',          label: 'Treasury' },
+  { id: 'securities',        label: 'Securities' },
+  { id: 'reporting',         label: 'Reporting / investigation' },
+  { id: 'internal-app',      label: 'Internal app / file' },
+  { id: 'contingency-entry', label: 'Contingency entry' },
 ];
 
 const BOUNDARY_GATES = [
@@ -64,11 +69,13 @@ const RAIL_DEFS: Array<{ id: string; label: string; terminalLabel: string }> = [
   { id: 'crest',           label: 'CREST',                  terminalLabel: 'Scheme / service interface' },
 ];
 
-const DEST_NODES = [
-  { id: 'payments',   label: 'Payments' },
-  { id: 'treasury',   label: 'Treasury' },
-  { id: 'securities', label: 'Securities' },
-  { id: 'reporting',  label: 'Reporting / investigation' },
+// Right column — external/network side (source for inbound; destination for outbound)
+const EXTERNAL_NODES = [
+  { id: 'corporate-fi',   label: 'Corporate / FI' },
+  { id: 'secure-web',     label: 'Secure web' },
+  { id: 'api-channel',    label: 'API channel' },
+  { id: 'score-macug',    label: 'SCORE / MA-CUG' },
+  { id: 'scheme-service', label: 'Scheme / service access' },
 ];
 
 const EVID_NODES = [
@@ -94,19 +101,20 @@ const ROLE_META = [
   { id: 'r6', label: '06 · Evidence and archive',       enabled: false },
 ];
 
-// ── Role data (r1 and r2 in Phase B1) ────────────────────────────────────────
+// ── Role data (r1 and r2; direction model corrected in Phase B1.5) ────────────
 
 const ROLE_CONFIGS: Record<string, SrmRoleData> = {
   r1: {
     functionLabel: 'Controlled access and authentication',
     functionChips: ['Classify', 'Route-validate'],
-    sourcesActive: ['corporate-fi', 'secure-web', 'api-channel'],
-    sourcesContext: ['score-macug'],
+    bankSideActive:  ['payments'],
+    bankSideContext: ['treasury'],
     railIds: ['access-path'],
-    destsActive: ['payments'],
-    destsContext: ['treasury'],
+    externalActive:  ['corporate-fi', 'secure-web', 'api-channel'],
+    externalContext: ['score-macug'],
     evidActive: ['ack-nack', 'route-decision', 'audit'],
     evidContext: [],
+    direction: 'inbound',
     caption:
       'In this role, the SWIFT estate is an access layer. Corporates, financial ' +
       'institutions or authorised users may reach the bank through SWIFT channels, ' +
@@ -124,27 +132,28 @@ const ROLE_CONFIGS: Record<string, SrmRoleData> = {
         'controlled connectivity and evidence; it does not manage liquidity or settle money.',
     },
     mobileNodes: [
-      { label: 'Corporate / FI · Secure web · API channel', sub: 'Sources',         kind: 'sources'  },
-      { label: 'Authentication · Entitlement · Signing',    sub: 'SWIFT boundary',  kind: 'boundary' },
-      { label: 'Controlled access and authentication',       sub: 'Estate function', kind: 'core'     },
-      { label: 'Payments',                                   sub: 'Bank destination',kind: 'dest'     },
-      { label: 'ACK / NACK · Route decision · Audit',       sub: 'Evidence',        kind: 'evidence' },
+      { label: 'Corporate / FI · Secure web · API channel', sub: 'External / network side', kind: 'sources'  },
+      { label: 'Authentication · Entitlement · Signing',    sub: 'SWIFT boundary',           kind: 'boundary' },
+      { label: 'Controlled access and authentication',       sub: 'Estate function',          kind: 'core'     },
+      { label: 'Payments',                                   sub: 'Bank systems',             kind: 'dest'     },
+      { label: 'ACK / NACK · Route decision · Audit',       sub: 'Evidence',                 kind: 'evidence' },
     ],
   },
 
   r2: {
     functionLabel: 'Scheme and service connectivity',
     functionChips: ['Service', 'Membership', 'BIC', 'Message rules'],
-    sourcesActive:  ['scheme-service', 'api-channel'],
-    sourcesContext: ['corporate-fi', 'secure-web'],
+    bankSideActive:  ['payments', 'treasury'],
+    bankSideContext: ['securities', 'reporting'],
     railIds: ['chaps', 'bacs', 'target-services', 'sepa-related', 'cls', 'crest'],
     servicePanelLabel: 'Example service / infrastructure connectivity contexts',
     servicePanelNote:  'Access model, messaging path and participant role vary by service.',
-    destsActive:  ['payments', 'treasury'],
-    destsContext: ['securities', 'reporting'],
+    externalActive:  [],
+    externalContext: ['scheme-service'],
     evidActive:  ['ack-nack', 'route-decision', 'audit', 'archive'],
     evidContext: ['investigation'],
     outsideNote: 'Settlement depends on scheme, account structure or market infrastructure.',
+    direction: 'outbound',
     caption:
       'In this role, the SWIFT estate helps the bank connect to schemes, services or market ' +
       'infrastructures through controlled messaging and access arrangements. The estate ' +
@@ -164,11 +173,11 @@ const ROLE_CONFIGS: Record<string, SrmRoleData> = {
         'account structure or market infrastructure.',
     },
     mobileNodes: [
-      { label: 'Scheme / service access · API channel',             sub: 'Sources',         kind: 'sources'  },
-      { label: 'Authentication · Entitlement · Signing',            sub: 'SWIFT boundary',  kind: 'boundary' },
-      { label: 'Scheme and service connectivity',                   sub: 'Estate function', kind: 'core'     },
-      { label: 'Payments · Treasury',                               sub: 'Bank destination',kind: 'dest'     },
-      { label: 'ACK / NACK · Route decision · Audit · Archive',    sub: 'Evidence',        kind: 'evidence' },
+      { label: 'Payments · Treasury',                               sub: 'Bank systems',          kind: 'sources'  },
+      { label: 'Authentication · Entitlement · Signing',            sub: 'SWIFT boundary',        kind: 'boundary' },
+      { label: 'Scheme and service connectivity',                   sub: 'Estate function',       kind: 'core'     },
+      { label: 'Scheme / service interface',                        sub: 'External connectivity', kind: 'dest'     },
+      { label: 'ACK / NACK · Route decision · Audit · Archive',    sub: 'Evidence',              kind: 'evidence' },
     ],
   },
 };
@@ -206,7 +215,8 @@ function buildShell(): string {
             ${r.enabled ? '' : 'disabled aria-disabled="true"'}>${r.label}</button>
   `).join('');
 
-  const sourceNodes = SOURCE_NODES.map(n => `
+  // Left column — bank-internal systems
+  const bankSideNodes = BANK_SIDE_NODES.map(n => `
     <div class="srm-source" data-srm-source="${n.id}" aria-label="${n.label}">
       <span class="srm-source-label">${n.label}</span>
     </div>
@@ -235,7 +245,8 @@ function buildShell(): string {
     </div>
   `).join('');
 
-  const destNodes = DEST_NODES.map(n => `
+  // Right column — external/network side
+  const externalNodes = EXTERNAL_NODES.map(n => `
     <div class="srm-dest" data-srm-dest="${n.id}" aria-label="${n.label}">${n.label}</div>
   `).join('');
 
@@ -252,14 +263,17 @@ function buildShell(): string {
       <div class="srm-role-group" role="group" aria-label="Select SWIFT estate role">
         ${roleBtns}
       </div>
+      <p class="srm-direction-row">
+        <span class="srm-direction-badge" data-srm-direction></span>
+      </p>
     </div>
 
     <div class="srm-map-wrapper">
       <div class="srm-map">
 
         <div class="srm-sources">
-          <div class="srm-region-label">Sources</div>
-          ${sourceNodes}
+          <div class="srm-region-label">Bank systems</div>
+          ${bankSideNodes}
         </div>
 
         <div class="srm-estate">
@@ -281,8 +295,8 @@ function buildShell(): string {
         </div>
 
         <div class="srm-destinations">
-          <div class="srm-region-label">Bank processing systems</div>
-          ${destNodes}
+          <div class="srm-region-label">External / network side</div>
+          ${externalNodes}
         </div>
 
       </div>
@@ -375,6 +389,19 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
       .map(c => `<span class="srm-core-chip">${c}</span>`).join('');
   }
 
+  // ── Direction badge ──
+  const dirBadge = wrapper.querySelector<HTMLElement>('[data-srm-direction]');
+  if (dirBadge) {
+    dirBadge.className = 'srm-direction-badge';
+    const d = role.direction;
+    const text = d === 'inbound'       ? '← Inbound channel'
+               : d === 'outbound'      ? '→ Outbound gateway'
+               : d === 'bidirectional' ? '⇄ Bidirectional'
+               :                        '↔ Control overlay';
+    dirBadge.textContent = text;
+    dirBadge.classList.add(`srm-direction-badge--${d}`);
+  }
+
   // ── Caption crossfade ──
   const cap = wrapper.querySelector<HTMLElement>('.srm-caption');
   if (cap) {
@@ -432,8 +459,8 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
 
   // ── Sequenced choreography ──
 
-  // Step 1 — Sources: synchronous (no flash before first activation)
-  activateSources(wrapper, role);
+  // Step 1 — Bank-side nodes: synchronous
+  activateBankSide(wrapper, role);
 
   // Step 2 — Boundary gates: staggered (150ms start, 80ms per gate)
   seq(token, 150, () => {
@@ -444,7 +471,7 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
         gate.classList.add('srm-gate--active');
       }, i * 80);
     });
-    // Boundary band gets focus in Role 1 — the primary story is the boundary
+    // Boundary band gets focus in Role 1 — boundary is the primary teaching point
     if (roleId === 'r1') {
       setTimeout(() => {
         if (seqToken !== token) return;
@@ -482,9 +509,9 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
     });
   });
 
-  // Step 5 — Destinations (850ms)
+  // Step 5 — External / network side nodes (850ms)
   seq(token, 850, () => {
-    activateDests(wrapper, role);
+    activateExternalSide(wrapper, role);
   });
 
   // Step 6 — Evidence cascade (1020ms + 50ms per node)
@@ -512,9 +539,9 @@ function seq(token: number, delay: number, fn: () => void): void {
   }, delay);
 }
 
-function activateSources(wrapper: HTMLElement, role: SrmRoleData): void {
-  const activeSet  = new Set(role.sourcesActive);
-  const contextSet = new Set(role.sourcesContext);
+function activateBankSide(wrapper: HTMLElement, role: SrmRoleData): void {
+  const activeSet  = new Set(role.bankSideActive);
+  const contextSet = new Set(role.bankSideContext);
   wrapper.querySelectorAll<HTMLElement>('[data-srm-source]').forEach(el => {
     const id = el.dataset.srmSource!;
     if (activeSet.has(id)) {
@@ -526,9 +553,9 @@ function activateSources(wrapper: HTMLElement, role: SrmRoleData): void {
   });
 }
 
-function activateDests(wrapper: HTMLElement, role: SrmRoleData): void {
-  const activeSet  = new Set(role.destsActive);
-  const contextSet = new Set(role.destsContext);
+function activateExternalSide(wrapper: HTMLElement, role: SrmRoleData): void {
+  const activeSet  = new Set(role.externalActive);
+  const contextSet = new Set(role.externalContext);
   wrapper.querySelectorAll<HTMLElement>('[data-srm-dest]').forEach(el => {
     const id = el.dataset.srmDest!;
     if (activeSet.has(id))       el.classList.add('srm-dest--active');
@@ -537,7 +564,7 @@ function activateDests(wrapper: HTMLElement, role: SrmRoleData): void {
 }
 
 function applyFinalState(wrapper: HTMLElement, role: SrmRoleData): void {
-  activateSources(wrapper, role);
+  activateBankSide(wrapper, role);
   Array.from(wrapper.querySelectorAll<HTMLElement>('[data-srm-gate]'))
     .forEach(el => el.classList.add('srm-gate--active'));
   if (role.railIds.includes('access-path')) {
@@ -550,7 +577,7 @@ function applyFinalState(wrapper: HTMLElement, role: SrmRoleData): void {
   wrapper.querySelectorAll<HTMLElement>('[data-srm-rail]').forEach(el => {
     if (activeRails.has(el.dataset.srmRail!)) el.classList.add('srm-rail--active');
   });
-  activateDests(wrapper, role);
+  activateExternalSide(wrapper, role);
   const activeEvid  = new Set(role.evidActive);
   const contextEvid = new Set(role.evidContext);
   wrapper.querySelectorAll<HTMLElement>('[data-srm-evid]').forEach(el => {
