@@ -578,10 +578,14 @@ function applyRole(wrapper: HTMLElement, roleId: string): void {
   wrapper.querySelector<HTMLElement>('[data-srm-boundary]')
     ?.classList.remove('srm-boundary-band--focus');
 
-  // Show only current role's rails immediately — prevents map sizing around all 27 rails
+  // Show only current role's rails immediately — prevents map sizing around all 27 rails.
+  // Sets both the native hidden attribute (display:none !important via CSS) and srm-rail--shown
+  // so layout collapse is guaranteed even if class specificity is overridden elsewhere.
   const visibleRails = new Set(role.railIds);
   wrapper.querySelectorAll<HTMLElement>('[data-srm-rail]').forEach(el => {
-    el.classList.toggle('srm-rail--shown', visibleRails.has(el.dataset.srmRail ?? ''));
+    const visible = visibleRails.has(el.dataset.srmRail ?? '');
+    el.hidden = !visible;
+    el.classList.toggle('srm-rail--shown', visible);
   });
 
   // ── Function core content update ──
