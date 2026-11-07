@@ -9,7 +9,7 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `To understand how digital finance disrupts payments, you first need to know how payments actually work today. When you tap your card at a coffee shop, at least four parties are involved, money flows through multiple systems, and the merchant doesn't see the funds for 1–2 days. That plumbing is what the "why bother with blockchain" question is really about.`,
+      body: `When you tap your card at a coffee shop, at least four parties are involved. Money flows through multiple systems. The merchant doesn't see the funds for 1–2 days. That plumbing is what the "why bother with blockchain" question is really about — every digital finance proposal is ultimately a bet on doing one of these steps faster, cheaper, or with fewer intermediaries.`,
     },
     {
       kind: 'flow',
@@ -36,11 +36,11 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'Where the money goes',
-      body: `<p>On a typical UK card payment, the merchant pays a <b>merchant service charge (MSC)</b> of roughly 1.5–2.5% of the transaction value. That fee gets split:</p>
-<p><b>Interchange fee</b> (~0.2–0.3% for debit, ~0.3% for consumer credit in the UK/EU, uncapped in the US where it can reach 2–3%): paid by the acquirer to the issuing bank. This is the largest component and the most regulated — the EU's Interchange Fee Regulation (IFR) caps it; the US Durbin Amendment caps debit interchange.</p>
-<p><b>Scheme fee</b> (~0.01–0.05%): paid to Visa/Mastercard for routing the transaction through their network.</p>
-<p><b>Acquirer margin</b> (the rest): the acquirer's cut for processing, fraud screening, chargebacks, and the terminal itself.</p>
-<p>This fee structure is why fintech payment companies (Stripe, Adyen, Square) exist — they are acquirers competing on the margin portion, not on interchange which is set by regulation or scheme rules.</p>`,
+      body: `<p>On a typical UK card payment, the merchant pays a <b>merchant service charge (MSC)</b> of roughly 1.5–2.5%. That fee splits three ways:</p>
+<p><b>Interchange fee</b> (~0.2–0.3% for debit, ~0.3% for consumer credit in the UK/EU, uncapped in the US where it reaches 2–3%): paid by the acquirer to the issuing bank. Largest component. Most regulated — the EU's Interchange Fee Regulation caps it; the US Durbin Amendment caps debit interchange.</p>
+<p><b>Scheme fee</b> (~0.01–0.05%): paid to Visa/Mastercard for routing the transaction.</p>
+<p><b>Acquirer margin</b> (the rest): the acquirer's cut for processing, fraud screening, chargebacks, and the terminal.</p>
+<p>This fee structure is why fintech payment companies (Stripe, Adyen, Square) exist — they compete on the acquirer margin, not on interchange which is set by regulation or scheme rules.</p>`,
     },
     {
       kind: 'matrix',
@@ -59,7 +59,7 @@ const content: ModuleContent = {
       kind: 'text',
       heading: 'The competitive target: $130 billion in annual interchange',
       body: `<p>Card interchange generates roughly <b>$130 billion globally per year</b>. That revenue stream is what stablecoins and blockchain-based payments are ultimately competing with — if you can move value peer-to-peer on a blockchain for a fraction of a cent in gas fees, the ~2% card tax on every transaction becomes hard to justify. But cards offer something blockchain payments don't yet: <b>chargeback protection</b>, <b>fraud screening</b>, <b>rewards programs</b>, and the trust of a regulated banking system behind them.</p>
-<p>The real competitive question isn't "blockchain vs cards" — it's whether stablecoins can layer on enough consumer protection to compete with the convenience consumers already expect, or whether card networks can reduce their costs enough to make the disruption unattractive.</p>`,
+<p>The real competitive question isn't "blockchain vs cards." It's whether stablecoins can layer on enough consumer protection to compete with the convenience consumers already expect, or whether card networks can reduce their costs enough to make the disruption unattractive.</p>`,
     },
     {
       kind: 'case',
