@@ -24,6 +24,7 @@ function navigate(path: string, pushState = true): void {
 }
 
 function route(path: string): void {
+  app.classList.remove('topic-layout-wide');
   if (path === '/contact') {
     renderContact();
   } else if (path === '/about') {

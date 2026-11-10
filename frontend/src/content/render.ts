@@ -13,6 +13,7 @@ import { renderCallout } from '../viz/callout';
 import { renderComparison } from '../viz/comparison';
 import { renderWhatMovesVisual } from '../viz/whatMovesVisual';
 import { renderSwiftRoleMap } from '../viz/swiftRoleMap';
+import { renderGbtdExplorer } from '../viz/gbtdExplorer';
 import { renderChatWidget } from '../chat';
 import { buildTopicLink, buildTopicSummaryText, buildLinkedInSnippet, copyAndToast } from '../utils/share';
 import { enhanceTerms, bindTermPopovers } from '../viz/termHelp';
@@ -24,6 +25,9 @@ function formatTopicDate(iso: string): string {
 }
 
 export async function renderModule(container: HTMLElement, mod: ModuleContent): Promise<void> {
+  // Apply or remove wide layout class before rendering
+  container.classList.toggle('topic-layout-wide', mod.layout === 'wide');
+
   const { MODULE_INDEX, findCategory } = await import('./registry');
   const curIdx = MODULE_INDEX.findIndex(m => m.id === mod.id);
   const category = findCategory(mod.id);
@@ -161,6 +165,9 @@ async function renderBlock(section: HTMLElement, block: ContentBlock, topicUrl: 
       break;
     case 'swift-role-map':
       renderSwiftRoleMap(mount);
+      break;
+    case 'gbtd-explorer':
+      renderGbtdExplorer(mount);
       break;
   }
 }

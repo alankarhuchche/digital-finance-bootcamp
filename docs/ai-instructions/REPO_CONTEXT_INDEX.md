@@ -70,13 +70,24 @@ Reference this file at the start of any implementation run to locate the files y
 
 ---
 
-## Source files — SWIFT gateway page (to be created during implementation)
+## Source files — SWIFT gateway page (live as of module 25)
 
 | File | Purpose |
 |---|---|
-| `frontend/src/content/modules/25-swift-bank-gateway.ts` | Page content module (not yet created) |
-| `frontend/src/viz/swiftGatewayVisual.ts` | Visual component (not yet created) |
-| `frontend/src/content/registry.ts` | Registry entry to be added |
+| `frontend/src/content/modules/25-swift-bank-gateway.ts` | Page content module (live) |
+| `frontend/src/viz/swiftGatewayVisual.ts` | Visual component (live) |
+| `frontend/src/content/registry.ts` | Registry entry live under `swift-bank-gateway` |
+
+---
+
+## Source files — GBTD conditional payments page (Phase B in progress, module 26)
+
+| File | Purpose |
+|---|---|
+| `frontend/src/data/gbtdModel.ts` | SUCCESS-path state data (6 stages, pence integers) |
+| `frontend/src/content/modules/26-gbtd.ts` | Page content module (`ready: false` during Phase B) |
+| `frontend/src/viz/gbtdExplorer.ts` | Conditional ribbon visual with seqToken + balance bars |
+| `frontend/src/content/registry.ts` | Registry entry `gbtd`, New instruments category after `deposit-tokens` |
 
 ---
 
