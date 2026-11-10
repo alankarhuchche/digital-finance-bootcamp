@@ -5,11 +5,11 @@ const content: ModuleContent = {
   number: '26',
   title: 'GBTD conditional payments',
   summary: 'Inside a live UK tokenised-deposit pilot — how the marketplace conditional payment works, what has been publicly established, and what remains undisclosed.',
-  ready: false,
+  ready: true,
   layout: 'wide',
   changeType: 'new',
-  updatedAt: '2026-11-08',
-  changeSummary: 'Phase B prototype — not yet published. Requires human review before ready: true.',
+  updatedAt: '2026-11-10',
+  changeSummary: 'Interactive stage explorer for GBTD conditional tokenised-deposit payments — initial release.',
   blocks: [
     {
       kind: 'text',
