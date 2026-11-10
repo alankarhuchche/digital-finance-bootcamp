@@ -304,9 +304,9 @@ GBTD described as a live pilot / initiative throughout. BoE Synchronisation Lab 
 
 **Tap targets:**
 - Control buttons (`gbtd-btn`): `min-height: 44px; display: inline-flex; align-items: center` → measured 44px ✓
-- Pip buttons: visually 10×10px. `::before` pseudo-element is `position: absolute; width: 44px; height: 44px` → computed 44px ✓
+- Pip buttons: each button is a non-overlapping 44×44px layout box; the 10px dot is drawn by `::after` inside it. `elementFromPoint` at each pip centre returns that pip at 375px, 800px and 1400px ✓
 
-**Mobile layout:** `@media (max-width: 700px)` → single column, `grid-template-columns: 1fr`. Order: ribbon+stage center (order:1), buyer (order:2), seller (order:3). Tech grid also collapses to single column. ✓
+**Mobile layout:** container query on `.gbtd-wrap` (`@container (max-width: 640px)`) → single column, `grid-template-columns: 1fr`. Order: ribbon+stage center (order:1), buyer (order:2), seller (order:3). Tech grid also collapses to single column. Collapsing on explorer width rather than viewport width covers the 769–1000px range where the 260px sidebar is visible: at an 800px viewport the explorer is 445px wide and collapses with no horizontal overflow; at 1400px it keeps three columns (200 / 589 / 200) ✓
 
 **Reduced-motion:** CSS `transition: none` rules under `@media (prefers-reduced-motion: reduce)` applied to `.gbtd-bal-fill`, `.gbtd-node`, `.gbtd-ribbon-fill`. ✓
 
