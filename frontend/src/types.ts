@@ -158,3 +158,116 @@ export interface CaseStudySpec {
   sourceUrl?: string;
   verifiedAsOf: string;   // "data as of" discipline from the brutal review
 }
+
+export interface SourceLink {
+  label: string;          // publisher, title and date, e.g. "UK Finance, 24 Sep 2026"
+  url: string;
+}
+
+// ── Long pages: numbered chapter headings and a sticky chapter rail ──
+
+export interface ChapterSpec {
+  id: string;             // anchor id, matched by the chapter rail
+  num: string;
+  title: string;
+  job?: string;           // one line under the title
+  ask?: string;           // question prefilled into the site chat
+}
+
+export interface ChapterNavSpec {
+  chapters: { id: string; num: string; short: string }[];
+}
+
+// ── Status cards: options or reasons, each with a dated status chip ──
+
+export type StatusTone = 'live' | 'pilot' | 'poc' | 'idea' | 'none';
+
+export interface StatusCard {
+  tone: StatusTone;
+  status: string;         // chip text, e.g. "Pilot · Sep 2026"
+  title: string;
+  body: string;           // inline HTML
+  who?: string;           // who says so
+  focus?: boolean;        // the option the page is about
+}
+
+export interface StatusCardsSpec {
+  cards: StatusCard[];
+}
+
+// ── Use-case atlas: where each use sits (inside one bank or between banks,
+//    organisations or people), filterable by status and audience ──
+
+export type UseCaseStatus = 'live' | 'pilot' | 'poc';
+export type UseCaseAudience = 'people' | 'companies' | 'markets';
+export type UseCaseReach = 'inside' | 'between';
+export type UseCaseRow = 'organisations' | 'people';
+
+export interface UseCaseItem {
+  id: string;
+  title: string;
+  status: UseCaseStatus;
+  statusLabel: string;    // e.g. "Pilot · UK · Sep 2026"
+  audience: UseCaseAudience;
+  reach: UseCaseReach;
+  summary: string;
+  aside?: string;         // one short line under the summary, inline HTML
+  today: string;          // what does the job today, without tokens
+  adds: string;           // what tokens add
+  watch: string;          // watch-outs
+  sources: SourceLink[];
+  highlight?: boolean;    // the page's own case
+}
+
+export interface UseCaseCell {
+  row: UseCaseRow;
+  reach: UseCaseReach;
+  label: string;
+  status?: { tone: StatusTone; label: string };
+  text: string;           // inline HTML
+  highlight?: boolean;
+}
+
+export interface UseCaseAtlasSpec {
+  columns: Record<UseCaseReach, string>;
+  rows: Record<UseCaseRow, string>;
+  cells: UseCaseCell[];
+  items: UseCaseItem[];
+  emptyNotes?: { status: UseCaseStatus; audience: UseCaseAudience; text: string }[];
+  footnote?: string;
+}
+
+// ── GBTD: the "who goes first?" dilemma and the step-by-step payment scene ──
+
+export type GbtdHookChoiceId = 'pay' | 'hand' | 'lock';
+
+export interface GbtdHookTab {
+  id: 'buy' | 'home';
+  tab: string;
+  intro: string;
+  payer: { name: string; sub: string };
+  payee: { name: string; sub: string };
+  itemLabel: string;
+  midLabel: string;       // the place money waits in the "pay first" case
+  choices: Record<GbtdHookChoiceId, { label: string; outcome: string }>;
+  copy: string;           // HTML shown beside the scene
+}
+
+export interface GbtdHookSpec {
+  tabs: GbtdHookTab[];
+  lens: string;           // banking lens, inline HTML
+  sources: SourceLink[];
+}
+
+export interface GbtdSceneStep {
+  label: string;
+  title: string;
+  body: string;
+  like?: string;          // everyday comparison
+  stops?: string;         // where the comparison stops working
+}
+
+export interface GbtdSceneSpec {
+  steps: GbtdSceneStep[]; // six steps, one per scene state
+  sources: SourceLink[];
+}

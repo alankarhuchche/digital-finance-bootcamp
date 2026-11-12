@@ -10,7 +10,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'Why start here',
-      body: 'Almost everything in digital finance gets pitched as solving a problem with today\u2019s payment rails. That pitch only makes sense if you know what today\u2019s rails actually do \u2014 and where they\u2019re genuinely slow, costly, or fragile. This topic is the \u201Cbefore\u201D picture, and it\u2019s the baseline everything else in this guide responds to. Consider the scale: SWIFT processes roughly 45 million messages per day across its network. The average cost of sending a cross-border remittance is still around 6% of the transaction value, according to the World Bank. Understanding why that cost persists \u2014 despite decades of technology investment \u2014 is the starting point for evaluating every alternative that follows.',
+      body: 'Almost everything in digital finance gets pitched as solving a problem with today\u2019s payment rails. That pitch only makes sense if you know what today\u2019s rails actually do \u2014 and where they\u2019re genuinely slow, costly, or fragile. This topic is the \u201Cbefore\u201D picture, the baseline everything else in this guide responds to. Consider the scale: SWIFT processes roughly 45 million messages per day. The average cost of sending a cross-border remittance is still around 6% of the transaction value, according to the World Bank. Understanding why that cost persists \u2014 despite decades of technology investment \u2014 is the starting point for evaluating every alternative that follows.',
     },
     {
       kind: 'flow',
@@ -35,11 +35,6 @@ const content: ModuleContent = {
       body: 'A nostro account is "our account at your bank." A vostro is "your account at our bank." They are the same account viewed from two sides. If Bank A holds an account at Bank B denominated in Bank B\u2019s currency, Bank A calls it a nostro and Bank B calls it a vostro. Banks must pre-fund these accounts in each currency they want to transact in, which ties up liquidity. A large global bank might maintain hundreds of nostro accounts across dozens of currencies. This is why correspondent banking is expensive. It is not just the per-transaction fees, it is the cost of capital sitting idle in pre-funded accounts around the world. Every dollar locked in a nostro account is a dollar that cannot be deployed elsewhere. This trapped-liquidity problem is a recurring theme, and it is what on-demand liquidity proposals (the DeFi topic) and PvP settlement mechanisms (the Tokenization topic) are trying to solve.',
     },
     {
-      kind: 'text',
-      heading: 'The four-party card model',
-      body: 'Every card transaction involves four parties: the cardholder\u2019s bank (the issuer), the merchant\u2019s bank (the acquirer), the card scheme (Visa, Mastercard), and the merchant itself. The issuer takes credit risk on the cardholder, the acquirer takes settlement risk on the merchant, and the scheme sets the rules and routes transactions between them. Interchange fees flow from acquirer to issuer, roughly 0.2\u20130.3% in the EU after the Interchange Fee Regulation, but around 1.5\u20132.5% in the US where no comparable cap exists. Authorization happens in seconds over the scheme\u2019s network, but actual settlement between issuer and acquirer takes T+1 to T+2. This gap between authorization speed and settlement speed is worth noting. It is the same pattern you will see in securities markets (the Tokenization topic), and one of the things tokenized settlement proposals claim to close.',
-    },
-    {
       kind: 'matrix',
       heading: 'Comparing the major rail types',
       data: {
@@ -56,7 +51,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'ISO 20022: the infrastructure migration happening now',
-      body: 'ISO 20022 is a new messaging standard replacing older formats (SWIFT\u2019s MT messages) across payment systems globally. SWIFT began its MT-to-MX migration in March 2023, with full cutover expected by November 2025. The key change is structured, data-rich messages instead of free-text fields. Where an MT103 might carry a remittance reference in an unstructured 70-character block, an MX equivalent (pacs.008) uses tagged, machine-readable fields for debtor name, creditor account, purpose codes, and regulatory references. This matters because richer data means better straight-through processing rates, fewer manual repairs when a payment gets stuck, better sanctions and AML screening (because names and addresses are parsed, not guessed from free text), and, critically, the foundation for interoperability between legacy rails and newer ones, including CBDC platforms and tokenized settlement systems. CHAPS migrated to ISO 20022 in June 2023, and the Eurosystem\u2019s TARGET2 went live on the new standard in March 2023. This migration is unglamorous but foundational. It is the plumbing upgrade that makes many later innovations in this guide technically feasible.',
+      body: 'ISO 20022 is a new messaging standard replacing older formats (SWIFT\u2019s MT messages) across payment systems globally. SWIFT began its MT-to-MX migration in March 2023, with full cutover expected by November 2025. The key change is structured, data-rich messages instead of free-text fields. Where an MT103 might carry a remittance reference in an unstructured 70-character block, an MX equivalent (pacs.008) uses tagged, machine-readable fields for debtor name, creditor account, purpose codes, and regulatory references. This matters because richer data means better straight-through processing rates, fewer manual repairs when a payment gets stuck, better sanctions and AML screening (because names and addresses are parsed, not guessed from free text), and, critically, the foundation for interoperability between legacy rails and newer ones, including CBDC platforms and tokenized settlement systems. CHAPS migrated to ISO 20022 in June 2023, and the Eurosystem\u2019s TARGET2 went live on the new standard in March 2023. This migration is unglamorous but foundational \u2014 it is the plumbing upgrade that makes many later innovations in this guide technically feasible.',
     },
     {
       kind: 'text',
@@ -66,7 +61,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'The friction points worth remembering',
-      body: 'Five things to keep in your head as you go through later topics, because almost every \u201Cwhy bother\u201D question comes back to one of these: <b>speed</b> (multi-day settlement for cross-border), <b>cost</b> (multiple correspondent fees plus FX spread), <b>operating hours</b> (cut-off times, weekends, holidays), <b>reconciliation</b> (every bank in the chain keeps its own ledger, reconciled after the fact), and <b>finality</b> (a payment can be \u201Csent\u201D without being truly final for some time). The reconciliation point deserves extra attention: each bank in the chain maintains its own ledger with its own account numbers, transaction references, and cut-off times. There is no single \u201Cgolden record.\u201D After settlement, banks reconcile by matching their records against each other, often with a day\u2019s lag, and discrepancies require manual investigation. A single mismatched reference or truncated beneficiary name can leave a payment in a \u201Cpending investigation\u201D queue for days. This is the core problem that shared-ledger proposals (the DLT basics and Tokenization topics) claim to solve \u2014 if all parties read from the same ledger, reconciliation becomes redundant. Whether that\u2019s realistic at scale is a different question.',
+      body: 'Five things to keep in your head as you go through later topics, because almost every "why bother" question comes back to one of these: <b>speed</b> (multi-day settlement for cross-border), <b>cost</b> (multiple correspondent fees plus FX spread), <b>operating hours</b> (cut-off times, weekends, holidays), <b>reconciliation</b> (every bank in the chain keeps its own ledger, reconciled after the fact), and <b>finality</b> (a payment can be "sent" without being truly final for some time). The reconciliation point deserves extra attention: each bank in the chain maintains its own ledger with its own account numbers, transaction references, and cut-off times. There is no single "golden record." After settlement, banks reconcile by matching their records against each other, often with a day\u2019s lag, and discrepancies require manual investigation. A single mismatched reference or truncated beneficiary name can leave a payment in a "pending investigation" queue for days. This is the core problem that shared-ledger proposals (the DLT basics and Tokenization topics) claim to solve \u2014 if all parties read from the same ledger, reconciliation becomes redundant. Whether that\u2019s realistic at scale is a different question.',
     },
     {
       kind: 'case',
@@ -83,7 +78,7 @@ const content: ModuleContent = {
     },
     {
       kind: 'text',
-      body: `These are the rails everything currently runs on. The next topic asks what forms of money people are proposing to run on new rails, and how they compare to what you already use.`,
+      body: 'These are the rails everything currently runs on. The next topic asks what forms of money people are proposing to run on new rails, and how they compare to what you already use.',
     },
     {
       kind: 'quiz',

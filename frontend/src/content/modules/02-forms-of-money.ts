@@ -9,7 +9,7 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `Every \u201Cform of money\u201D in digital finance can be compared on the same three questions: who issued it, what backs it, and if it fails \u2014 who\u2019s on the hook? Tap any card below to see the full breakdown. We now include six forms, adding e-money (the balances you hold at fintechs like Revolut or PayPal), which sits between traditional deposits and stablecoins in the risk spectrum.`,
+      body: `Every "form of money" in digital finance can be compared on the same three questions: who issued it, what backs it, and if it fails — who's on the hook? Tap any card below to see the full breakdown. We now include six forms, adding e-money (the balances you hold at fintechs like Revolut or PayPal), which sits between traditional deposits and stablecoins in the risk spectrum.`,
     },
     {
       kind: 'money-cards',
@@ -82,17 +82,19 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'The singleness of money',
-      body: `The BIS uses the phrase "singleness of money" to describe a critical property: all forms of money within a currency should be exchangeable at par. \u00A31 in your bank account equals \u00A31 in cash equals \u00A31 in CBDC, always. This sounds obvious but it is not automatic. Stablecoins have broken par (USDT traded at $0.95 during the May 2022 Terra/Luna collapse, and USDC dipped to $0.87 in March 2023 when Silicon Valley Bank failed and markets feared Circle's reserves were trapped there). Maintaining singleness requires institutional infrastructure: central bank backstops, deposit insurance, reserve requirements, and regulatory oversight. The concern with proliferating new money forms is that singleness could fracture, creating a world where different "pounds" trade at different values depending on who issued them.`,
+      body: `The BIS uses the phrase "singleness of money" to describe a critical property: all forms of money within a currency should be exchangeable at par. £1 in your bank account equals £1 in cash equals £1 in CBDC, always. This sounds obvious but it is not automatic. Stablecoins have broken par (USDT traded at $0.95 during the May 2022 Terra/Luna collapse, and USDC dipped to $0.87 in March 2023 when Silicon Valley Bank failed and markets feared Circle's reserves were trapped there). Maintaining singleness requires institutional infrastructure: central bank backstops, deposit insurance, reserve requirements, and regulatory oversight. The concern with proliferating new money forms is that singleness could fracture, creating a world where different "pounds" trade at different values depending on who issued them.`,
     },
     {
       kind: 'text',
       heading: 'What happens when you try to spend each one',
-      body: `With cash, you hand it over and you're done: instant, final, no intermediary. With a bank deposit, your bank debits your account and sends a payment instruction (Faster Payments, CHAPS, card scheme), and the merchant receives funds in their bank account after clearing. A proposed CBDC would offer a similar UX to a bank payment, but settlement happens on the central bank's infrastructure rather than through interbank clearing. With a tokenized deposit, the bank transfers a token on its blockchain rail, and the receiving bank recognizes it as a deposit claim and credits the recipient. With e-money, the e-money institution debits your e-wallet and instructs its safeguarding bank to pay the merchant's bank, an extra intermediary compared to a bank deposit. With a stablecoin, you transfer tokens on-chain, and the recipient can hold them as tokens or redeem them for fiat through the issuer, a process that takes 1\u20133 days and requires the recipient to have an account with the issuer or an exchange.`,
+      body: `With cash, you hand it over and you're done: instant, final, no intermediary. With a bank deposit, your bank debits your account and sends a payment instruction (Faster Payments, CHAPS, card scheme), and the merchant receives funds in their bank account after clearing. A proposed CBDC would offer a similar UX to a bank payment, but settlement happens on the central bank's infrastructure rather than through interbank clearing. With a tokenized deposit, the bank transfers a token on its blockchain rail, and the receiving bank recognizes it as a deposit claim and credits the recipient. With e-money, the e-money institution debits your e-wallet and instructs its safeguarding bank to pay the merchant's bank — an extra intermediary compared to a bank deposit. With a stablecoin, you transfer tokens on-chain, and the recipient can hold them as tokens or redeem them for fiat through the issuer, a process that takes 1–3 days and requires the recipient to have an account with the issuer or an exchange.`,
     },
     {
       kind: 'text',
       heading: 'The pattern worth keeping',
-      body: `Every form trades off the same three things: who\u2019s on the hook if it fails, whether you earn anything for holding it, and how freely you can move it. Nothing on this map is free of all three risks at once \u2014 and almost every \u201Cwhich is safer\u201D question in later topics comes back to that tradeoff.\n\nYou now have six forms on one map. But the same instrument looks completely different depending on whether you\u2019re a customer, a bank, or a central bank. The next topic unpacks that.`,
+      body: `Every form trades off the same three things: who's on the hook if it fails, whether you earn anything for holding it, and how freely you can move it. Nothing on this map is free of all three risks at once — and almost every "which is safer" question in later topics comes back to that tradeoff.
+
+You now have six forms on one map. But the same instrument looks completely different depending on whether you're a customer, a bank, or a central bank. The next topic unpacks that.`,
     },
     {
       kind: 'quiz',

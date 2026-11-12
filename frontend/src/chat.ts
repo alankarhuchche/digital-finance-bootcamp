@@ -1,4 +1,5 @@
 import type { ContentBlock } from './content/types';
+import { gbtdHookPlainText, gbtdScenePlainText, useCaseAtlasPlainText } from './data/gbtdStoryText';
 
 interface ChatMsg {
   role: 'user' | 'bot';
@@ -12,6 +13,20 @@ export function destroyChatWidget(): void {
     chatContainer.remove();
     chatContainer = null;
   }
+}
+
+// Opens the panel with an editable question; the visitor still chooses to send it.
+export function openChatWithQuestion(question: string): boolean {
+  if (!chatContainer) return false;
+  const panel = chatContainer.querySelector<HTMLElement>('#chatPanel');
+  const fab = chatContainer.querySelector<HTMLElement>('#chatFab');
+  const input = chatContainer.querySelector<HTMLInputElement>('#chatInput');
+  if (!panel || !fab || !input) return false;
+  panel.classList.add('chat-panel-open');
+  fab.classList.add('chat-fab-hidden');
+  input.value = question;
+  input.focus();
+  return true;
 }
 
 export function renderChatWidget(
@@ -123,8 +138,18 @@ function appendMsg(container: HTMLElement, role: 'user' | 'bot', text: string): 
 function extractPlainText(blocks: ContentBlock[]): string {
   const parts: string[] = [];
   for (const block of blocks) {
-    if (block.heading) parts.push(block.heading);
-    if (block.kind === 'text') {
+    if ('heading' in block && block.heading) parts.push(block.heading);
+    if (block.kind === 'chapter') {
+      parts.push(`Chapter ${block.data.num}: ${block.data.title}.${block.data.job ? ' ' + block.data.job : ''}`);
+    } else if (block.kind === 'status-cards') {
+      for (const card of block.data.cards) parts.push(`${card.title} (${card.status}): ${stripHtml(card.body)}`);
+    } else if (block.kind === 'gbtd-hook') {
+      parts.push(gbtdHookPlainText(block.data));
+    } else if (block.kind === 'gbtd-scene') {
+      parts.push(gbtdScenePlainText(block.data));
+    } else if (block.kind === 'usecase-atlas') {
+      parts.push(useCaseAtlasPlainText(block.data));
+    } else if (block.kind === 'text') {
       parts.push(stripHtml(block.body));
     } else if (block.kind === 'matrix' && 'data' in block) {
       const d = block.data;

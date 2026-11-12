@@ -70,13 +70,31 @@ Reference this file at the start of any implementation run to locate the files y
 
 ---
 
-## Source files — SWIFT gateway page (to be created during implementation)
+## Source files — SWIFT gateway page (live as of module 25)
 
 | File | Purpose |
 |---|---|
-| `frontend/src/content/modules/25-swift-bank-gateway.ts` | Page content module (not yet created) |
-| `frontend/src/viz/swiftGatewayVisual.ts` | Visual component (not yet created) |
-| `frontend/src/content/registry.ts` | Registry entry to be added |
+| `frontend/src/content/modules/25-swift-bank-gateway.ts` | Page content module (live) |
+| `frontend/src/viz/swiftGatewayVisual.ts` | Visual component (live) |
+| `frontend/src/content/registry.ts` | Registry entry live under `swift-bank-gateway` |
+
+---
+
+## Source files — GBTD tokenised deposits page (module 26, `layout: 'wide'`)
+
+| File | Purpose |
+|---|---|
+| `frontend/src/content/modules/26-gbtd.ts` | Page content module: chapter rail, opening summary, nine chapters (chapter heads, status cards, timelines, callouts, comparison evidence board, limits, quiz, all sources), metadata |
+| `frontend/src/data/gbtdStory.ts` | Content for the interactive blocks: "who goes first?" dilemma (`GBTD_HOOK`), six-step scene (`GBTD_SCENE`), use-case atlas (`GBTD_USE_CASES`), with sources |
+| `frontend/src/data/gbtdStoryText.ts` | Plain-text versions of those blocks for the chat context (kept apart so the chat bundle doesn't carry the GBTD copy) |
+| `frontend/src/viz/gbtdHook.ts` | Chapter 1: two situations × three choices, one-off WAAPI moves, runner that lands on end states under reduced motion |
+| `frontend/src/viz/gbtdScene.ts` | Chapter 4: the scene that grows. Wide and compact SVG geometry; scroll-driven (≥900px container) or stepper; seqToken-style cancellation |
+| `frontend/src/data/gbtdModel.ts` | Chapter 5 explorer state data (6 success-path stages, pence integers; Sam and Alex) |
+| `frontend/src/viz/gbtdExplorer.ts` | Chapter 5: held-payment explorer with balance bars and a "Bank view" panel |
+| `frontend/src/viz/chapters.ts`, `statusCards.ts`, `useCaseAtlas.ts` | Reusable blocks: `chapter` and `chapter-nav` (sticky rail), `status-cards`, `usecase-atlas` |
+| `frontend/src/chat.ts` | `openChatWithQuestion()` prefill (used by chapter "Ask about this" buttons); chat context text for the new block kinds |
+| `frontend/src/content/registry.ts` | Registry entry `gbtd`, New instruments category after `deposit-tokens` |
+| `REVIEW_REPORT.md` | Branch state, redesign summary (§0), earlier evidence packet and quality-gate results for the GBTD work |
 
 ---
 
@@ -88,7 +106,7 @@ Reference this file at the start of any implementation run to locate the files y
 | `frontend/src/content/modules/24-what-actually-moves.ts` | Content module structure: text, visual, stack, matrix, quiz blocks |
 | `frontend/src/content/registry.ts` | How to add a module entry and category placement |
 | `frontend/src/content/render.ts` | How to register and render a new block kind |
-| `frontend/src/types.ts` | ContentBlock type — add new kinds here |
+| `frontend/src/content/types.ts` | ContentBlock type — add new kinds here |
 
 ---
 

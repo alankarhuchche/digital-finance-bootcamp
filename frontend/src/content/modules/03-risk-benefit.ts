@@ -9,7 +9,7 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `So far we\u2019ve shown what each instrument is. This topic asks who actually cares, and why \u2014 because a stablecoin and a CBDC sit in very different positions depending on whether you\u2019re a customer, a commercial bank, a central bank, or an entire economy. The two matrices below map benefits and risks by stakeholder for stablecoins and CBDCs respectively.`,
+      body: `So far we've shown what each instrument is. This topic asks who actually cares, and why — because a stablecoin and a CBDC sit in very different positions depending on whether you're a customer, a commercial bank, a central bank, or an entire economy. The two matrices below map benefits and risks by stakeholder for stablecoins and CBDCs respectively.`,
     },
     {
       kind: 'matrix',

@@ -12,7 +12,9 @@ const content: ModuleContent = {
   blocks: [
     {
       kind: 'text',
-      body: `Before comparing blockchains, stablecoins or tokenised deposits, ask one simpler question: what actually moves?\n\nA payment message, a customer ledger posting, an interbank settlement movement and an audit trail are not the same thing. DLT can change where state is shared and how finality is recorded, but it does not remove funding, access, accounting, legal finality, reporting or reconciliation.`,
+      body: `Before comparing blockchains, stablecoins or tokenised deposits, ask one simpler question: what actually moves?
+
+A payment message, a customer ledger posting, an interbank settlement movement and an audit trail are not the same thing. DLT can change where state is shared and how finality is recorded, but it does not remove funding, access, accounting, legal finality, reporting or reconciliation.`,
     },
     {
       kind: 'what-moves-visual',
