@@ -1,6 +1,7 @@
 // gbtdExplorer.ts
-// GBTD conditional-payment stage explorer — SUCCESS path only (Phase B).
-// Uses seqToken cancellation pattern matching whatMovesVisual.ts.
+// GBTD held-payment explorer (success path only): Sam at Bank A pays Alex at Bank B £100,
+// held until the handover is confirmed. Click-driven; the "Bank view" toggle adds the
+// issuer, platform and settlement detail. Uses the seqToken cancellation pattern from whatMovesVisual.ts.
 
 import { SUCCESS_PATH, penceToPounds, evidencePillLabel, type GbtdStage } from '../data/gbtdModel';
 
@@ -17,26 +18,27 @@ const prefersReducedMotion = (): boolean =>
 
 function buildActorHtml(side: 'buyer' | 'seller'): string {
   const prefix = `gbtd-${side}`;
+  const name = side === 'buyer' ? 'Sam' : 'Alex';
   return `
     <div class="gbtd-actor-label">
-      ${side === 'buyer' ? 'Buyer' : 'Seller'}
-      <span class="gbtd-bank-tag" id="${prefix}-bank">${side === 'buyer' ? 'Bank A' : 'Bank B'}</span>
+      ${name}
+      <span class="gbtd-bank-tag" id="${prefix}-bank">${side === 'buyer' ? 'buyer · Bank A' : 'seller · Bank B'}</span>
     </div>
     <div class="gbtd-balance-block">
       <div class="gbtd-bal-row">
-        <span class="gbtd-bal-k">Booked</span>
+        <span class="gbtd-bal-k">Balance</span>
         <span class="gbtd-bal-v" id="${prefix}-booked">£0</span>
       </div>
-      <div class="gbtd-bal-track" role="img" aria-label="${side === 'buyer' ? 'Buyer' : 'Seller'} balance bar">
+      <div class="gbtd-bal-track" role="img" aria-label="${name}’s balance bar">
         <div class="gbtd-bal-fill gbtd-bal-fill--avail" id="${prefix}-avail-bar" style="width:0%"></div>
         <div class="gbtd-bal-fill gbtd-bal-fill--res" id="${prefix}-res-bar" style="width:0%"></div>
       </div>
       <div class="gbtd-bal-row gbtd-bal-row--detail">
-        <span class="gbtd-bal-k">Available</span>
+        <span class="gbtd-bal-k">Can spend</span>
         <span class="gbtd-bal-v gbtd-bal-v--avail" id="${prefix}-avail-val">£0</span>
       </div>
       <div class="gbtd-bal-row gbtd-bal-row--detail">
-        <span class="gbtd-bal-k">Reserved</span>
+        <span class="gbtd-bal-k">Held</span>
         <span class="gbtd-bal-v gbtd-bal-v--res" id="${prefix}-res-val">£0</span>
       </div>
       <p class="gbtd-last-confirmed" id="${prefix}-lcf" hidden>last confirmed</p>
@@ -44,50 +46,49 @@ function buildActorHtml(side: 'buyer' | 'seller'): string {
   `;
 }
 
+const RIBBON_LABELS = ['Start', 'Agreed', 'Held', 'Condition met', 'Releasing', 'Paid'];
+
 function buildRibbonSvg(): string {
-  // 6 nodes at x = 30, 78, 126, 174, 222, 270 (spacing 48px, total 240px)
-  const positions = [30, 78, 126, 174, 222, 270];
-  const labels = ['Start', 'Agreed', 'Reserved', 'Confirmed', 'Release', 'Complete'];
+  // Nodes at x = 25 + 50i sit over six equal HTML label columns (track 250 units, 50 per stage).
+  const positions = [25, 75, 125, 175, 225, 275];
   const circles = positions.map((cx, i) =>
     `<circle class="gbtd-node" id="gbtd-node-${i}" cx="${cx}" cy="18" r="6" aria-hidden="true"/>`
   ).join('');
-  const texts = positions.map((cx, i) =>
-    `<text class="gbtd-node-lbl" x="${cx}" y="42" text-anchor="middle" aria-hidden="true">${labels[i]}</text>`
-  ).join('');
   return `
-    <svg class="gbtd-ribbon-svg" viewBox="0 0 300 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <line class="gbtd-ribbon-track" x1="30" y1="18" x2="270" y2="18"/>
-      <line class="gbtd-ribbon-fill" id="gbtd-ribbon-fill" x1="30" y1="18" x2="270" y2="18"
-            stroke-dasharray="240"/>
+    <svg class="gbtd-ribbon-svg" viewBox="0 0 300 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <line class="gbtd-ribbon-track" x1="25" y1="18" x2="275" y2="18"/>
+      <line class="gbtd-ribbon-fill" id="gbtd-ribbon-fill" x1="25" y1="18" x2="275" y2="18"
+            stroke-dasharray="250"/>
       ${circles}
-      ${texts}
-    </svg>`;
+    </svg>
+    <div class="gbtd-node-labels" aria-hidden="true">
+      ${RIBBON_LABELS.map((l, i) => `<span data-i="${i}">${l}</span>`).join('')}
+    </div>`;
 }
 
 function buildTechPanelHtml(): string {
   return `
     <div class="gbtd-tech-grid">
       <div class="gbtd-tech-col">
-        <p class="gbtd-tech-heading">Bank A — Buyer’s deposit issuer</p>
-        <p class="gbtd-tech-line">Deposit liability: illustrative £100 on buyer’s account</p>
-        <p class="gbtd-tech-line">Token / posting mechanics: not publicly disclosed</p>
+        <p class="gbtd-tech-heading">Bank A, Sam’s bank</p>
+        <p class="gbtd-tech-line">Liability: Sam’s £100 stays a Bank A deposit while it is held</p>
+        <p class="gbtd-tech-line">Token and posting mechanics: not published</p>
       </div>
       <div class="gbtd-tech-col">
-        <p class="gbtd-tech-heading">Shared workflow layer</p>
-        <p class="gbtd-tech-line">Platform: Quant (confirmed)</p>
-        <p class="gbtd-tech-line">Condition orchestration: internal sequence not disclosed</p>
-        <p class="gbtd-tech-line">Token lifecycle: conceptual — not publicly disclosed</p>
+        <p class="gbtd-tech-heading">Shared platform</p>
+        <p class="gbtd-tech-line">Built by Quant</p>
+        <p class="gbtd-tech-line">How the condition is checked and who confirms it: not published</p>
+        <p class="gbtd-tech-line">How tokens are created, moved and removed: not published</p>
       </div>
       <div class="gbtd-tech-col">
-        <p class="gbtd-tech-heading">Bank B — Seller’s deposit issuer</p>
-        <p class="gbtd-tech-line">Deposit liability: illustrative £100 credited on completion</p>
-        <p class="gbtd-tech-line">Token / posting mechanics: not publicly disclosed</p>
+        <p class="gbtd-tech-heading">Bank B, Alex’s bank</p>
+        <p class="gbtd-tech-line">Liability: Alex’s £100 becomes a Bank B deposit on release</p>
+        <p class="gbtd-tech-line">Token and posting mechanics: not published</p>
       </div>
       <div class="gbtd-tech-col gbtd-tech-col--full">
-        <p class="gbtd-tech-heading">Interbank settlement</p>
-        <p class="gbtd-tech-line gbtd-tech-line--unknown">Settlement rail: not publicly established — do not equate customer-view outcome with legal finality</p>
-        <p class="gbtd-tech-line gbtd-tech-line--unknown">Settlement asset, timing, finality: not publicly established</p>
-        <p class="gbtd-tech-line">BoE Synchronisation Lab: non-live research — not confirmed as the retail pilot rail</p>
+        <p class="gbtd-tech-heading">Settlement between the banks</p>
+        <p class="gbtd-tech-line gbtd-tech-line--unknown">Bank A now owes Bank B £100. The asset, rail, timing and finality of that settlement are not published, so a completed customer payment here is not evidence of legal finality.</p>
+        <p class="gbtd-tech-line">The Bank of England’s Synchronisation Lab is non-live, and GBTD’s test there is for bonds and gilts, not these retail payments.</p>
       </div>
     </div>`;
 }
@@ -100,18 +101,19 @@ export function renderGbtdExplorer(container: HTMLElement): void {
   if (playTimer !== null) { clearTimeout(playTimer); playTimer = null; }
   currentIdx = 0;
   isPlaying = false;
+  container.classList.add('block-wide');
 
   const wrap = document.createElement('div');
   wrap.className = 'gbtd-wrap';
-  wrap.setAttribute('aria-label', 'GBTD conditional payment stage explorer');
+  wrap.setAttribute('aria-label', 'Held payment explorer: Sam pays Alex £100');
   container.appendChild(wrap);
 
   wrap.innerHTML = `
     <p class="gbtd-sr-announce sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
 
     <div class="gbtd-header">
-      <span class="gbtd-eyebrow">REAL-WORLD INITIATIVE · UK · SEPT 2026</span>
-      <span class="gbtd-header-note">£100 / Bank A / Bank B are illustrative</span>
+      <span class="gbtd-eyebrow">MODELLED ON GBTD’S SEP 2026 TEST PAYMENT</span>
+      <span class="gbtd-header-note">Sam, Alex, £100, Bank A and Bank B are illustrative</span>
     </div>
 
     <div class="gbtd-scene">
@@ -122,6 +124,7 @@ export function renderGbtdExplorer(container: HTMLElement): void {
         <div class="gbtd-ribbon-wrap" aria-hidden="true">
           ${buildRibbonSvg()}
         </div>
+        <p class="gbtd-stage-count" id="gbtd-stage-count"></p>
         <p class="gbtd-stage-title" id="gbtd-stage-title"></p>
         <p class="gbtd-stage-msg" id="gbtd-stage-msg"></p>
       </div>
@@ -143,7 +146,7 @@ export function renderGbtdExplorer(container: HTMLElement): void {
         <button class="gbtd-btn" id="gbtd-next" aria-label="Next stage" title="Next">→</button>
         <button class="gbtd-btn" id="gbtd-replay" aria-label="Replay from start" title="Replay">↺</button>
       </div>
-      <button class="gbtd-btn gbtd-btn--tech" id="gbtd-tech-toggle" aria-expanded="false">Banking detail</button>
+      <button class="gbtd-btn gbtd-btn--tech" id="gbtd-tech-toggle" aria-expanded="false" aria-controls="gbtd-tech-panel">Bank view</button>
     </div>
 
     <div class="gbtd-tech-panel" id="gbtd-tech-panel" hidden>
@@ -151,8 +154,8 @@ export function renderGbtdExplorer(container: HTMLElement): void {
     </div>
 
     <div class="gbtd-evidence-footer">
-      <span class="gbtd-evidence-pill" id="gbtd-evidence-pill">Illustrative</span>
-      <p class="gbtd-caveat">The £100 Bank A / Bank B example is illustrative — not an actual pilot transaction. UK Finance reports live customer transactions; the British Retail Consortium describes the marketplace purchase as simulated. Interbank settlement mechanics have not been publicly disclosed.</p>
+      <span class="gbtd-evidence-pill" id="gbtd-evidence-pill">Illustration</span>
+      <p class="gbtd-caveat">An illustration, not a pilot transaction. GBTD’s marketplace payment moved real money between banks using a simulated purchase, as Reuters and the British Retail Consortium describe it. How the banks settled with each other hasn’t been published.</p>
     </div>
   `;
 
@@ -237,6 +240,11 @@ export function renderGbtdExplorer(container: HTMLElement): void {
   }
 
   function startPlay(): void {
+    if (prefersReducedMotion()) {
+      // No timed sequence under reduced motion: show the final stage immediately.
+      goToStage(SUCCESS_PATH.length - 1, false);
+      return;
+    }
     if (currentIdx >= SUCCESS_PATH.length - 1) {
       goToStage(0, true);
     }
@@ -307,6 +315,8 @@ function setStageText(stage: GbtdStage, root: HTMLElement): void {
   const msgEl   = root.querySelector<HTMLElement>('#gbtd-stage-msg');
   if (titleEl) titleEl.textContent = stage.title;
   if (msgEl)   msgEl.textContent   = stage.message;
+  const countEl = root.querySelector<HTMLElement>('#gbtd-stage-count');
+  if (countEl) countEl.textContent = `Stage ${SUCCESS_PATH.indexOf(stage) + 1} of ${SUCCESS_PATH.length}`;
 
   // Show "last confirmed" label on buyer when stage is LAST_CONFIRMED_SNAPSHOT
   const buyerLcf = root.querySelector<HTMLElement>('#gbtd-buyer-lcf');
@@ -366,12 +376,14 @@ function setRibbonNodes(idx: number, root: HTMLElement, animate: boolean): void 
     if (!animate) requestAnimationFrame(() => { node.style.transition = ''; });
   }
 
-  // Update fill line via style (not attribute) so CSS transition fires
-  // spacing is 48px per stage; fill for stage idx: idx * 48
+  root.querySelectorAll<HTMLElement>('.gbtd-node-labels span').forEach((lbl, i) => {
+    lbl.classList.toggle('is-current', i === idx);
+  });
+
+  // Update fill line via style (not attribute) so CSS transition fires; 50 units per stage
   const fillEl = root.querySelector<SVGLineElement>('#gbtd-ribbon-fill');
   if (fillEl) {
-    const fillLen = idx * 48;
-    const offset = 240 - fillLen;
+    const offset = 250 - idx * 50;
     if (!animate) fillEl.style.transition = 'none';
     fillEl.style.strokeDashoffset = String(offset);
     if (!animate) requestAnimationFrame(() => { fillEl.style.transition = ''; });

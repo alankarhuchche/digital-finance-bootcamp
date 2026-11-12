@@ -1,5 +1,5 @@
-// GBTD conditional-payment state model — SUCCESS path only (Phase B).
-// Amounts in integer pence (£100 = 10000p). Bank A/B labels are illustrative;
+// GBTD held-payment state model (success path only): Sam (buyer, Bank A) pays Alex (seller, Bank B).
+// Amounts in integer pence (£100 = 10000p). Names and bank labels are illustrative;
 // actual pilot bank mapping is not publicly disclosed (U01).
 
 export interface GbtdPosition {
@@ -33,8 +33,8 @@ export interface GbtdStage {
 export const SUCCESS_PATH: GbtdStage[] = [
   {
     id: 'start',
-    title: 'Before purchase',
-    message: 'The buyer starts with £100 available at Bank A. The seller has not been paid.',
+    title: 'Before the purchase',
+    message: 'Sam has £100 to spend at Bank A. Alex hasn’t been paid.',
     evidenceClass: 'ILLUSTRATIVE',
     buyer:  { bank: 'Bank A', bookedPence: 10000, availablePence: 10000, reservedPence: 0 },
     seller: { bank: 'Bank B', bookedPence: 0, availablePence: 0, reservedPence: 0 },
@@ -44,7 +44,7 @@ export const SUCCESS_PATH: GbtdStage[] = [
   {
     id: 'agreed',
     title: 'Terms agreed',
-    message: 'Buyer and seller agree that payment should be released only after the agreed exchange condition is satisfied.',
+    message: 'Sam and Alex agree that the £100 is released only once the bike has been handed over.',
     evidenceClass: 'MIXED_PRIMARY_AND_ILLUSTRATIVE',
     buyer:  { bank: 'Bank A', bookedPence: 10000, availablePence: 10000, reservedPence: 0 },
     seller: { bank: 'Bank B', bookedPence: 0, availablePence: 0, reservedPence: 0 },
@@ -53,8 +53,8 @@ export const SUCCESS_PATH: GbtdStage[] = [
   },
   {
     id: 'reserved',
-    title: 'Funds reserved',
-    message: '£100 is set aside in the buyer\'s account. It is unavailable for other spending. The seller has not received it.',
+    title: 'Money held',
+    message: 'The £100 is held in Sam’s account. It’s still Sam’s money, but Sam can’t spend it elsewhere, and Alex hasn’t received it.',
     evidenceClass: 'MIXED_PRIMARY_AND_ILLUSTRATIVE',
     buyer:  { bank: 'Bank A', bookedPence: 10000, availablePence: 0, reservedPence: 10000 },
     seller: { bank: 'Bank B', bookedPence: 0, availablePence: 0, reservedPence: 0 },
@@ -63,8 +63,8 @@ export const SUCCESS_PATH: GbtdStage[] = [
   },
   {
     id: 'condition_accepted',
-    title: 'Condition satisfied',
-    message: 'The agreed exchange condition is reported as met. The reserved funds have not yet been transferred in this model.',
+    title: 'Condition met',
+    message: 'The handover is reported as done. In this model the held money hasn’t moved yet.',
     evidenceClass: 'MIXED_PRIMARY_AND_ILLUSTRATIVE',
     buyer:  { bank: 'Bank A', bookedPence: 10000, availablePence: 0, reservedPence: 10000 },
     seller: { bank: 'Bank B', bookedPence: 0, availablePence: 0, reservedPence: 0 },
@@ -74,7 +74,7 @@ export const SUCCESS_PATH: GbtdStage[] = [
   {
     id: 'release_pending',
     title: 'Release requested',
-    message: 'The satisfied condition authorises release. Customer balances shown are the last confirmed values before the illustrative transfer.',
+    message: 'The met condition allows the release. The balances shown are the last confirmed ones before the money moves.',
     evidenceClass: 'ILLUSTRATIVE_TECHNICAL_INTERMEDIATE',
     buyer:  { bank: 'Bank A', bookedPence: 10000, availablePence: 0, reservedPence: 10000 },
     seller: { bank: 'Bank B', bookedPence: 0, availablePence: 0, reservedPence: 0 },
@@ -83,8 +83,8 @@ export const SUCCESS_PATH: GbtdStage[] = [
   },
   {
     id: 'customer_complete',
-    title: 'Illustrative payment complete',
-    message: 'The example shows the buyer debited and seller credited £100. Interbank settlement mechanics remain undisclosed.',
+    title: 'Released to Alex',
+    message: 'Sam’s account is down £100 and Alex’s is up £100. Bank A now owes Bank B £100, and how that was settled hasn’t been published.',
     evidenceClass: 'ILLUSTRATIVE_OUTCOME',
     buyer:  { bank: 'Bank A', bookedPence: 0, availablePence: 0, reservedPence: 0 },
     seller: { bank: 'Bank B', bookedPence: 10000, availablePence: 10000, reservedPence: 0 },
@@ -99,9 +99,9 @@ export function penceToPounds(pence: number): string {
 
 export function evidencePillLabel(cls: EvidenceClass): string {
   switch (cls) {
-    case 'ILLUSTRATIVE': return 'Illustrative';
-    case 'MIXED_PRIMARY_AND_ILLUSTRATIVE': return 'Public mechanism · Illustrative detail';
-    case 'ILLUSTRATIVE_TECHNICAL_INTERMEDIATE': return 'Illustrative · Last confirmed view';
-    case 'ILLUSTRATIVE_OUTCOME': return 'Illustrative outcome · Settlement unknown';
+    case 'ILLUSTRATIVE': return 'Illustration';
+    case 'MIXED_PRIMARY_AND_ILLUSTRATIVE': return 'Reported mechanism · illustrative detail';
+    case 'ILLUSTRATIVE_TECHNICAL_INTERMEDIATE': return 'Illustration · last confirmed balances';
+    case 'ILLUSTRATIVE_OUTCOME': return 'Customer outcome · bank settlement not published';
   }
 }

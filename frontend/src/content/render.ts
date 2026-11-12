@@ -14,6 +14,11 @@ import { renderComparison } from '../viz/comparison';
 import { renderWhatMovesVisual } from '../viz/whatMovesVisual';
 import { renderSwiftRoleMap } from '../viz/swiftRoleMap';
 import { renderGbtdExplorer } from '../viz/gbtdExplorer';
+import { renderGbtdHook } from '../viz/gbtdHook';
+import { renderGbtdScene } from '../viz/gbtdScene';
+import { renderChapter, renderChapterNav } from '../viz/chapters';
+import { renderStatusCards } from '../viz/statusCards';
+import { renderUseCaseAtlas } from '../viz/useCaseAtlas';
 import { renderChatWidget } from '../chat';
 import { buildTopicLink, buildTopicSummaryText, buildLinkedInSnippet, copyAndToast } from '../utils/share';
 import { enhanceTerms, bindTermPopovers } from '../viz/termHelp';
@@ -69,11 +74,22 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
 
   const body = container.querySelector<HTMLElement>('#topicBody')!;
 
+  // In-content links to other topics navigate in place; modified clicks keep browser behaviour.
+  body.addEventListener('click', (e) => {
+    const link = (e.target as Element).closest<HTMLAnchorElement>('a[data-topic]');
+    if (!link || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent('navigate', { detail: `/topic/${link.dataset.topic}` }));
+  });
+
+  // Once a topic starts using chapter headings, block headings inside chapters drop to h3.
+  let inChapter = false;
   for (const block of mod.blocks) {
+    if (block.kind === 'chapter') inChapter = true;
     const section = document.createElement('section');
     section.className = 'block';
     body.appendChild(section);
-    await renderBlock(section, block, topicUrl);
+    await renderBlock(section, block, topicUrl, inChapter ? 'h3' : 'h2');
   }
 
   // Previous / Next topic navigation
@@ -109,10 +125,10 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
   renderChatWidget(container, mod.id, mod.title, mod.blocks);
 }
 
-async function renderBlock(section: HTMLElement, block: ContentBlock, topicUrl: string): Promise<void> {
-  if (block.heading) {
-    const h = document.createElement('h2');
-    h.className = 'block-heading';
+async function renderBlock(section: HTMLElement, block: ContentBlock, topicUrl: string, level: 'h2' | 'h3'): Promise<void> {
+  if ('heading' in block && block.heading) {
+    const h = document.createElement(level);
+    h.className = level === 'h3' ? 'block-heading block-subheading' : 'block-heading';
     h.textContent = block.heading;
     section.appendChild(h);
   }
@@ -168,6 +184,24 @@ async function renderBlock(section: HTMLElement, block: ContentBlock, topicUrl: 
       break;
     case 'gbtd-explorer':
       renderGbtdExplorer(mount);
+      break;
+    case 'gbtd-hook':
+      renderGbtdHook(mount, block.data);
+      break;
+    case 'gbtd-scene':
+      renderGbtdScene(mount, block.data);
+      break;
+    case 'chapter':
+      renderChapter(mount, block.data);
+      break;
+    case 'chapter-nav':
+      renderChapterNav(mount, block.data);
+      break;
+    case 'status-cards':
+      renderStatusCards(mount, block.data);
+      break;
+    case 'usecase-atlas':
+      renderUseCaseAtlas(mount, block.data);
       break;
   }
 }
