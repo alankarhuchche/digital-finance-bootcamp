@@ -17,6 +17,7 @@ import type {
   UseCaseAtlasSpec,
   GbtdHookSpec,
   GbtdSceneSpec,
+  ScSceneId,
 } from '../types';
 
 export type ContentBlock =
@@ -41,7 +42,8 @@ export type ContentBlock =
   | { kind: 'status-cards'; heading?: string; data: StatusCardsSpec }
   | { kind: 'usecase-atlas'; heading?: string; data: UseCaseAtlasSpec }
   | { kind: 'gbtd-hook'; data: GbtdHookSpec }
-  | { kind: 'gbtd-scene'; data: GbtdSceneSpec };
+  | { kind: 'gbtd-scene'; data: GbtdSceneSpec }
+  | { kind: 'sc-scene'; heading?: string; scene: ScSceneId };
 
 export interface ModuleMeta {
   id: string;
@@ -53,6 +55,9 @@ export interface ModuleMeta {
   updatedAt?: string;       // ISO date, e.g. "2026-07-03"
   changeType?: 'new' | 'expanded' | 'updated';
   changeSummary?: string;   // one-line note for returning readers
+  // 'server': the chat backend holds curated, source-backed context for this topic, so the
+  // browser sends only the question and the scene in view, never page text as context.
+  chat?: { context: 'server'; suggestions?: string[] };
 }
 
 export interface ModuleContent extends ModuleMeta {

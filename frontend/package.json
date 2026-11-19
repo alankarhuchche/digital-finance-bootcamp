@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test \"tests/**/*.test.ts\"",
+    "chat-context": "node scripts/build-chat-context.ts"
   },
   "devDependencies": {
     "d3-geo": "^3.1.1",

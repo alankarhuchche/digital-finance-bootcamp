@@ -1396,6 +1396,13 @@ svg.world-map { width: 100%; height: auto; display: block; }
   border-bottom-left-radius: 2px;
 }
 .chat-msg-bot strong { color: var(--amber); }
+.chat-suggest { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.chat-suggest-btn {
+  background: transparent; border: 1px solid var(--grid); border-radius: 12px;
+  color: var(--text-dim); font: 12px/1.4 'Inter', sans-serif; text-align: left;
+  padding: 6px 10px; cursor: pointer; max-width: 92%;
+}
+.chat-suggest-btn:hover, .chat-suggest-btn:focus-visible { border-color: var(--amber); color: var(--text); outline: none; }
 
 .chat-input-row {
   display: flex; gap: 8px; padding: 10px 16px;

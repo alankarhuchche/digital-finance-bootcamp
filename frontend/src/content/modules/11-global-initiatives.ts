@@ -30,7 +30,7 @@ const content: ModuleContent = {
           { country: 'Sweden', region: 'Europe', status: 'research', name: 'e-krona' },
           { country: 'Japan', region: 'Asia-Pacific', status: 'research', name: 'Digital yen' },
           { country: 'Australia', region: 'Asia-Pacific', status: 'none', name: 'Retail deprioritized \u2014 wholesale research continues' },
-          { country: 'United States of America', region: 'Americas', status: 'none', name: 'Retail CBDC banned under GENIUS Act (2025) \u2014 wholesale research via Project Agor\u00e1 continues' },
+          { country: 'United States of America', region: 'Americas', status: 'none', name: 'No retail CBDC: a January 2025 executive order bars federal agencies from developing one. Wholesale work continues through Project Agor\u00e1' },
         ],
         crossBorderProjects: [
           { name: 'mBridge', description: 'Multi-CBDC wholesale cross-border settlement platform, the fastest-growing CBDC project globally. e-CNY makes up the large majority of settlement volume, with publicly reported cumulative settlement volume in the tens of billions of dollars as of 2026.', participants: 'BIS + multiple central banks (China, Hong Kong, Thailand, UAE, Saudi Arabia and others)' },

@@ -122,7 +122,10 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
   });
 
   bindTermPopovers(container);
-  renderChatWidget(container, mod.id, mod.title, mod.blocks);
+  renderChatWidget(container, mod.id, mod.title, mod.blocks, {
+    serverContext: mod.chat?.context === 'server',
+    suggestions: mod.chat?.suggestions,
+  });
 }
 
 async function renderBlock(section: HTMLElement, block: ContentBlock, topicUrl: string, level: 'h2' | 'h3'): Promise<void> {
@@ -203,5 +206,11 @@ async function renderBlock(section: HTMLElement, block: ContentBlock, topicUrl: 
     case 'usecase-atlas':
       renderUseCaseAtlas(mount, block.data);
       break;
+    case 'sc-scene': {
+      // Loaded on demand: the Stablecoins scenes and their CSS are a separate chunk.
+      const { renderScScene } = await import('../viz/stablecoins/index');
+      renderScScene(mount, block.scene);
+      break;
+    }
   }
 }

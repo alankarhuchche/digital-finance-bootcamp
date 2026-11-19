@@ -18,7 +18,7 @@ const content: ModuleContent = {
         events: [
           { date: 'Jun 2024', title: 'Stablecoin issuer rules enforceable', detail: '1:1 reserve backing, segregation, and redemption-at-par rules for EMTs/ARTs take effect.', status: 'done' },
           { date: 'Dec 2024', title: 'CASP licensing rules enforceable', detail: 'Exchanges and other venues need a MiCA license to operate at all. This is "Title V," the rule that forces delistings.', status: 'done' },
-          { date: 'Jul 2026', title: 'Transition period ends', detail: 'No more grandfathering for firms operating under old national rules. Full enforcement, EU-wide, no extensions.', status: 'deadline' },
+          { date: 'Jul 2026', title: 'Transition period ended', detail: 'The last national grandfathering periods ended on 1 July 2026 (some states ended theirs earlier). Every crypto-asset service provider now needs MiCA authorisation.', status: 'done' },
         ],
       },
     },
@@ -29,14 +29,14 @@ const content: ModuleContent = {
         columns: ['Scope', 'Reserve rule', 'Licensing', 'Why Tether balked at one'],
         items: [
           { id: 'mica', label: 'MiCA (EU)', color: '#7AA7D9', values: [`Full crypto-asset framework, of which stablecoins are one part`, `1:1 backing, with a meaningful share required in EU bank deposits`, `Authorized e-money or credit institution, per member state`, `Tether's reserve strategy leans on yield-bearing assets like T-bills, not low-yield EU bank deposits, so the EU rule cuts directly into the profit model`] },
-          { id: 'genius', label: 'GENIUS Act (US, 2025)', color: '#5FB3A3', values: [`Narrower, payment stablecoins specifically`, `1:1 backing in high-quality liquid assets`, `Dual federal/state licensing paths`, `Less of a head-on clash with Tether's model, though it explicitly bars stablecoins from paying interest to holders`] },
+          { id: 'genius', label: 'GENIUS Act (US, 2025)', color: '#5FB3A3', values: [`Narrower, payment stablecoins specifically`, `1:1 in a closed list: cash, insured deposits, Treasuries of 93 days or less, repo and government money-market funds`, `Dual federal/state licensing paths; effective 18 January 2027`, `Bars issuers from paying holders interest; exchange rewards are judged case by case. From July 2028 US platforms may offer only permitted or comparably regulated coins`] },
         ],
       },
     },
     {
       kind: 'text',
-      heading: 'The UK FCA: principles-based, not prescriptive',
-      body: `The UK's Financial Conduct Authority takes a fundamentally different approach from MiCA. Where MiCA is a detailed rulebook, hundreds of pages of prescriptive requirements, the FCA operates on principles-based regulation. It defines outcomes firms must achieve (treat customers fairly, maintain adequate reserves, manage conflicts of interest) but gives firms more latitude in how they get there. Since January 2024 the FCA has required crypto firms to comply with its financial promotions regime, meaning any marketing to UK consumers must be fair, clear, and not misleading. The FCA's cryptoasset registration regime has been notably strict. As of mid-2025, it had rejected or withdrawn over 85% of crypto firm applications, making the UK one of the hardest jurisdictions to get licensed in despite its reputation as a fintech hub.`,
+      heading: 'The UK: a full regime, starting October 2027',
+      body: `The UK has moved from registration and principles to a full statutory regime. The cryptoasset regulations were made on 4 February 2026 and the FCA published final rules on 30 June 2026 (PS26/9 to PS26/13), covering stablecoin issuance, custody, trading platforms, dealing, staking and market abuse. Both apply from 25 October 2027, and firms already operating must apply between 30 September 2026 and 28 February 2027. The Bank of England will also supervise sterling stablecoins that HM Treasury recognises as systemic: its June 2026 policy sets a temporary £40bn issuance cap per systemic coin and backing of up to 70% in short-dated gilts. Until 2027 the live rules are money-laundering registration and the financial promotions regime, in force since 8 October 2023. The Stablecoins topic sets out what this means for banks.`,
     },
     {
       kind: 'matrix',
@@ -101,7 +101,7 @@ Regulation sets the rules. But one question cuts across every rule: how much sho
       heading: 'Knowledge check',
       data: {
         questions: [
-          { question: 'How does the UK FCA’s regulatory approach to crypto differ from the EU’s MiCA?', options: ['The FCA bans all crypto activity while MiCA permits it', 'The FCA uses principles-based regulation defining outcomes, while MiCA is a detailed prescriptive rulebook', 'The FCA only regulates stablecoins, while MiCA covers all crypto assets', 'The FCA requires higher reserve ratios than MiCA for all crypto assets'], correctIndex: 1, explanation: 'The FCA operates on principles-based regulation, defining outcomes firms must achieve rather than prescribing exactly how, while MiCA is a detailed, prescriptive framework with specific rules for each asset category.' },
+          { question: 'Who regulates a UK stablecoin once HM Treasury recognises it as systemic?', options: ['Only the FCA', 'The FCA and the Bank of England jointly', 'Only the Bank of England; the FCA steps back', 'The PRA alone'], correctIndex: 1, explanation: 'The FCA regulates every UK-issued stablecoin. Once HM Treasury recognises one as systemic, the Bank of England joins: it leads on backing assets, capital and failure, and the FCA keeps conduct and financial crime (joint approach, June 2026).' },
           { question: 'What was the approximate size of Binance’s DOJ/CFTC settlement, and what did it primarily address?', options: ['$500 million for market manipulation', '$4.3 billion for AML and sanctions violations', '$1 billion for operating without a US license', '$10 billion for customer fund misuse'], correctIndex: 1, explanation: 'Binance agreed to a $4.3 billion settlement, the largest in crypto history, primarily for AML and sanctions compliance failures.' },
           { question: 'Why is DeFi regulation particularly difficult to enforce under existing frameworks?', options: ['DeFi protocols operate too quickly for regulators to monitor', 'Most frameworks assume a legal entity to regulate, but truly decentralized protocols may have no identifiable operator', 'DeFi transactions are encrypted and invisible to regulators', 'International law prohibits regulating decentralized software'], correctIndex: 1, explanation: 'Regulatory frameworks assume there is a company or named person to serve enforcement notices to. Genuinely decentralized protocols with no identifiable operator fall into a gray zone that existing rules struggle to address.' },
         ],

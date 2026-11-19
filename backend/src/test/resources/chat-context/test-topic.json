@@ -1,0 +1,10 @@
+{
+  "moduleId": "test-topic",
+  "title": "Test topic",
+  "asOf": "2026-11-18",
+  "overview": "CURATED-OVERVIEW: a token moving is not the same as a payment being spendable.",
+  "scenes": {
+    "journey": "CURATED-SCENE-JOURNEY: the token arrives at step 3; the supplier can spend at step 5."
+  },
+  "sources": "CURATED-SOURCES: Example publisher, 1 Jan 2026."
+}
