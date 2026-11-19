@@ -39,8 +39,10 @@ If you are resuming after a context break: read this file, then `EDITORIAL_DECIS
 - Tooling: `npm test`, `npm run chat-context`; tests in `frontend/tests/stablecoins/`
 - Adjacent corrections: `23-stablecoin-market-structure.ts`, `10-market-sizing.ts`, `14-regulation.ts`, `26-gbtd.ts`, `11-global-initiatives.ts`, `registry.ts` metadata
 
-## Next actions (owner)
+## Next actions
 
-1. Review the draft PR and the preview steps in it. Do not merge or deploy until approved.
-2. Decide: gate deploys on `npm test` and `mvn test` (Dockerfiles currently use Node 20 and skip tests); add chat rate limiting and a timeout; whether to fix the remaining adjacent-topic items listed in `SOURCES.md`.
-3. Before publishing: re-check facts that move (supply, rule status, Open USD) and the items marked unverified in `research/R1–R5`.
+1. Owner review of PR #2. Merging to `main` deploys to production through the Cloud Build trigger (see QA_REPORT, "Pre-deploy checks").
+2. Choose a Gemini cost guard: a daily request quota on the key in Google Cloud (no code change), or a per-visitor limit in code.
+3. Decide whether to change `backend/Dockerfile` from `node:20-alpine` to `node:22-alpine`. Recommended, since Vite 8 needs Node 20.19 or later.
+4. After the triggered deploy: check that the revision still has `GEMINI_API_KEY`, run the five checks in `DEPLOY.md` §9, and ask one question in chat on the stablecoins topic.
+5. Deferred items are listed in the INTEGRATION_STALENESS_REVIEW section of QA_REPORT.

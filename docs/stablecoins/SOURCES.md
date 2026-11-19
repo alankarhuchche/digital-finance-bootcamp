@@ -48,8 +48,11 @@ Facts as publicly reported at 18 November 2026. Every citation on the page, in t
 | Regulation | UK section rewritten for the 2027 regime; GENIUS yield and reserve wording; MiCA deadline marked past; quiz question replaced | R1 §4 rows 1, 5–9, 17 |
 | GBTD | "Confirmed as deposits in law" and "£40bn per coin" corrected | R1 §4 rows 21–23 |
 | Global initiatives | GENIUS Act does not ban retail CBDC (an executive order bars federal agencies) | R3 PAY-53 |
+| Regulation | Title V, MiCA reserve share and authorisation, Hong Kong ordinance, Circle and Tether entities, FATF DeFi and Travel Rule, Basel status; unsourced SEC claim about Uniswap and Lido removed | R1 §4 rows 2–4, 7, 11–16 |
+| GBTD | FCA link to the rules page; settlement-asset sentence limited to the Digital Securities Sandbox | R1 §4 rows 24–25 |
+| Market structure | Paxos status note reworded: a law-firm note from August 2026 said final approval was pending | R2 §4 |
 
-Not yet corrected (recorded for the owner): the remaining rows of R1 §4 for `14-regulation.ts` (financial promotions date, FCA rejection-rate figure, VASP origin, Uniswap/Lido, Hong Kong sandbox, Basel status), R3 §4 items in `01-existing-rails.ts`, `11-global-initiatives.ts` (mBridge, Agorá) and `data/rails.ts`, and R2's deposit-token list items in `21-deposit-tokens.ts`.
+Not yet corrected (recorded for the owner): `frontend/src/content/data/rails.ts` and the glossary (mBridge, Agorá and retail CBDC wording), the speed claims in `01-existing-rails.ts`, the deposit-token list in `21-deposit-tokens.ts` (HSBC Orion and SG-FORGE are not deposit tokens), and GBTD's "HSBC in six markets" figure, which the research could not support.
 
 ## Full register (generated from `sources.ts`)
 

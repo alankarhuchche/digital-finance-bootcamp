@@ -71,3 +71,39 @@ Reports: `CRITIC_EDITORIAL.md` (50 claims traced, six acceptance scenarios answe
 - **Reduced motion**: verified by code only. Scenes check `prefers-reduced-motion` in JS (track animation off, slower autoplay) and CSS disables transitions under the media query; the browser pane cannot emulate the preference.
 - **Live Gemini call**: not made. No API key is configured locally and the mandate forbids unapproved paid calls. The backend path is covered by unit tests with a fake model.
 - **Screen reader**: structure checked (live regions, labelled groups, real tables, native radios); not tested with VoiceOver or NVDA.
+
+## Pre-deploy checks (19 Nov 2026, before merge to main)
+
+Deploy path, as the owner describes it: a Cloud Build trigger on `main` builds `backend/Dockerfile` (frontend build on Node 20, then the Quarkus build) and deploys to Cloud Run. Merging PR #2 therefore deploys to production. `DEPLOY.md` still describes deploys as manual and needs updating.
+
+| Check | Result |
+|---|---|
+| Packaged backend boots without `GEMINI_API_KEY` | Found and fixed: startup failed with "Failed to load config value ... gemini.api-key" because the key was a plain `String`. It is now `Optional<String>`. After the fix: starts, `/api/health` 200, `/api/chat` 503 as designed |
+| Packaged backend boots with a key set | `/api/health` 200. Chat was not called, so no external or paid call was made |
+| Backend unit tests | 12/12 after the fix |
+| Frontend tests, types and build | 55/55; `tsc` clean; `vite build` passes |
+| Docker image built from this commit | Not run: Docker is not installed or running on this machine. The first Cloud Build image will be the first real build |
+| Node version in the image | `backend/Dockerfile` uses the floating tag `node:20-alpine`. Vite 8 requires `^20.19.0 \|\| >=22.12.0`. If the image's Node 20 is older, the build fails before deploy and production stays on the current revision |
+| Secrets after the triggered deploy | The trigger's deploy step passes no `--set-secrets` or env vars, so it relies on Cloud Run keeping the current revision's settings. Check that `GEMINI_API_KEY` is still mounted after the first triggered deploy |
+
+### INTEGRATION_STALENESS_REVIEW: PASS for the topics changed in this PR, with deferred items
+
+Files checked: `06-stablecoins.ts`, `10-market-sizing.ts`, `11-global-initiatives.ts`, `14-regulation.ts`, `23-stablecoin-market-structure.ts`, `26-gbtd.ts`, `registry.ts`, `frontend/src/content/stablecoins/*`, `frontend/src/viz/stablecoins/*`, `backend/src/main/java/com/dfl/bootcamp/Chat*.java`, `docs/stablecoins/*`.
+
+Searches run: the general staleness grep (two-mode, MVP, Phase 2–5, placeholder, prototype, planned, TODO, not yet approved, to be confirmed) over those files. Each hit was checked. GBTD's "planned" and "Not planned" labels describe real status. "Planned temporary" in the lens is policy wording. The `placeholder` hit is the chat input's HTML attribute. No stale phase language remains.
+
+Metadata consistency: module and registry agree for 06 and 23. For 26 the update date is 19 Nov 2026 in both, and the legal-status correction is noted. 11 had no metadata, so it was added. 14 and 10 carry metadata in the registry only, which is the existing convention for those topics.
+
+Stale language findings: fixed in this pass, from R1 §4. Title V; the MiCA reserve share and authorisation wording; the Hong Kong entry (the sandbox replaced by the 2025 ordinance); the Circle and Tether entities; the FATF DeFi and Travel Rule statements; Basel status; the unsourced SEC claim about Uniswap and Lido, which is removed rather than corrected because it was not verified; the GBTD FCA link and settlement-asset sentence. In 11: the US position on retail CBDCs and the mBridge and Agorá governance. In 23: the Paxos status note.
+
+Page and order findings: the 06 order is unchanged and was checked in source. The strongest-case comparison sits before chapter 1, and the chapters run 1 to 11. These were text-only edits, so the rendered page was not re-screenshotted.
+
+Shared label and sublabel findings: the route station labels were checked against each step's station index for all four routes, with no mismatch. Liquidity and cross-ledger sublabels are unchanged.
+
+Docs and plan consistency: PROGRESS.md, QA_REPORT.md and SOURCES.md are updated to the current state.
+
+Required fixes: none outstanding in the changed topics.
+
+Deferred items: `frontend/src/content/data/rails.ts` and the glossary (mBridge, Agorá, retail CBDC wording); the speed claims ("1–3 business days") and gpi figures in `01-existing-rails.ts`; the deposit-token list in `21-deposit-tokens.ts`, which wrongly includes HSBC Orion and SG-FORGE; and GBTD's "HSBC in six markets" figure, which the research could not support. The first three are outside the text this PR changed. The GBTD figure is inside it, but needs a source before it can be corrected.
+
+Verdict rationale: each changed topic was checked for stale language, metadata agreement, labels and page order. The deferred items are listed above and are not blockers for the changed text.

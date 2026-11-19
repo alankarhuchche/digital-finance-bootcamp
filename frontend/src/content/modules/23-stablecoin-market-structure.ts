@@ -49,7 +49,7 @@ const content: ModuleContent = {
             values: [
               'Issued by Paxos for PayPal, which brands and distributes it. Paxos states that PayPal USD “is issued by Paxos, not PayPal or Venmo”. Native on several chains, including Ethereum and Solana.',
               'USD deposits, Treasuries and cash equivalents, with monthly attestations. How reserve income is split between Paxos and PayPal is not public. About $2.4bn on 17 November 2026.',
-              'Paxos is the regulated issuer and describes itself as an OCC-regulated national trust bank; check the status of that conversion before relying on it. PayPal brings mature consumer-payments compliance.',
+              'Paxos is the regulated issuer. It describes itself as an OCC-regulated national trust bank; a law-firm note from August 2026 said its final approval was still pending. PayPal brings mature consumer-payments compliance.',
               'PayPal controls a large consumer payments network and can drive adoption through checkout integrations. The distribution advantage — hundreds of millions of PayPal accounts — is the differentiator here, not reserve quality. For banks, it is a clear case of the issuer (Paxos) and the distributor (PayPal) being different firms.',
             ],
           },
