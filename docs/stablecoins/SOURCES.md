@@ -17,7 +17,7 @@ Facts as publicly reported at 18 November 2026. Every citation on the page, in t
 | FATF Jul 2026: 83% have Travel Rule laws; 60% of those took no supervisory action | FATF targeted update | REG-55, AML-04–05 | FATF site blocked; read via FIAU Malta copy; executive summary says "almost half" |
 | UK Travel Rule since 1 Sep 2023; full originator data at £800+ since 30 Jun 2026 | legislation.gov.uk | AML-15–17 | JMLSG guidance still says EUR 1,000 |
 | Supply $286.4bn (17 Nov 2026); peak $312.9bn (17 May); USDT $175.2bn, USDC $69.2bn | DefiLlama | ISS-01–05 | Aggregator data |
-| Gross 2025 transfers $28–35tn; genuine payments ~$390bn, ~$226bn B2B | BIS AER 2026; IMF speech; McKinsey/Artemis | PAY-32–34 | Single vendor estimate repeated by BIS and IMF; McKinsey page not read |
+| Gross 2025 transfers $28–35tn; genuine payments ~$390bn, ~$226bn B2B | BIS AER 2026; IMF speech; McKinsey/Artemis | PAY-32–34 | $390bn and $226bn are McKinsey/Artemis's estimate (page not read); the BIS gives a similar figure for transfers net of same-owner moves, citing Chainalysis and Visa |
 | ~6 in 10 on-chain transfers misclassified if read as payments | BIS WP 1359 | PAY-35 | Ethereum, 2025 |
 | Cross-border attributable transfers $220bn (year to Jun 2026), average ~$3,000 | Chainalysis | PAY-37 | Vendor lower bound |
 | IMF: USD 200 stablecoin transfer 2.18% (cheapest ramps), 3.04% median, 4.07% dearest, 1.54% at USD 5,000; chain < 1/4 of cost; ~1/3 corridors traditional cheaper | IMF WP/26/230 | PAY-01–06 | Full text did not load; figures from abstract and coverage; never extrapolated to £1,000 |
@@ -30,7 +30,8 @@ Facts as publicly reported at 18 November 2026. Every citation on the page, in t
 | Open USD live 30 Sep 2026, issued by Bridge (Stripe); founders Coinbase, Mastercard, Shopify, Stripe, Visa; ~$961m (17 Nov) | Bridge; Open Standard; DefiLlama | ISS-48–54 | Mandate said 12 Nov: not supported by operator or issuer; partner payouts unpublished |
 | PYUSD issued by Paxos, not PayPal | Paxos | ISS-28 | Paxos's OCC conversion status to be checked |
 | JPM Coin is a deposit token, "not a stablecoin"; Citi live in 7 markets, HSBC in 5 | JPMorgan Kinexys; Citi; HSBC | ISS-68–71 | Company statements |
-| CCTP minting idempotent; confirmations expire ~24h, reissuable; V1 paused 1 Dec 2026 | Circle developer docs | XCH-08–13 | Vendor documentation and code |
+| CCTP minting idempotent; confirmations expire ~24h, reissuable; Fast Transfer backed by an allowance; V1 paused 1 Dec 2026 | Circle developer docs | XCH-04–13 | Vendor documentation and code |
+| USDC on 39 chains (2 redemption-only); burn-and-mint links 31; USDT relies on third-party USDT0 or exchanges | Circle; USDT0 docs | ISS-09, XCH-07, XCH-28–30 | USDT0 operator not identified |
 | Bridges 64% of $3.1bn stolen from DeFi in 2022; KelpDAO ~$292m (Apr 2026) | Chainalysis; LayerZero | XCH-33, XCH-42 | Vendor estimate; operator incident report |
 | Ethereum ~15 minutes to finalise; optimistic rollup withdrawals ~7 days | ethereum.org | XCH-45, XCH-50 | |
 | Stablecoins 84% of illicit volume (Chainalysis); illicit ~1.2% of attributed volume (TRM) | Chainalysis; TRM | AML-61–62, AML-74 | Vendor estimates; driven by sanctioned flows |

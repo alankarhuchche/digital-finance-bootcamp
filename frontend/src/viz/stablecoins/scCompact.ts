@@ -14,7 +14,7 @@ const srcLinks = (ids: SourceId[]): string => ids.length
   ? `<span class="sc-src">${ids.map(id => `<a href="${esc(SOURCES[id].url)}" target="_blank" rel="noopener">${esc(sourceLabel(id))}</a>`).join(' · ')}</span>`
   : '';
 
-const BASIS_LABEL: Record<PointBasis, string> = { measured: 'Measured', mechanism: 'Mechanism', scenario: 'Scenario', rule: 'Rule' };
+const BASIS_LABEL: Record<PointBasis, string> = { measured: 'Measured', mechanism: 'Mechanism', scenario: 'Scenario', rule: 'Rule in force', policy: 'Policy, not yet in force' };
 
 // ── Peg ────────────────────────────────────────────────────────────────────────
 
@@ -73,7 +73,7 @@ export function renderLens(mount: HTMLElement): void {
   mount.innerHTML = `
   <div class="sc sc-lens cq" data-scene="lens">
     <div class="sc-head">
-      <p class="sc-contract"><span class="sc-tag">Perspective</span> The same flow of dollar stablecoins looks different to each party. Each point is labelled: measured, mechanism, scenario or rule.</p>
+      <p class="sc-contract"><span class="sc-tag">Perspective</span> The same flow of dollar stablecoins looks different to each party. Each point is labelled: measured, mechanism, scenario, a rule in force, or a policy not yet in force.</p>
       ${askButton('Ask about this scene')}
     </div>
     <div class="sc-routes" role="group" aria-label="Economy">
@@ -90,7 +90,7 @@ export function renderLens(mount: HTMLElement): void {
   bindAsk(root, 'lens', () => `From the point of view of ${PERSPECTIVE_LABEL[view].toLowerCase()} in ${ECONOMY_LABEL[economy].toLowerCase()}, what are the gains and costs of dollar stablecoins, and which are measured rather than scenarios?`);
   const col = (title: string, tone: string, pts: { text: string; basis: PointBasis; sources: SourceId[] }[]) => `
     <section class="sc-lens-col sc-lens-col--${tone}"><h4>${title}</h4>
-      <ul>${pts.map(p => `<li><span class="sc-basis sc-basis--${p.basis === 'measured' ? 'sourced' : p.basis === 'scenario' ? 'illustrative' : p.basis === 'rule' ? 'derived' : 'qualitative'}">${BASIS_LABEL[p.basis]}</span> ${esc(p.text)} ${srcLinks(p.sources)}</li>`).join('')}</ul>
+      <ul>${pts.map(p => `<li><span class="sc-basis sc-basis--${p.basis === 'measured' ? 'sourced' : p.basis === 'scenario' ? 'illustrative' : p.basis === 'rule' || p.basis === 'policy' ? 'derived' : 'qualitative'}">${BASIS_LABEL[p.basis]}</span> ${esc(p.text)} ${srcLinks(p.sources)}</li>`).join('')}</ul>
     </section>`;
   const render = () => {
     const cell = LENS[economy][view];
@@ -115,10 +115,10 @@ export function renderControls(mount: HTMLElement): void {
       ${askButton('Ask about this scene')}
     </div>
     ${segmented('wallet', 'The destination wallet', (Object.keys(WALLET_CASES) as WalletCase[]).map(w => ({ value: w, label: WALLET_CASES[w].label })), wallet)}
-    <div class="sc-ctl-verdict" data-verdict aria-live="polite"></div>
+    <div class="sc-ctl-verdict" data-verdict></div>
     <details class="sc-panel">
       <summary>The full control journey: before, at release and after</summary>
-      <div class="sc-ctl-phases">
+      <div class="sc-ctl-phases" tabindex="0" role="region" aria-label="Control journey tables, scroll sideways on small screens">
         ${CONTROL_PHASES.map(ph => `<section class="sc-ctl-phase"><h4>${esc(ph.label)}</h4>
           <table class="sc-ctl-table"><thead><tr><th scope="col">Control</th><th scope="col">Catches</th><th scope="col">Misses</th><th scope="col">Who</th></tr></thead>
           <tbody>${ph.controls.map(c => `<tr><th scope="row">${esc(c.name)}</th><td>${esc(c.catches)}</td><td>${esc(c.misses)}</td><td>${esc(c.who)}</td></tr>`).join('')}</tbody></table>

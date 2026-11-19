@@ -46,7 +46,8 @@ export function pegOutcome(i: PegInputs): PegOutcome {
 
 export type Perspective = 'holder' | 'bank' | 'central-bank' | 'issuer';
 export type Economy = 'em' | 'uk';
-export type PointBasis = 'measured' | 'mechanism' | 'scenario' | 'rule';
+/** 'rule' = law or rules in force; 'policy' = final policy, draft rules, expectations or law not yet in force. */
+export type PointBasis = 'measured' | 'mechanism' | 'scenario' | 'rule' | 'policy';
 
 export interface LensPoint { text: string; basis: PointBasis; sources: SourceId[] }
 export interface LensCell { gains: LensPoint[]; costs: LensPoint[] }
@@ -63,10 +64,10 @@ export const LENS: Record<Economy, Record<Perspective, LensCell>> = {
     holder: {
       gains: [
         { text: 'Round-the-clock access to dollars without a US bank account.', basis: 'mechanism', sources: ['bisAer2026', 'imfKatz'] },
-        { text: 'Some corridors are cheaper: the IMF found an average of about 2% for a USD 200 stablecoin transfer with the cheapest ramps, against a global remittance average of 6.2%.', basis: 'measured', sources: ['imfWp230', 'fsb2026'] },
+        { text: 'Some corridors are cheaper: the IMF found about 2% for a USD 200 stablecoin transfer with the cheapest ramps and 3% with typical ones, against 6.2% on average across traditional providers and 3.0% for the cheapest three.', basis: 'measured', sources: ['imfWp230', 'fsb2026'] },
       ],
       costs: [
-        { text: 'No interest: issuers may not pay it. The issuer keeps the yield on the reserves.', basis: 'rule', sources: ['genius'] },
+        { text: 'No interest from the issuer: banned under MiCA now and under the GENIUS Act from January 2027. The issuer keeps the yield on the reserves.', basis: 'rule', sources: ['mica', 'genius'] },
         { text: 'In about a third of comparable corridors the cheapest traditional provider was cheaper.', basis: 'measured', sources: ['imfWp230'] },
         { text: 'No deposit protection, exposure to the issuer and to freezes, and local legal uncertainty.', basis: 'mechanism', sources: ['fatf2026'] },
       ],
@@ -77,7 +78,7 @@ export const LENS: Record<Economy, Record<Perspective, LensCell>> = {
       ],
       costs: [
         { text: 'Dollar deposits that fund lending can move out into stablecoins, tightening domestic credit.', basis: 'mechanism', sources: ['imfKatz', 'bisAer2026'] },
-        { text: 'Measured so far: the IMF found no clear disintermediation in El Salvador.', basis: 'measured', sources: ['imfKatz'] },
+        { text: 'Measured so far: the IMF found no clear disintermediation in El Salvador. That country already uses the dollar, so it is a weak test.', basis: 'measured', sources: ['imfKatz'] },
         { text: 'One bank’s research puts possible emerging-market deposit outflows at about USD 1tn by 2028. That is a scenario, not a measurement.', basis: 'scenario', sources: ['stanChart'] },
       ],
     },
@@ -96,7 +97,7 @@ export const LENS: Record<Economy, Record<Perspective, LensCell>> = {
         { text: 'Inflows push down short-dated Treasury yields slightly: about 4 basis points within 10 days for a USD 3.5bn inflow.', basis: 'measured', sources: ['bisWp1270'] },
       ],
       costs: [
-        { text: 'Must be able to freeze, block and report on request, in every jurisdiction where its tokens circulate.', basis: 'rule', sources: ['fatf2026'] },
+        { text: 'Expected to be able to freeze, block and report on request, in every jurisdiction where its tokens circulate.', basis: 'policy', sources: ['fatf2026'] },
         { text: 'Exposure to sanctions and illicit-finance enforcement in markets it doesn’t control.', basis: 'mechanism', sources: ['ofsi'] },
       ],
     },
@@ -108,7 +109,7 @@ export const LENS: Record<Economy, Record<Perspective, LensCell>> = {
         { text: 'Dollar exposure and crypto-market access for those who want them.', basis: 'mechanism', sources: ['defillama'] },
       ],
       costs: [
-        { text: 'No deposit protection. The UK stablecoin regime does not apply until 25 October 2027.', basis: 'rule', sources: ['ukSi102', 'fcaRegime'] },
+        { text: 'No deposit protection. The UK stablecoin regime does not apply until 25 October 2027.', basis: 'policy', sources: ['ukSi102', 'fcaRegime'] },
       ],
     },
     bank: {
@@ -116,25 +117,25 @@ export const LENS: Record<Economy, Record<Perspective, LensCell>> = {
         { text: 'Custody, distribution and tokenised-deposit services for clients.', basis: 'mechanism', sources: ['praLetter'] },
       ],
       costs: [
-        { text: 'Deposits that leave reduce lending capacity. That is why the Bank of England caps each systemic sterling stablecoin at £40bn to start.', basis: 'rule', sources: ['boePs', 'boeNews'] },
-        { text: 'The PRA expects a bank to issue stablecoins only from a separate, insolvency-remote, distinctly branded entity.', basis: 'rule', sources: ['praLetter'] },
+        { text: 'Deposits that leave reduce lending capacity. That is why the Bank of England plans to cap each systemic sterling stablecoin at £40bn to start.', basis: 'policy', sources: ['boePs', 'boeNews'] },
+        { text: 'The PRA expects a bank to issue stablecoins only from a separate, insolvency-remote, distinctly branded entity.', basis: 'policy', sources: ['praLetter'] },
       ],
     },
     'central-bank': {
       gains: [
-        { text: 'A regulated sterling stablecoin could serve tokenised markets, such as settlement in the Digital Securities Sandbox.', basis: 'rule', sources: ['fcaRegime'] },
+        { text: 'A regulated sterling stablecoin could serve tokenised markets, such as settlement in the Digital Securities Sandbox.', basis: 'policy', sources: ['fcaRegime'] },
       ],
       costs: [
-        { text: 'Credit supply during the transition. Hence a temporary £40bn guardrail and 70/30 backing in short gilts and Bank of England deposits.', basis: 'rule', sources: ['boePs'] },
+        { text: 'Credit supply during the transition. Hence a planned temporary £40bn guardrail and 70/30 backing in short gilts and Bank of England deposits.', basis: 'policy', sources: ['boePs'] },
       ],
     },
     issuer: {
       gains: [
-        { text: 'Yield on up to 70% of backing held in short-dated gilts, and up to 95% while scaling.', basis: 'rule', sources: ['boePs'] },
+        { text: 'Yield on up to 70% of backing held in short-dated gilts, and up to 95% while scaling.', basis: 'policy', sources: ['boePs'] },
       ],
       costs: [
-        { text: '30% of backing in unremunerated Bank of England deposits, no interest to holders, and a £40bn issuance cap.', basis: 'rule', sources: ['boePs'] },
-        { text: 'Redemption at par: within 24 hours for systemic coins, and T+1 after checks under the FCA rules.', basis: 'rule', sources: ['boePs', 'fcaRegime'] },
+        { text: '30% of backing in unremunerated Bank of England deposits, no interest to holders, and a £40bn issuance cap.', basis: 'policy', sources: ['boePs'] },
+        { text: 'Redemption at par: within 24 hours for systemic coins, and T+1 after checks under the FCA rules.', basis: 'policy', sources: ['boePs', 'fcaRegime'] },
       ],
     },
   },
@@ -193,14 +194,14 @@ export const WALLET_CASES: Record<WalletCase, WalletAssessment> = {
     label: 'Self-custody wallet, long clean history', verdict: 'Defensible with purpose, address confirmation and monitoring', tone: 'waits',
     canInfer: ['When the address was first funded, and who it has dealt with.', 'Whether analytics link it to known services.'],
     cannotInfer: CANNOT_ALWAYS,
-    steps: ['Ask the client for the supplier’s identity, contract and reason for using this address.', 'Confirm the address with a known contact through a separate channel.', 'At higher values, ask for proof of control: a signed message or a small test transfer. It proves control of a key, not who owns the business.'],
+    steps: ['Ask the client for the supplier’s identity, contract and reason for using this address.', 'If the bank sends from its own custody and asks for Travel Rule information it doesn’t get, it must not make the transfer.', 'Confirm the address with a known contact through a separate channel.', 'At higher values, ask for proof of control: a signed message or a small test transfer. It proves control of a key, not who owns the business.'],
     sources: ['jmlsg', 'ukTravelRule'],
   },
   new: {
     label: 'Newly created wallet', verdict: 'Hold: enhanced checks and a staged payment before release', tone: 'held',
     canInfer: ['That there is no history. That is not evidence either way.'],
     cannotInfer: ['Anything about its owner or purpose.', ...CANNOT_ALWAYS],
-    steps: ['Treat a large first transfer to a new wallet as a red flag, as OFSI does.', 'Get proof of control and confirm the address through a known contact.', 'Send a test amount first, apply limits, and monitor afterwards.'],
+    steps: ['Treat a large first transfer to a new wallet as a red flag, as OFSI does.', 'Get proof of control and confirm the address through a known contact. Requested information that never arrives means no transfer.', 'Send a test amount first, apply limits, and monitor afterwards.'],
     sources: ['ofsi', 'jmlsg'],
   },
   sanctions: {
@@ -238,11 +239,11 @@ export interface ReserveModel {
 
 export const RESERVE_MODELS: ReserveModel[] = [
   {
-    id: 'single', label: 'Single issuer', examples: 'USDC (Circle), USDT (Tether), PYUSD (Paxos, for PayPal), RLUSD (Ripple)',
-    owes: 'The issuing company. Distributors and exchanges owe the holder nothing on the token.',
+    id: 'single', label: 'Single issuer', examples: 'USDC (Circle in the US, its French e-money subsidiary in the EU), USDT (Tether), PYUSD (Paxos, for PayPal), RLUSD (Ripple)',
+    owes: 'The issuing company, or its entity for the holder’s region. Distributors and exchanges owe the holder nothing on the token.',
     backing: 'Reserves held for holders: Treasury bills, repo, money-market funds and cash. Tether also reports gold and bitcoin.',
     earns: 'The issuer, minus what it pays distributors. In Q3 2026 Circle earned $658m of reserve income and paid $409m in distribution and transaction costs.',
-    holderGets: 'No interest from the issuer. Some platforms pay rewards from their own share.',
+    holderGets: 'No interest from the issuer. Some platforms pay rewards from their own share, which is the open question in the US.',
     redeem: 'Onboarded customers, directly. Tether: $100,000 minimum and a fee of the greater of $1,000 or 0.1%. Everyone else sells in the market.',
     reach: 'Any wallet on any supported chain, subject to freezes.',
     sources: ['circleQ3', 'circleCoinbase', 'tetherFees', 'paxosPyusd', 'circleTerms'],
@@ -258,8 +259,8 @@ export const RESERVE_MODELS: ReserveModel[] = [
     sources: ['gdn', 'paxosUsdg', 'bridgeOusd', 'openStandard', 'defillama'],
   },
   {
-    id: 'bank-coin', label: 'Bank-issued stablecoin', examples: 'EURCV and USDCV (SG-FORGE, Société Générale group; e-money tokens under MiCA); SoFiUSD (SoFi Bank)',
-    owes: 'The issuing entity. In the UK the PRA expects this to be a separate, insolvency-remote, distinctly branded entity, not the deposit-taking bank.',
+    id: 'bank-coin', label: 'Bank-issued stablecoin', examples: 'EURCV and USDCV (SG-FORGE, a Société Générale subsidiary; e-money tokens under MiCA); SoFiUSD (issued by SoFi Bank itself)',
+    owes: 'The issuing bank or bank subsidiary, against segregated reserves rather than its deposit book. In the UK the PRA expects a separate, insolvency-remote, distinctly branded entity.',
     backing: 'Segregated reserves, not the bank’s loan book.',
     earns: 'The banking group keeps the reserve income.',
     holderGets: 'No interest under MiCA, GENIUS or the UK rules.',
@@ -410,10 +411,10 @@ export const VOLUME_FLOWS: VolumeBar[] = [
     note: 'Every transfer counted, including exchanges, trading bots, DeFi and transfers between a holder’s own wallets.', sources: ['bisAer2026', 'imfKatz'] },
   { label: 'Visa payments volume, fiscal 2025', low: 14200, basis: 'Reported', tone: 'ref',
     note: 'A card network’s payments, for scale. A like-for-like payments figure.', sources: ['visaFy25'] },
-  { label: 'Genuine stablecoin payments, 2025', low: 390, basis: 'One vendor estimate', tone: 'pay',
-    note: 'Business, person-to-person and card-linked payments. A single McKinsey and Artemis estimate that the BIS and IMF later repeated.', sources: ['mckinsey', 'bisAer2026'] },
+  { label: 'Genuine stablecoin payments, 2025', low: 390, basis: 'Estimates', tone: 'pay',
+    note: 'McKinsey and Artemis estimate genuine payments (business, person-to-person, card-linked) at about this level. The BIS gives a similar figure for transfers net of moves between a holder’s own wallets, citing Chainalysis and Visa data.', sources: ['mckinsey', 'bisAer2026'] },
   { label: 'of which business-to-business', low: 226, basis: 'Same estimate', tone: 'pay',
     note: 'About 60% of the genuine-payment estimate.', sources: ['mckinsey'] },
-  { label: 'Cross-border transfers attributable to payments, year to June 2026', low: 220, basis: 'Vendor lower bound', tone: 'pay',
-    note: 'Chainalysis counts only what it can attribute. The average transfer is about $3,000.', sources: ['chainalysisAdoption'] },
+  { label: 'Cross-border stablecoin transfers Chainalysis can attribute, year to June 2026', low: 220, basis: 'Vendor lower bound', tone: 'pay',
+    note: 'Only transfers it can attribute to countries. Not all are payments. The average transfer is about $3,000.', sources: ['chainalysisAdoption'] },
 ];

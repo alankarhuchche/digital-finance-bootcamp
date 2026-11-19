@@ -7,6 +7,19 @@ import { fileURLToPath } from 'node:url';
 import { buildChatContext } from '../../src/content/stablecoins/chatContext.ts';
 import { SOURCES } from '../../src/content/stablecoins/sources.ts';
 import { LENS, WALLET_CASES, RESERVE_MODELS, CHECKS, VOLUME_FLOWS, pegOutcome } from '../../src/content/stablecoins/lenses.ts';
+import page from '../../src/content/modules/06-stablecoins.ts';
+
+/** Every reader-visible string on the page, flattened. */
+function pageText(): string {
+  const out: string[] = [];
+  const walk = (v: unknown): void => {
+    if (typeof v === 'string') out.push(v.replace(/<[^>]+>/g, ' '));
+    else if (Array.isArray(v)) v.forEach(walk);
+    else if (v && typeof v === 'object') Object.values(v).forEach(walk);
+  };
+  walk(page.blocks);
+  return out.join(' ');
+}
 
 const here = dirname(fileURLToPath(import.meta.url));
 const committed = resolve(here, '../../../backend/src/main/resources/chat-context/stablecoins.json');
@@ -58,4 +71,22 @@ test('scenario checks have one right answer and feedback on every option', () =>
     for (const o of c.options) assert.ok(o.feedback.length > 20, `${c.id}: ${o.text}`);
   }
   assert.ok(CHECKS.length >= 6, 'all six acceptance scenarios are covered');
+});
+
+test('the page and the assistant state the same key facts', () => {
+  const ctx = buildChatContext().overview;
+  const text = pageText();
+  for (const fact of ['25 October 2027', '£40bn', '$286.4bn', '2.18%', '£800', '6.2%', '3.0%', '$658m', '$409m', '30 September 2026', 'unlikely to be met', '31']) {
+    assert.ok(text.includes(fact), `page lacks ${fact}`);
+    assert.ok(ctx.includes(fact), `assistant context lacks ${fact}`);
+  }
+});
+
+test('stale or overstated phrasings appear on neither the page nor in the assistant context', () => {
+  const ctx = JSON.stringify(buildChatContext());
+  const text = pageText();
+  for (const stale of ['will be missed', 'issued by PayPal', '$320', 'closing the gap', 'USDC alone is issued', 'Holders get none']) {
+    assert.ok(!text.includes(stale), `page still says "${stale}"`);
+    assert.ok(!ctx.includes(stale), `assistant context still says "${stale}"`);
+  }
 });

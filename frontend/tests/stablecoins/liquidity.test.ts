@@ -73,10 +73,18 @@ test('debit, reservation and settlement are separate, ordered events for every p
     const final = run.snapshots.at(-1)!;
     for (const p of final.payments.filter(x => x.stage === 'paid')) {
       const mine = run.postings.filter(x => x.payment === p.id);
-      const debit = mine.findIndex(x => x.from === 'ext:customers');
-      const reserve = mine.findIndex(x => x.to === 'partner:local-reserved');
-      const settle = mine.findIndex(x => x.to === 'ext:suppliers');
-      assert.ok(debit >= 0 && reserve > debit && settle > reserve, `${p.id} ${JSON.stringify(inputs)}`);
+      const debits = mine.filter(x => x.from === 'ext:customers');
+      const reserves = mine.filter(x => x.to === 'partner:local-reserved');
+      const settles = mine.filter(x => x.to === 'ext:suppliers');
+      assert.equal(debits.length, 1, `${p.id} debited once`);
+      assert.equal(reserves.length, 1, `${p.id} reserved once`);
+      assert.equal(settles.length, 1, `${p.id} settled once: no double payment`);
+      const at = (x: object) => mine.indexOf(x as never);
+      assert.ok(at(debits[0]) < at(reserves[0]) && at(reserves[0]) < at(settles[0]), `${p.id} order ${JSON.stringify(inputs)}`);
+      assert.equal(settles[0].amount, p.amount, `${p.id} paid exactly its amount`);
+    }
+    for (const p of final.payments.filter(x => x.stage !== 'paid')) {
+      assert.equal(run.postings.filter(x => x.payment === p.id && x.to === 'ext:suppliers').length, 0, `${p.id} unpaid but settled`);
     }
   }
 });

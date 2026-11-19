@@ -39,7 +39,12 @@ public class ChatContextRegistry {
 
     public Optional<CuratedContext> find(String moduleId) {
         if (moduleId == null || !ID.matcher(moduleId).matches()) return Optional.empty();
-        return cache.computeIfAbsent(moduleId, this::load);
+        Optional<CuratedContext> hit = cache.get(moduleId);
+        if (hit != null) return hit;
+        Optional<CuratedContext> loaded = load(moduleId);
+        // Only found contexts are cached, so lookups of arbitrary ids can't grow the cache.
+        loaded.ifPresent(ctx -> cache.putIfAbsent(moduleId, loaded));
+        return loaded;
     }
 
     @SuppressWarnings("unchecked")

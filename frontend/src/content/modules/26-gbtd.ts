@@ -88,7 +88,7 @@ const content: ModuleContent = {
   ready: true,
   layout: 'wide',
   changeType: 'new',
-  updatedAt: '2026-11-19',
+  updatedAt: '2026-11-12',
   changeSummary: 'New topic in nine chapters: the problem GBTD tests, why bank tokens rather than a digital pound or stablecoins, a step-by-step payment scene, a filterable map of tokenised-deposit uses worldwide, and an evidence board for the 2026 pilots.',
   blocks: [
     { kind: 'chapter-nav', data: { chapters: CHAPTERS.map(({ id, num, short }) => ({ id, num, short })) } },

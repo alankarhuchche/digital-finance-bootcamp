@@ -13,7 +13,8 @@
   --sc-waits: var(--amber);
   --sc-held: #a98bd6;
   --sc-blocked: var(--coral);
-  --sc-dim: rgba(159, 183, 204, 0.42);
+  --sc-dim: #7f97ad;            /* 4.6:1 on --ink */
+  --sc-control: #5b82a6;        /* control boundaries: 3.6:1 on --ink (WCAG 1.4.11) */
   --sc-mono: 'IBM Plex Mono', monospace;
   --sc-radius: 6px;
   font-family: 'Inter', sans-serif;
@@ -35,13 +36,13 @@
 .sc-contract b { color: var(--text); font-weight: 600; }
 .sc-tag {
   display: inline-block; margin-right: 8px;
-  font: 600 10px/1 var(--sc-mono); letter-spacing: 0.12em; text-transform: uppercase;
+  font: 600 11px/1 var(--sc-mono); letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--amber); border: 1px solid rgba(232, 163, 61, 0.45); border-radius: 3px; padding: 3px 6px;
   vertical-align: 1px;
 }
 .sc-ask {
   flex-shrink: 0;
-  background: transparent; border: 1px solid var(--grid); border-radius: 20px;
+  background: transparent; border: 1px solid var(--sc-control); border-radius: 20px;
   color: var(--text-dim); font: 500 12px var(--sc-mono); padding: 8px 14px; min-height: 36px; cursor: pointer;
 }
 .sc-ask:hover { border-color: var(--amber); color: var(--text); }
@@ -49,7 +50,7 @@
 /* ── Route buttons ── */
 .sc-routes { display: flex; flex-wrap: wrap; gap: 8px; }
 .sc-route-btn {
-  background: transparent; border: 1px solid var(--grid); border-radius: 20px;
+  background: transparent; border: 1px solid var(--sc-control); border-radius: 20px;
   color: var(--text-dim); font: 500 12px var(--sc-mono); letter-spacing: 0.02em;
   padding: 9px 16px; min-height: 40px; cursor: pointer;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
@@ -79,7 +80,7 @@
 
 .sc-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
 .sc-chip {
-  background: rgba(255, 255, 255, 0.03); border: 1px solid var(--grid); border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03); border: 1px solid var(--sc-control); border-radius: 4px;
   color: var(--text); font: 500 12px 'Inter', sans-serif; padding: 7px 11px; min-height: 34px; cursor: pointer;
 }
 .sc-chip:hover { border-color: var(--amber); }
@@ -88,9 +89,9 @@
 .sc-seg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px 16px; }
 .sc-seg { border: 0; margin: 0; padding: 0; min-width: 0; }
 .sc-seg-legend { font: 500 11px var(--sc-mono); color: var(--text-dim); padding: 0; margin-bottom: 6px; letter-spacing: 0.02em; }
-.sc-seg-options { display: flex; flex-wrap: wrap; border: 1px solid var(--grid); border-radius: 5px; overflow: hidden; }
+.sc-seg-options { display: flex; flex-wrap: wrap; border: 1px solid var(--sc-control); border-radius: 5px; overflow: hidden; }
 .sc-seg-opt { flex: 1 1 auto; position: relative; display: flex; }
-.sc-seg-opt + .sc-seg-opt { border-left: 1px solid var(--grid); }
+.sc-seg-opt + .sc-seg-opt { border-left: 1px solid var(--sc-control); }
 .sc-seg-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .sc-seg-opt span {
   flex: 1; text-align: center; padding: 8px 10px; min-height: 36px; display: flex; align-items: center; justify-content: center;
@@ -112,7 +113,7 @@
 .sc-pill--not-reached { color: var(--sc-dim); }
 
 .sc-basis {
-  display: inline-block; font: 500 9.5px/1 var(--sc-mono); letter-spacing: 0.08em; text-transform: uppercase;
+  display: inline-block; font: 500 11px/1 var(--sc-mono); letter-spacing: 0.06em; text-transform: uppercase;
   padding: 3px 5px; border-radius: 3px; border: 1px dashed currentColor; vertical-align: 2px; margin-left: 4px;
 }
 .sc-basis--illustrative { color: var(--amber); }
@@ -185,7 +186,7 @@
 
 .sc-controls { display: flex; flex-wrap: wrap; gap: 8px; }
 .sc-btn {
-  background: transparent; border: 1px solid var(--grid); border-radius: 4px; color: var(--text);
+  background: transparent; border: 1px solid var(--sc-control); border-radius: 4px; color: var(--text);
   font: 500 12.5px var(--sc-mono); padding: 8px 13px; min-height: 40px; min-width: 44px; cursor: pointer;
 }
 .sc-btn:hover:not(:disabled) { border-color: var(--amber); }
@@ -361,7 +362,7 @@
 .sc-trust { display: block; margin-top: 4px; font-size: 12.5px; color: var(--text-dim); }
 .sc-faults { border: 0; margin: 0; padding: 0; min-width: 0; }
 .sc-fault-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
-.sc-fault { position: relative; display: flex; flex-direction: column; gap: 2px; border: 1px solid var(--grid); border-radius: var(--sc-radius); padding: 9px 11px; cursor: pointer; background: rgba(255,255,255,0.02); }
+.sc-fault { position: relative; display: flex; flex-direction: column; gap: 2px; border: 1px solid var(--sc-control); border-radius: var(--sc-radius); padding: 9px 11px; cursor: pointer; background: rgba(255,255,255,0.02); }
 .sc-fault input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .sc-fault:hover { border-color: rgba(232,163,61,0.5); }
 .sc-fault.is-on { border-color: var(--amber); background: rgba(232,163,61,0.08); }
@@ -461,7 +462,7 @@
 
 /* ── Reserve economics ── */
 .sc-rsv-wrap { overflow-x: auto; border: 1px solid var(--grid); border-radius: var(--sc-radius); background: var(--sc-panel); }
-.sc-rsv-wrap:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.sc-rsv-wrap:focus-visible, .sc-liq-grid-wrap:focus-visible, .sc-ctl-phases:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 .sc-rsv-table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 12.5px; }
 .sc-rsv-table th, .sc-rsv-table td { text-align: left; vertical-align: top; padding: 9px 12px; border-top: 1px solid var(--sc-line); transition: opacity 0.2s, background 0.2s; }
 .sc-rsv-table thead th { font: 600 12px 'Space Grotesk', sans-serif; border-top: 0; color: var(--text); }
@@ -473,7 +474,7 @@
 .sc-chk-situation { margin: 0 0 8px; padding: 10px 12px; background: rgba(255,255,255,0.03); border-left: 2px solid var(--grid); border-radius: 0 4px 4px 0; font-size: 14px; }
 .sc-chk-situation:focus { outline: none; }
 .sc-chk-options { display: grid; gap: 8px; margin: 10px 0; }
-.sc-chk-opt { text-align: left; background: rgba(255,255,255,0.02); border: 1px solid var(--grid); border-radius: var(--sc-radius); color: var(--text); font: 14px/1.45 'Inter', sans-serif; padding: 10px 12px; min-height: 44px; cursor: pointer; }
+.sc-chk-opt { text-align: left; background: rgba(255,255,255,0.02); border: 1px solid var(--sc-control); border-radius: var(--sc-radius); color: var(--text); font: 14px/1.45 'Inter', sans-serif; padding: 10px 12px; min-height: 44px; cursor: pointer; }
 .sc-chk-opt:hover:not([aria-disabled="true"]) { border-color: var(--amber); }
 .sc-chk-opt[aria-disabled="true"] { cursor: default; }
 .sc-chk-opt.is-right { border-color: var(--teal); background: rgba(95,179,163,0.1); }

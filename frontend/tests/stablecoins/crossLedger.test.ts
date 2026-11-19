@@ -17,7 +17,7 @@ function driveToEnd(run: LabRun): LabRun[] {
     if (st.awaits) {
       const once = retry(run);
       assert.equal(once.index, run.index + 1, 'a safe retry advances exactly one state');
-      assert.equal(retry(retry(once)).index >= once.index, true);
+      if (!current(once).awaits) assert.equal(retry(once).index, once.index, 'a second retry press does nothing');
       run = once;
     } else {
       const moved = next(run);

@@ -139,8 +139,18 @@ export function renderJourney(mount: HTMLElement): void {
   function bindStage(route: JourneyRoute, ev: RouteEvaluation): void {
     const steps = activeSteps(route, cond);
     const go = (to: number) => {
+      const active = document.activeElement as HTMLElement | null;
+      const act = active && stage.contains(active) ? active.dataset.act : undefined;
       idx = Math.max(-1, Math.min(maxIdx(ev), to));
       render();
+      if (act) {
+        // The stage was re-rendered: put focus back on the same control, or the nearest usable one.
+        const order = [act, 'next', 'back', 'restart'];
+        for (const a of order) {
+          const b = stage.querySelector<HTMLButtonElement>(`[data-act="${a}"]`);
+          if (b && !b.disabled) { b.focus(); break; }
+        }
+      }
       const step = steps[idx];
       const out = ev.steps[idx];
       announce(root, idx < 0

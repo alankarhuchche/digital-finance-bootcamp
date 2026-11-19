@@ -47,7 +47,7 @@ export function renderRoutes(mount: HTMLElement): void {
           { value: 'served', label: 'Established' }, { value: 'thin', label: 'Not established' },
         ], inputs.corridor)}
       </div>
-      <div class="sc-rt-results" data-results aria-live="polite"></div>
+      <div class="sc-rt-results" data-results></div>
     </div>
     ${liveRegion()}
   </div>`;

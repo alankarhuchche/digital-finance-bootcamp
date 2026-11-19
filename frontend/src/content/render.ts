@@ -29,11 +29,17 @@ function formatTopicDate(iso: string): string {
   return `${d} ${months[m - 1]} ${y}`;
 }
 
+// Each render gets a sequence number. If the reader moves to another topic while an older
+// render is still awaiting a chunk, the older render stops instead of writing into the new page.
+let renderSeq = 0;
+
 export async function renderModule(container: HTMLElement, mod: ModuleContent): Promise<void> {
+  const seq = ++renderSeq;
   // Apply or remove wide layout class before rendering
   container.classList.toggle('topic-layout-wide', mod.layout === 'wide');
 
   const { MODULE_INDEX, findCategory } = await import('./registry');
+  if (seq !== renderSeq) return;
   const curIdx = MODULE_INDEX.findIndex(m => m.id === mod.id);
   const category = findCategory(mod.id);
   const topicUrl = buildTopicLink(mod.id);
@@ -90,6 +96,7 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
     section.className = 'block';
     body.appendChild(section);
     await renderBlock(section, block, topicUrl, inChapter ? 'h3' : 'h2');
+    if (seq !== renderSeq) return;
   }
 
   // Previous / Next topic navigation
@@ -207,9 +214,14 @@ async function renderBlock(section: HTMLElement, block: ContentBlock, topicUrl: 
       renderUseCaseAtlas(mount, block.data);
       break;
     case 'sc-scene': {
-      // Loaded on demand: the Stablecoins scenes and their CSS are a separate chunk.
-      const { renderScScene } = await import('../viz/stablecoins/index');
-      renderScScene(mount, block.scene);
+      // Loaded on demand: the Stablecoins scenes and their CSS are a separate chunk. If the chunk
+      // can't load (for example after a redeploy), the rest of the topic still renders.
+      try {
+        const { renderScScene } = await import('../viz/stablecoins/index');
+        renderScScene(mount, block.scene);
+      } catch {
+        mount.innerHTML = '<p class="sources-line">This interactive couldn’t load. Reload the page to try again.</p>';
+      }
       break;
     }
   }

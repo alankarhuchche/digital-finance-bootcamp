@@ -437,7 +437,7 @@ export const CORRIDOR_PRESETS: { id: string; label: string; note: string; condit
   },
   {
     id: 'bank-only',
-    label: 'Bank-account-only supplier',
+    label: 'Bank-account-only supplier, no verified off-ramp',
     note: 'The supplier has a bank account and no stablecoin wallet, and no licensed crypto off-ramp is established for this flow. Local rules on receiving payments through crypto are not assumed.',
     conditions: { objective: 'local', bankReach: 'normal', wallet: 'none', offramp: 'none', localRail: 'instant', when: 'weekday', screening: 'clear' },
   },

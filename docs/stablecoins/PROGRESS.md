@@ -11,8 +11,8 @@ If you are resuming after a context break: read this file, then `EDITORIAL_DECIS
 | A — baseline, research, brief, red team | Done. Baseline in the table below. Research R1–R5 written (two rate-limit interruptions, resumed). Brief in `EDITORIAL_DECISIONS.md`; red team in `REDTEAM.md`, findings adopted in the model and copy |
 | B — vertical slice | Done: chapter shell, wide layout, Follow £1,000, sources, state tests, chat context, browser QA at 390/768/1280/1440/1920 |
 | C — core content and scenes | Done: 11 chapters; scenes: peg, volume, journey, routes, liquidity, cross-ledger, controls, reserve economics, economy lens, scenario checks |
-| D — independent acceptance | Editorial/factual and engineering critics running or complete: see `CRITIC_EDITORIAL.md`, `CRITIC_ENGINEERING.md` |
-| E — handover | Pending: fix critic findings, commit, push branch, draft PR |
+| D — independent acceptance | Done: both critics reported; findings resolved or escalated, see `QA_REPORT.md` |
+| E — handover | Branch pushed and draft PR opened (see PR description for owner decisions) |
 
 ## Baseline (17 Nov 2026, before any change)
 
@@ -27,7 +27,7 @@ If you are resuming after a context break: read this file, then `EDITORIAL_DECIS
 
 ## Current results
 
-`npm test` 53/53 · `tsc` clean · `vite build` pass · `mvn test` 12/12. Details in `QA_REPORT.md`.
+`npm test` 55/55 · `tsc` clean · `vite build` pass · `mvn test` 12/12. Details in `QA_REPORT.md`.
 
 ## What changed (files)
 
@@ -39,8 +39,8 @@ If you are resuming after a context break: read this file, then `EDITORIAL_DECIS
 - Tooling: `npm test`, `npm run chat-context`; tests in `frontend/tests/stablecoins/`
 - Adjacent corrections: `23-stablecoin-market-structure.ts`, `10-market-sizing.ts`, `14-regulation.ts`, `26-gbtd.ts`, `11-global-initiatives.ts`, `registry.ts` metadata
 
-## Next actions
+## Next actions (owner)
 
-1. Read `CRITIC_EDITORIAL.md` and `CRITIC_ENGINEERING.md`; fix Critical and High findings; re-run `npm test`, `tsc`, `vite build`, `mvn test`, `npm run chat-context` if content changed.
-2. Commit on the branch, push `feat/stablecoins-interactive`, open a draft PR. Do not merge or deploy.
-3. Owner decisions: see "What needs approval" in the PR description.
+1. Review the draft PR and the preview steps in it. Do not merge or deploy until approved.
+2. Decide: gate deploys on `npm test` and `mvn test` (Dockerfiles currently use Node 20 and skip tests); add chat rate limiting and a timeout; whether to fix the remaining adjacent-topic items listed in `SOURCES.md`.
+3. Before publishing: re-check facts that move (supply, rule status, Open USD) and the items marked unverified in `research/R1–R5`.

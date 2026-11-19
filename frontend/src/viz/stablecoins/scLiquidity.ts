@@ -69,7 +69,7 @@ export function renderLiquidity(mount: HTMLElement): void {
       </div>
 
       <div class="sc-liq-main">
-        <div class="sc-liq-grid-wrap" data-grid></div>
+        <div class="sc-liq-grid-wrap" data-grid tabindex="0" role="region" aria-label="Invoices by time slot, scrolls sideways on small screens"></div>
         <div class="sc-liq-scrub">
           <div class="sc-controls" role="group" aria-label="Move through the weekend">
             <button type="button" class="sc-btn" data-act="prev">◀ Earlier</button>

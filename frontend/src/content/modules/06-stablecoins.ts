@@ -1,6 +1,6 @@
 import type { ModuleContent, ContentBlock } from '../types';
 import type { ChapterSpec } from '../../types';
-import { cite, SOURCES, sourceLabel, type SourceId } from '../stablecoins/sources.ts';
+import { cite, SOURCES, sourceLabel, sourceCaveat, type SourceId } from '../stablecoins/sources.ts';
 
 // Eleven chapters in three movements: Discover (1–2), Explore (3–7), Decide (8–11).
 // Facts as publicly reported at 18 November 2026. Research registers: docs/stablecoins/research.
@@ -76,7 +76,7 @@ const content: ModuleContent = {
 <li>A stablecoin is a claim on the company that issued it, backed by reserves. It holds $1 because people who can redeem at $1 trade against the market price. When redemption is closed or the reserves are in doubt, the price can slip.</li>
 <li>The blockchain leg is the cheap, fast part. Changing money in and out, finding someone licensed to pay out, and checking who is on the other end is where the cost and the waiting are. In the IMF’s 2026 study the blockchain was under a quarter of the cost.</li>
 <li>Paid means the payee holds what it needs. A supplier that wants dollar tokens is paid when they arrive. A supplier that needs local currency in its bank is paid only when someone pays that out.</li>
-<li>Stablecoins win where banks have pulled out, where people need dollars and can’t get them, and between firms that settle with each other around the clock. They lose where instant domestic systems and payment firms already serve a corridor well. Often they work behind those firms rather than against them.</li>
+<li>Stablecoins can help where banks have pulled out and a licensed off-ramp operates, where people need dollars and can’t get them, and between firms that settle with each other around the clock. They tend to lose where instant domestic systems and payment firms already serve a corridor well. Often they work behind those firms rather than against them.</li>
 <li>For a UK bank in November 2026, the UK stablecoin regime doesn’t start until 25 October 2027, and overseas coins such as USDT and USDC stay inside the regulated perimeter. Tokenised deposits can be issued today under existing law.</li>
 </ol>
 <h3 class="prose-kicker">Three ways to read this page</h3>
@@ -93,14 +93,14 @@ const content: ModuleContent = {
           { title: 'The case for', subtitle: 'What advocates get right', points: [
             { label: 'Hours', value: 'Settles between providers at any hour, with a shared record of what moved.', emphasis: 'positive' },
             { label: 'Reach', value: 'Reaches payees where correspondent banks have withdrawn, and gives people in unstable currencies access to dollars.', emphasis: 'positive' },
-            { label: 'Cost', value: 'In the IMF’s USD 200 study the average was about 2%, well below the global remittance average of 6.2%. The G20’s 2027 targets for traditional rails will be missed.', emphasis: 'positive' },
+            { label: 'Cost', value: 'In the IMF’s USD 200 study a stablecoin transfer cost about 2% with the cheapest ramps and 3% with typical ones, against 6.2% on average across traditional providers. The FSB says the G20’s 2027 targets are unlikely to be met.', emphasis: 'positive' },
             { label: 'Treasury', value: 'Firms can move their own liquidity between entities at weekends.', emphasis: 'positive' },
           ] },
           { title: 'The case against', subtitle: 'What sceptics get right', points: [
-            { label: 'Ramps', value: 'Ramps, conversion and compliance are most of the cost. In about a third of the IMF’s corridors the cheapest traditional provider was cheaper.', emphasis: 'negative' },
+            { label: 'Ramps', value: 'Ramps, conversion and compliance are most of the cost. In about a third of the IMF’s corridors the cheapest traditional provider was cheaper, and the three cheapest traditional providers average 3.0%.', emphasis: 'negative' },
             { label: 'Issuers', value: 'Two issuers hold 85% of supply. Redemption rights, freezes and reserves sit outside the payer’s control, with no deposit insurance.', emphasis: 'negative' },
             { label: 'Redress', value: 'Mistakes and fraud are hard to reverse. Consumer protection is weaker than on domestic instant payments.', emphasis: 'negative' },
-            { label: 'Alternatives', value: 'Instant domestic systems, Swift’s faster retail scheme, Nexus (targeted for 2027) and tokenised deposits are closing the gap with central bank money behind them.', emphasis: 'negative' },
+            { label: 'Alternatives', value: 'Instant domestic systems, Swift’s faster retail scheme, Nexus and tokenised deposits are meant to narrow the gap. Nexus isn’t live until its 2027 target, and Swift hasn’t reported volumes for its retail rules.', emphasis: 'negative' },
           ] },
         ],
       },
@@ -136,7 +136,7 @@ ${cite('defillama', 'svbUsdc', 'secTerra', 'secTaiMoShan')}
         ],
       },
     },
-    text(`<p><b>A bank-issued stablecoin is not a deposit token.</b> A tokenised deposit is the bank’s own deposit, recorded as a token: JPMorgan describes JPM Coin as a deposit token and “not a stablecoin”. A bank-issued stablecoin is a claim on a separate issuer holding segregated reserves, like SG-FORGE’s euro and dollar coins or SoFiUSD. In the UK, the PRA expects a bank to offer retail digital money as deposits, and to issue a stablecoin only from a separate, insolvency-remote entity with its own branding.</p>
+    text(`<p><b>A bank-issued stablecoin is not a deposit token.</b> A tokenised deposit is the bank’s own deposit, recorded as a token: JPMorgan describes JPM Coin as a deposit token and “not a stablecoin”. A bank-issued stablecoin is backed by segregated reserves rather than by the bank’s deposit book: SG-FORGE, a Société Générale subsidiary, issues euro and dollar coins under MiCA, and SoFi Bank issues SoFiUSD itself. In the UK, the PRA expects a bank to offer retail digital money as deposits, and to issue a stablecoin only from a separate, insolvency-remote entity with its own branding.</p>
 ${cite('jpmCoin', 'sofi', 'praLetter')}`),
 
     // ── 2 ─────────────────────────────────────────────────────────────
@@ -154,7 +154,7 @@ ${cite('jpmCoin', 'sofi', 'praLetter')}`),
     scene('journey'),
     text(`<details class="sc-deep"><summary>Deep dive: what the published numbers do and don’t say</summary>
 <p><b>Stablecoin routes.</b> The IMF priced fiat-to-stablecoin-to-fiat routes across 270 corridors for a USD 200 transfer. With the cheapest ramps the average all-in cost was 2.18%. With median-priced ramps it was 3.04%, and with the dearest 4.07%. At USD 5,000 it fell to 1.54%. Exchange trading fees and fiat deposit and withdrawal charges were most of the cost; the blockchain transfer was under a quarter. In about a third of the corridors where a comparison was possible, the cheapest traditional provider was cheaper. The study leaves out speed, counterparty risk and onboarding.</p>
-<p><b>Traditional routes.</b> The global average cost of sending USD 200 was 6.2% in the first quarter of 2026. Large-bank retail wires can carry FX margins of 2–4% even on liquid currencies, while payment firms are far cheaper at larger amounts. The FSB says costs have been flat since 2023 and the G20’s 2027 targets will be missed.</p>
+<p><b>Traditional routes.</b> The global average cost of sending USD 200 was 6.2% in the first quarter of 2026. Large-bank retail wires can carry FX margins of 2–4% even on liquid currencies, while payment firms are far cheaper at larger amounts. The three cheapest traditional providers averaged 3.0%. The FSB says costs have been flat since 2023 and that the G20’s 2027 targets are unlikely to be met.</p>
 <p><b>Speed.</b> Swift says 75% of its payments reach the beneficiary’s bank within 10 minutes. The FSB finds 57% of wholesale cross-border payments are credited to the end customer within an hour. Most of the delay is the last mile, inside the receiving country. In the FSB’s words, “faster payment initiation alone is not sufficient.”</p>
 ${cite('imfWp230', 'fsb2026', 'bisWp1385', 'swiftSpeed', 'fsb2025')}
 </details>`),
@@ -196,35 +196,36 @@ ${cite('cpn', 'cpnStates')}`),
 
     // ── 6 ─────────────────────────────────────────────────────────────
     chapter(6),
-    text(`<p>The same coin lives on many blockchains: USDC alone is issued on 39. A bank whose coins sit on one chain and whose payee is on another has four ways across, and each trusts something different.</p>
+    text(`<p>The same coin lives on many blockchains. USDC is on 39, two of them now redemption-only, and Circle’s burn-and-mint protocol links 31. USDT, 61% of supply, has no issuer-run equivalent: moving it between chains relies on third-party mechanisms such as USDT0, or on exchanges. A bank whose coins sit on one chain and whose payee is on another has four ways across, and each trusts something different.</p>
 <ul>
-<li><b>The issuer’s burn and mint.</b> The coins are destroyed on one chain and, once the issuer signs a confirmation, created on the other. Circle documents that minting is idempotent: each confirmation can be used once, so a failed mint can be retried safely. Burning again is a second transfer. Confirmations expire after about 24 hours and can be reissued. The old version of the protocol is being paused on 1 December 2026.</li>
+<li><b>The issuer’s burn and mint.</b> The coins are destroyed on one chain and, once the issuer signs a confirmation, created on the other. Circle documents that minting is idempotent: each confirmation can be used once, so a failed mint can be retried safely. Burning again is a second transfer. A faster option credits the destination before the source chain is final, backed by a Circle-funded allowance; when that runs out, only the standard path is available. Confirmations expire after about 24 hours and can be reissued. The old version of the protocol is being paused on 1 December 2026.</li>
 <li><b>A lock-and-mint bridge.</b> The coins are locked on one chain and the bridge mints its own wrapped token on the other. That wrapped token is a claim on the bridge, not on the issuer. Bridges were the source of 64% of the $3.1bn stolen from DeFi in 2022, and KelpDAO lost about $292m in April 2026 through a bridge set up with a single verifier.</li>
 <li><b>A liquidity pool.</b> Coins go into a pool on one chain and come out of a pool on the other, if it holds enough.</li>
 <li><b>A provider.</b> The provider receives on one chain and pays from its own inventory on the other. The bank swaps blockchain risk for counterparty risk.</li>
 </ul>
 <p>“Final” also means different things. An Ethereum block takes about 15 minutes to become final. Withdrawals from optimistic rollups to Ethereum wait about seven days. A bank should keep the money in an in-transit account until the destination is final, and look up an unknown outcome before it does anything else.</p>`),
     scene('crossledger'),
-    text(cite('circleTransparency', 'cctpRetry', 'cctpFast', 'cctpV1', 'chainalysisHacks', 'kelpdao', 'ethFinality', 'opRollups')),
+    text(cite('circleTransparency', 'cctpRetry', 'cctpFast', 'cctpV1', 'usdt0', 'defillama', 'chainalysisHacks', 'kelpdao', 'ethFinality', 'opRollups')),
 
     // ── 7 ─────────────────────────────────────────────────────────────
     chapter(7),
     text(`<p>A stablecoin payment carries the same duties as any other: know the customer, screen for sanctions, monitor and report. What changes is what the bank can see. An address on a blockchain shows its history and its counterparties, not who controls it.</p>
 <p>The Travel Rule makes crypto firms pass sender and recipient details with each transfer. In the UK it has applied since September 2023, and since 30 June 2026 full originator data is needed on cross-border transfers of £800 or more. Coverage abroad is patchy: 83% of jurisdictions in the FATF’s 2026 survey had Travel Rule laws, but 60% of those had taken no supervisory action. For self-custody wallets the UK is risk-based. The EU requires firms to check who owns the wallet for transfers over €1,000.</p>
+<p>Which rules bite depends on the bank’s role. If it sends tokens from its own custody, it is acting as a cryptoasset business: Travel Rule duties apply, and if it asks a customer for information about a self-custody wallet and doesn’t get it, it must not make the transfer. If it only pays money to a licensed provider that sends the tokens, the Travel Rule sits with that provider, and the bank keeps its own customer, sanctions and reporting duties.</p>
 <p>Two numbers are often misread. Stablecoins made up 84% of illicit crypto volume in 2025, according to Chainalysis, but that is driven by flows to sanctioned entities, and TRM puts all illicit activity at about 1.2% of the volume it can attribute. And an issuer’s power to freeze tokens is not a backstop: when attackers stole about $6bn from Binance in October 2026, hundreds of millions in stablecoins were swapped before the issuers froze the rest.</p>`),
     scene('controls'),
-    text(cite('ukTravelRule', 'ukSi621', 'fatf2026', 'euTfr', 'chainalysisCrime', 'trmCrime', 'ellipticBinance', 'ofsi')),
+    text(cite('ukTravelRule', 'ukSi621', 'jmlsg', 'fatf2026', 'euTfr', 'chainalysisCrime', 'trmCrime', 'ellipticBinance', 'ofsi')),
 
     // ── 8 ─────────────────────────────────────────────────────────────
     chapter(8),
-    text(`<p>A stablecoin issuer’s main income is the interest on its reserves. Holders get none: issuers may not pay interest under the GENIUS Act from January 2027, under MiCA, or under the UK rules. Getting coins into wallets is the expensive part, so distribution is paid for. In the third quarter of 2026 Circle earned $658m of reserve income and paid $409m in distribution and transaction costs. Under its agreement with Coinbase, disclosed in 2025, Coinbase takes half of the residual income and all of the income on USDC held on Coinbase.</p>
+    text(`<p>A stablecoin issuer’s main income is the interest on its reserves. Holders get no interest from the issuer: that is banned under MiCA now, under the GENIUS Act from January 2027 and under the UK rules from October 2027. Some platforms pass part of their share back as rewards, which is the open question in the US. Getting coins into wallets is the expensive part, so distribution is paid for. In the third quarter of 2026 Circle earned $658m of reserve income and paid $409m in distribution and transaction costs. Under its agreement with Coinbase, disclosed in 2025, Coinbase takes half of the residual income and all of the income on USDC held on Coinbase.</p>
 <p>Networks share that income openly. Paxos offers partners up to 100% of the returns on USDG held on their platforms. Open USD went live on 30 September 2026, issued by Bridge, part of Stripe, under a company founded by Coinbase, Mastercard, Shopify, Stripe and Visa. Its supply was about $961m on 17 November. It says most reserve income goes to participants, but no payouts or fees have been published, so that is a stated design rather than evidence. For issuer-by-issuer detail, see <a href="/topic/stablecoin-market-structure" data-topic="stablecoin-market-structure">Stablecoin market structure</a>.</p>`),
     scene('reserve'),
     text(cite('circleQ3', 'circleCoinbase', 'gdn', 'bridgeOusd', 'openStandard', 'defillama', 'genius')),
 
     // ── 9 ─────────────────────────────────────────────────────────────
     chapter(9),
-    text(`<p>A dollar stablecoin can be a lifeline for a household in a country with high inflation and a problem for that country’s banks and central bank, both at once. Keep three labels apart. <b>Mechanisms</b> are well argued: deposits that fund lending can leave, monetary policy weakens, and capital controls are harder to enforce. <b>Measured effects</b> are small so far: inflows move short-dated US Treasury yields by a few basis points, and the IMF found no clear drain on bank deposits in El Salvador. <b>Scenarios</b> are large: one bank’s research puts possible emerging-market deposit outflows at $1tn by 2028.</p>`),
+    text(`<p>A dollar stablecoin can be a lifeline for a household in a country with high inflation and a problem for that country’s banks and central bank, both at once. Keep three labels apart. <b>Mechanisms</b> are well argued: deposits that fund lending can leave, monetary policy weakens, and capital controls are harder to enforce. <b>Measured effects</b> are small so far: inflows move short-dated US Treasury yields by a few basis points, and the IMF found no clear drain on bank deposits in El Salvador, though that country already uses the dollar, so it is a weak test of substitution. <b>Scenarios</b> are large: one bank’s research puts possible emerging-market deposit outflows at $1tn by 2028.</p>`),
     scene('lens'),
     text(cite('bisAer2026', 'imfKatz', 'bisWp1270', 'bisPapers170', 'stanChart', 'boePs')),
 
@@ -257,17 +258,17 @@ ${cite('ukSi102', 'fcaRegime', 'boePs', 'boeFca', 'hmtAmendSi', 'hmtPayments', '
 <li><b>Do nothing yet.</b> Defensible for many banks. The risk is quiet: clients move deposits and payments to whoever offers what they need.</li>
 </ul>
 <p><b>Why a stablecoin route can still lose.</b> Faster Payments already runs 24/7. More than 25 banks committed to process under Swift’s faster retail rules by June 2026, with fees fixed up front. Nexus, linking several Asian instant payment systems, is targeted for 2027. The BIS’s Project Agorá showed atomic settlement across currencies with central bank money in 2026. None of these needs a holder to trust a private issuer.</p>
-<p><b>Why it might not.</b> Those upgrades are partial, the G20 targets will be missed, and stablecoins already reach payees and settle at hours that bank rails don’t. The honest answer is conditional: on the corridor, on the payee’s need, and on rules that won’t be settled before 2027.</p>
+<p><b>Why it might not.</b> Those upgrades are partial, the G20 targets are unlikely to be met, and stablecoins already reach payees and settle at hours that bank rails don’t. The honest answer is conditional: on the corridor, on the payee’s need, and on rules that won’t be settled before 2027.</p>
 ${cite('citiToken', 'hsbcTds', 'jpmCoin', 'praLetter', 'boePs', 'nexus', 'bisAgora', 'fsb2026')}`),
 
     // ── 11 ────────────────────────────────────────────────────────────
     chapter(11),
     scene('check'),
     text(`<h3 class="prose-kicker">How to read the numbers on this page</h3>
-<p>Every interactive labels what it shows: <b>sourced</b> facts with a date, <b>illustrative</b> inputs chosen to show a mechanism, <b>derived</b> results calculated from those inputs, and <b>vendor</b> figures that a company reports about itself. Prices in the scenes are not quotes. Volumes are dated and labelled with who measured them. Rules are labelled final, draft or proposed. Facts are as publicly reported at 18 November 2026.</p>
+<p>Every interactive labels what it shows: <b>sourced</b> facts with a date, <b>illustrative</b> inputs chosen to show a mechanism, <b>derived</b> results calculated from those inputs, and <b>vendor</b> figures that a company reports about itself. Prices in the scenes are not quotes. Volumes are dated and labelled with who measured them. Rules are labelled final, draft or proposed. Where a source could only be read indirectly, the list below says so. Facts are as publicly reported at 18 November 2026.</p>
 <details class="all-sources">
 <summary>All ${ALL_SOURCE_IDS.length} sources on this page</summary>
-<ul>${ALL_SOURCE_IDS.map(id => `<li><a href="${SOURCES[id].url}" target="_blank" rel="noopener">${sourceLabel(id)}</a>: ${SOURCES[id].title}</li>`).join('')}</ul>
+<ul>${ALL_SOURCE_IDS.map(id => { const caveat = sourceCaveat(id); return `<li><a href="${SOURCES[id].url}" target="_blank" rel="noopener">${sourceLabel(id)}</a>: ${SOURCES[id].title}${caveat ? ` <i>(${caveat})</i>` : ''}</li>`; }).join('')}</ul>
 </details>
 <p class="sources-line">The supplier, the £1,000 invoice, the six weekend invoices and the 100,000-token transfer are illustrative. They describe no real firm or transaction.</p>`),
   ],
