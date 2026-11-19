@@ -11,6 +11,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 /** Gemini implementation of {@link ChatModel}. The API key stays server-side. */
 @ApplicationScoped
@@ -18,8 +19,9 @@ public class GeminiChatModel implements ChatModel {
 
     private static final Logger LOG = Logger.getLogger(GeminiChatModel.class);
 
-    @ConfigProperty(name = "gemini.api-key", defaultValue = "")
-    String apiKey;
+    /** Absent or blank when no key is configured: the endpoint then answers 503, and the app still starts. */
+    @ConfigProperty(name = "gemini.api-key")
+    Optional<String> apiKey;
 
     @ConfigProperty(name = "gemini.model", defaultValue = "gemini-2.5-flash")
     String modelName;
@@ -28,11 +30,12 @@ public class GeminiChatModel implements ChatModel {
 
     @PostConstruct
     void init() {
-        if (apiKey == null || apiKey.isBlank()) {
+        String key = apiKey.map(String::strip).orElse("");
+        if (key.isEmpty()) {
             LOG.warn("GEMINI_API_KEY is not configured — /api/chat will return 503 until the secret is wired");
             return;
         }
-        client = Client.builder().apiKey(apiKey).build();
+        client = Client.builder().apiKey(key).build();
         LOG.infof("Gemini client initialised (model: %s)", modelName);
     }
 
