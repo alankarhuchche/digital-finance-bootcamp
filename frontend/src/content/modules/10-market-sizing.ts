@@ -14,7 +14,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'Payment volume: the surprise metric',
-      body: "One number that catches most people off guard: USDT now settles more daily value than Visa, roughly $50B/day versus Visa's ~$42B/day as of mid-2026. The comparison is imperfect, though, and the caveat matters. Visa processes retail consumer payments: someone buying groceries, booking a flight, paying a subscription. USDT settlement includes large institutional and OTC (over-the-counter) transfers, where a single whale moving $200M between exchanges or a treasury desk settling a block trade can skew the daily total dramatically. The average Visa transaction is a few hundred dollars. The average USDT on-chain transfer is orders of magnitude larger. Still, the raw throughput comparison illustrates something real: stablecoin settlement infrastructure has scaled from negligible to Visa-tier volume in under five years. Even if you discount the institutional skew, the growth curve is striking.",
+      body: "One comparison gets quoted a lot: stablecoins \"settle more than Visa\". It compares the wrong things. Gross on-chain stablecoin transfers in 2025 were roughly $28-35tn depending on who counts, but that total includes exchanges, trading bots, DeFi and people moving money between their own wallets. Genuine payments were about $390bn, a single McKinsey and Artemis estimate that the BIS and IMF later repeated. Visa\'s payments volume was $14.2tn in fiscal 2025, about $39bn a day, at an average of about $55 per processed transaction. Compare payments with payments: on that basis stablecoin payments are a few per cent of one card network. The Stablecoins topic draws the gap to one scale.",
     },
     {
       kind: 'scale',
@@ -23,7 +23,7 @@ const content: ModuleContent = {
         unit: 'USD',
         items: [
           { key: 'm2', label: 'US M2 money supply', value: 22800, color: '#7AA7D9', detail: 'Cash, checking deposits, savings, and other liquid assets in the US alone — Federal Reserve, April 2026.' },
-          { key: 'stable', label: 'Global stablecoin market cap', value: 320, color: '#E0726B', detail: 'USDT (~$185-188B) and USDC (~$78B) make up the large majority of this — DefiLlama, April/May 2026.' },
+          { key: 'stable', label: 'Global stablecoin supply', value: 286, color: '#E0726B', detail: 'USDT (about $175bn) and USDC (about $69bn) are 85% of it. DefiLlama, 17 November 2026; the peak was $312.9bn in May 2026.' },
           { key: 'defi', label: 'DeFi total value locked', value: 85, color: '#5FB3A3', detail: 'Volatile: ranged roughly $72-100B through H1 2026 depending on market conditions. Down from a $177B all-time high in 2021.' },
           { key: 'rwa', label: 'Tokenized real-world assets', value: 26, color: '#C792E8', detail: "Led by BlackRock's BUIDL and Circle's USYC — CoinLaw, June 2026." },
         ],
@@ -38,7 +38,7 @@ const content: ModuleContent = {
     {
       kind: 'text',
       heading: 'Why direction matters more than size, for now',
-      body: "Stablecoin supply grew from roughly $210B to $320B+ in the first half of 2026 alone, a genuinely fast trajectory even from a small base. For a digital assets lab, the size today matters less than the growth rate and where the growth is concentrated (EM remittances, institutional treasury use, DeFi collateral). All figures here will be stale within months, so treat the numbers as a snapshot of June 2026, not a permanent fact.\n\nInstitutional adoption tells a parallel story. The number of TradFi firms now offering crypto custody or trading has grown from a handful in 2020 to hundreds by 2026. BlackRock launched its tokenized money-market fund (BUIDL). Fidelity offers crypto custody and trading to retail clients. Major banks including BNY Mellon, Deutsche Bank, and Standard Chartered have crypto custody or trading desks. This is no longer a fringe experiment — when the world's largest asset manager is tokenizing treasury bills on Ethereum, the institutional signal is hard to dismiss.\n\nRemittances add another dimension. The global remittance market moves roughly $650B per year, and crypto is capturing a growing share — especially in corridors like US-Mexico and US-Philippines, where traditional channels charge an average of 6-8% in fees. Stablecoin transfers on networks like Stellar, Tron, or Solana can settle the same payments for under 1% in total cost. For a migrant worker sending $500 home, that is the difference between $35 in fees and $4. The unit economics are compelling enough that even legacy remittance companies like MoneyGram have integrated stablecoin rails.",
+      body: "Stablecoin supply grew from about $203bn at the end of 2024 to a peak of $312.9bn in May 2026, then fell to $286.4bn by 17 November 2026 (DefiLlama). For a digital assets lab, the size today matters less than the growth rate and where the growth is concentrated (EM remittances, institutional treasury use, DeFi collateral). All figures here will be stale within months, so treat the numbers as a snapshot of November 2026, not a permanent fact.\n\nInstitutional adoption tells a parallel story. The number of TradFi firms now offering crypto custody or trading has grown from a handful in 2020 to hundreds by 2026. BlackRock launched its tokenized money-market fund (BUIDL). Fidelity offers crypto custody and trading to retail clients. Major banks including BNY Mellon, Deutsche Bank, and Standard Chartered have crypto custody or trading desks. This is no longer a fringe experiment — when the world's largest asset manager is tokenizing treasury bills on Ethereum, the institutional signal is hard to dismiss.\n\nRemittances add another dimension. Remittances to low- and middle-income countries were about $729bn in 2025 (IFAD). Costs vary more by corridor than by technology: sending $200 from the US cost a median of about 3.7% to Mexico and 3.4% to the Philippines over 2022-2025, against a global average of 6.2% in early 2026. The IMF's 2026 study put a $200 stablecoin transfer at about 2% on average with the cheapest ramps and 3% with typical ones, and in about a third of corridors the cheapest traditional provider was cheaper. The blockchain leg is cheap; the on- and off-ramps are not. The unit economics are compelling enough that even legacy remittance companies like MoneyGram have integrated stablecoin rails.",
     },
     {
       kind: 'text',
@@ -77,11 +77,11 @@ const content: ModuleContent = {
             options: [
               'Crypto transfers are anonymous, which appeals to remittance senders',
               'Blockchain technology is faster than the SWIFT network used by banks',
-              'Traditional remittance corridors charge 6-8% fees on average, while stablecoin transfers can cost under 1%, creating a compelling cost advantage for cross-border payments',
+              'In some corridors a stablecoin transfer is cheaper: the IMF found about 2% on average for $200 with the cheapest ramps, against a 6.2% global average for traditional remittances',
               'Crypto remittances do not require the recipient to have a bank account',
             ],
             correctIndex: 2,
-            explanation: 'In corridors like US-Mexico and US-Philippines, traditional remittance fees average 6-8%. Stablecoin transfers on networks like Stellar, Tron, or Solana settle for under 1% in total cost. For a $500 transfer, that is roughly $35 in fees via traditional channels versus $4 via stablecoins, a difference that matters enormously to migrant workers.',
+            explanation: 'Costs depend on the corridor and especially on the on- and off-ramps. The IMF’s 2026 study found about 2% on average for a $200 stablecoin transfer with the cheapest ramps, but in about a third of corridors the cheapest traditional provider was cheaper. The global average for traditional remittances was 6.2% in early 2026.',
           },
         ],
       },

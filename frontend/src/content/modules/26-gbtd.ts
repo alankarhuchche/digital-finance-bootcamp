@@ -55,7 +55,7 @@ const S: Record<string, SourceLink> = {
   hmtPayments: { label: 'HM Treasury payments consultation, Jul 2026', url: 'https://assets.publishing.service.gov.uk/media/6a54b3302467584757371dc4/Modernising_payment_services_consultation.pdf' },
   syncLab: { label: 'BoE Synchronisation Lab', url: 'https://www.bankofengland.co.uk/payments/rtgs-future-roadmap/synchro-lab' },
   mansion: { label: 'Mansion House speech, Jul 2026', url: 'https://www.gov.uk/government/speeches/rachel-reeves-mansion-house-2026-speech' },
-  fca: { label: 'FCA cryptoassets rules, Jun 2026', url: 'https://www.fca.org.uk/firms/cryptoassets' },
+  fca: { label: 'FCA cryptoassets rules, Jun 2026', url: 'https://www.fca.org.uk/publications/policy-statements/cryptoasset-regime' },
   rlnDiscovery: { label: 'UK Finance RLN Discovery Phase, Sep 2023', url: 'https://www.ukfinance.org.uk/system/files/2023-09/Regulated%20Liability%20Network%20-%20UK%20Discovery%20Phase%20.pdf' },
   gbtdEvidence: { label: 'GBTD written evidence to Parliament, 20 Mar 2026', url: 'https://committees.parliament.uk/writtenevidence/164219/html/' },
   bailey2024: { label: 'Bailey, 26 Oct 2024', url: 'https://www.bankofengland.co.uk/speech/2024/october/andrew-bailey-panellist-at-the-g30-39-annual-international-banking-seminar' },
@@ -88,8 +88,8 @@ const content: ModuleContent = {
   ready: true,
   layout: 'wide',
   changeType: 'new',
-  updatedAt: '2026-11-12',
-  changeSummary: 'New topic in nine chapters: the problem GBTD tests, why bank tokens rather than a digital pound or stablecoins, a step-by-step payment scene, a filterable map of tokenised-deposit uses worldwide, and an evidence board for the 2026 pilots.',
+  updatedAt: '2026-11-19',
+  changeSummary: 'New topic in nine chapters: the problem GBTD tests, why bank tokens rather than a digital pound or stablecoins, a step-by-step payment scene, a filterable map of tokenised-deposit uses worldwide, and an evidence board for the 2026 pilots. Legal-status wording corrected on 19 November 2026.',
   blocks: [
     { kind: 'chapter-nav', data: { chapters: CHAPTERS.map(({ id, num, short }) => ({ id, num, short })) } },
     {
@@ -140,7 +140,7 @@ const content: ModuleContent = {
           { date: 'Sep 2024', title: 'RLN test results', detail: 'UK Finance publishes the results of its Regulated Liability Network experiments.', status: 'done' },
           { date: 'Oct 2024', title: '“The best home”', detail: 'The Governor calls commercial bank money the best home for payments innovation.', status: 'done' },
           { date: 'Sep 2025', title: 'GBTD pilot phase launched', detail: 'UK Finance launches the live pilot phase with six banks. Monzo joins in January 2026.', status: 'done' },
-          { date: 'Feb 2026', title: 'Deposits in law', detail: 'New cryptoasset regulations pass, and tokenised deposits are confirmed as deposits, with deposit-protection rules applying.', status: 'done' },
+          { date: 'Feb 2026', title: 'Crypto law made', detail: 'The cryptoasset regulations are made and keep tokenised deposits outside the new crypto regime. In May the PRA said retail tokenised deposits must meet depositor-protection rules.', status: 'done' },
           { date: 'May 2026', title: 'Synchronisation Lab opens', detail: 'The Bank’s non-live lab opens with 18 participants, GBTD among them.', status: 'done' },
           { date: 'Jul 2026', title: 'Mansion House', detail: 'The Chancellor names GBTD in the annual Mansion House speech.', status: 'done' },
           { date: 'Sep 2026', title: 'First customer transactions', detail: 'Seven banks report two live remortgages and one test payment.', status: 'done' },
@@ -166,9 +166,9 @@ ${sourcesLine(S.ukfLaunch, S.digit, S.lloyds, S.fsp53, S.payuk, S.dpConsult, S.b
           { tone: 'none', status: 'Not planned', title: 'Wholesale CBDC token',
             body: 'Bank of England money for banks, on new ledgers. The Bank is linking its existing settlement system to new ledgers instead, live from 2028, and is still studying a token.', who: 'Bank of England' },
           { tone: 'poc', status: 'Rules in progress', title: 'Sterling stablecoins',
-            body: 'A promise from a non-bank issuer, backed by assets. The Bank’s rules are due by the end of 2026, with a temporary £40bn cap per coin to protect bank lending. The FCA regime starts in October 2027.', who: 'Bank of England · FCA' },
+            body: 'A promise from a non-bank issuer, backed by assets. The Bank’s rules are due by the end of 2026, with a temporary £40bn issuance cap for each stablecoin recognised as systemic, to protect bank lending. The FCA regime starts in October 2027.', who: 'Bank of England · FCA' },
           { tone: 'pilot', status: 'Pilot', title: 'Tokenised deposits', focus: true,
-            body: 'Your bank’s existing promise, on a new ledger. Confirmed as deposits in law in February 2026, with deposit-protection rules applying. This is what GBTD tests.', who: 'PRA · HM Treasury · UK Finance' },
+            body: 'Your bank’s existing promise, on a new ledger. Still deposits, outside the new crypto regime. The PRA expects retail ones to meet depositor-protection rules. This is what GBTD tests.', who: 'PRA · HM Treasury · UK Finance' },
         ],
       },
     },
@@ -269,7 +269,7 @@ ${sourcesLine(S.ukfLaunch, S.digit, S.lloyds, S.fsp53, S.payuk, S.dpConsult, S.b
 <li><b>Locked money has a cost.</b> All-or-nothing settlement needs the money ready in advance (BIS).</li>
 <li><b>Finality law hasn’t caught up.</b> The UK finality regime hasn’t been adapted to these ledgers outside the Bank’s sandbox (Wholesale Digital Markets Champion).</li>
 <li><b>The central bank link isn’t live.</b> Synchronised settlement arrives in 2028, and the 2026 lab uses no real money.</li>
-<li><b>Other routes compete.</b> PEXA already settles remortgages digitally through the Bank of England, and stablecoins are being allowed as settlement assets for tokenised markets.</li>
+<li><b>Other routes compete.</b> PEXA already settles remortgages digitally through the Bank of England, and stablecoins that meet minimum criteria may be used as settlement assets in the Digital Securities Sandbox (FCA, June 2026).</li>
 <li><b>The business case is open.</b> The project’s own 2024 model paid its way over 30 years only with higher fees or more uses (UK RLN business report).</li>
 <li><b>Fraud may move rather than end.</b> Someone trusted must confirm delivery, and investment and romance scams have no delivery to check.</li>
 </ul>`,

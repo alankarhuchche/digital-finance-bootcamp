@@ -164,6 +164,11 @@ export interface SourceLink {
   url: string;
 }
 
+// ── Stablecoins topic: interactive scenes, rendered from frontend/src/viz/stablecoins ──
+export type ScSceneId =
+  | 'journey' | 'routes' | 'liquidity' | 'crossledger'
+  | 'lens' | 'controls' | 'reserve' | 'peg' | 'volume' | 'check';
+
 // ── Long pages: numbered chapter headings and a sticky chapter rail ──
 
 export interface ChapterSpec {

@@ -7,12 +7,20 @@ interface ChatMsg {
 }
 
 let chatContainer: HTMLElement | null = null;
+// The interactive scene the reader last used. Sent with each question so the server can
+// add that scene's curated explanation. Only a short identifier leaves the browser.
+let currentScene: string | null = null;
+
+export function setChatScene(scene: string | null): void {
+  currentScene = scene && /^[a-z0-9-]{1,40}$/.test(scene) ? scene : null;
+}
 
 export function destroyChatWidget(): void {
   if (chatContainer) {
     chatContainer.remove();
     chatContainer = null;
   }
+  currentScene = null;
 }
 
 // Opens the panel with an editable question; the visitor still chooses to send it.
@@ -29,16 +37,25 @@ export function openChatWithQuestion(question: string): boolean {
   return true;
 }
 
+export interface ChatWidgetOptions {
+  /** The server holds curated context for this topic; send no page text. */
+  serverContext?: boolean;
+  /** Editable starter questions shown when the panel opens. */
+  suggestions?: string[];
+}
+
 export function renderChatWidget(
   parent: HTMLElement,
   moduleId: string,
   moduleTitle: string,
-  blocks: ContentBlock[]
+  blocks: ContentBlock[],
+  opts: ChatWidgetOptions = {}
 ): void {
   destroyChatWidget();
 
   const messages: ChatMsg[] = [];
-  const moduleContent = extractPlainText(blocks);
+  const moduleContent = opts.serverContext ? '' : extractPlainText(blocks);
+  const suggestions = (opts.suggestions ?? []).slice(0, 4);
 
   chatContainer = document.createElement('div');
   chatContainer.className = 'chat-container';
@@ -47,10 +64,12 @@ export function renderChatWidget(
     <div class="chat-panel" id="chatPanel">
       <div class="chat-panel-header">
         <span class="chat-panel-title">Ask about this module</span>
-        <button class="chat-close" id="chatClose">✕</button>
+        <button class="chat-close" id="chatClose" aria-label="Close chat">✕</button>
       </div>
-      <div class="chat-messages" id="chatMessages">
+      <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
         <div class="chat-msg chat-msg-bot">Ask me anything about <strong>${moduleTitle}</strong>. I'll answer based on this topic's content.</div>
+        ${suggestions.length ? `<div class="chat-suggest" aria-label="Suggested questions">${suggestions
+          .map(s => `<button type="button" class="chat-suggest-btn">${s.replace(/[<>&"]/g, '')}</button>`).join('')}</div>` : ''}
       </div>
       <div class="chat-input-row">
         <input class="chat-input" id="chatInput" type="text" placeholder="Type a question…" autocomplete="off" maxlength="1000" />
@@ -78,6 +97,14 @@ export function renderChatWidget(
     fab.classList.remove('chat-fab-hidden');
   });
 
+  // A suggestion fills the box for the reader to edit; it never sends on its own.
+  chatContainer.querySelectorAll<HTMLButtonElement>('.chat-suggest-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      input.value = btn.textContent ?? '';
+      input.focus();
+    });
+  });
+
   async function send() {
     const q = input.value.trim();
     if (!q) return;
@@ -93,7 +120,7 @@ export function renderChatWidget(
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ moduleId, moduleTitle, moduleContent, question: q }),
+        body: JSON.stringify({ moduleId, moduleTitle, moduleContent, question: q, sceneId: currentScene ?? undefined }),
       });
       if (res.status === 503) {
         typingEl.textContent = 'Chat is not available in this environment yet. The rest of the guide is still available.';
