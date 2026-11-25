@@ -57,9 +57,9 @@ const content: ModuleContent = {
   summary: 'What a stablecoin is, why moving one isn’t the same as paying someone, and what liquidity, cross-chain transfers, crime controls, reserve economics and UK rules mean for banks.',
   ready: true,
   layout: 'wide',
-  updatedAt: '2026-11-19',
-  changeType: 'expanded',
-  changeSummary: 'Rebuilt as an eleven-chapter interactive guide: a four-route £1,000 payment, a payment-model selector, liquidity and cross-chain simulators, crime controls, reserve economics, an economy lens and UK options, with dated sources.',
+  updatedAt: '2026-11-25',
+  changeType: 'updated',
+  changeSummary: 'The £1,000 payment walkthrough now opens from the homepage. Share a chapter or a payment scenario with its route, step and price assumptions.',
   chat: {
     context: 'server',
     suggestions: [

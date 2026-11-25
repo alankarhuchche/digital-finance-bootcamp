@@ -1,11 +1,12 @@
 // chapters.ts
 // Numbered chapter headings for long topics, and a sticky chapter rail that tracks them.
 // The rail shows every chapter inline on wide screens and collapses to a progress bar
-// with a chapter menu on narrow ones. Navigation scrolls in place: hash links would
-// trigger the router's popstate handler and re-render the topic.
+// with a chapter menu on narrow ones. Each chapter has a native fragment link.
 
 import type { ChapterSpec, ChapterNavSpec } from '../types';
 import { openChatWithQuestion } from '../chat';
+import { isPlainClick } from '../utils/share';
+import { focusSection, writeHistory } from '../utils/navigation';
 
 const reducedMotion = (): boolean =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -55,10 +56,10 @@ export function renderChapterNav(container: HTMLElement, spec: ChapterNavSpec): 
         </button>
         <ol class="chn-list" id="chn-list">
           ${spec.chapters.map(c => `
-            <li><button type="button" class="chn-item" data-target="${c.id}">
+            <li><a class="chn-item" href="#${c.id}">
               <span class="chn-item-num" aria-hidden="true">${c.num}</span>
               <span class="chn-item-label">${c.short}</span>
-            </button></li>`).join('')}
+            </a></li>`).join('')}
         </ol>
       </div>
       <div class="chn-progress" aria-hidden="true"><span class="chn-fill"></span></div>
@@ -69,7 +70,7 @@ export function renderChapterNav(container: HTMLElement, spec: ChapterNavSpec): 
   const countEl = nav.querySelector<HTMLElement>('.chn-count')!;
   const currentEl = nav.querySelector<HTMLElement>('.chn-current')!;
   const fill = nav.querySelector<HTMLElement>('.chn-fill')!;
-  const items = [...nav.querySelectorAll<HTMLButtonElement>('.chn-item')];
+  const items = [...nav.querySelectorAll<HTMLAnchorElement>('.chn-item')];
 
   const setOpen = (open: boolean): void => {
     nav.classList.toggle('chn--open', open);
@@ -85,12 +86,12 @@ export function renderChapterNav(container: HTMLElement, spec: ChapterNavSpec): 
   }, { signal });
 
   items.forEach(item => {
-    item.addEventListener('click', () => {
-      const target = document.getElementById(item.dataset.target ?? '');
+    item.addEventListener('click', e => {
+      if (!isPlainClick(e)) return;
+      e.preventDefault();
       setOpen(false);
-      if (!target) return;
-      target.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
-      target.focus({ preventScroll: true });
+      if (item.hash !== location.hash) writeHistory(item.hash);
+      focusSection(item.hash, reducedMotion() ? 'instant' : 'smooth');
     }, { signal });
   });
 

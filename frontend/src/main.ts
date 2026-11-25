@@ -5,6 +5,7 @@ import { isComplete, toggleComplete, completedCount } from './progress';
 import { destroyChatWidget } from './chat';
 import { renderHomePage } from './pages/home';
 import { renderAboutPage } from './pages/about';
+import { focusSection, pageChangedOnTraversal, writeHistory } from './utils/navigation';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const sidebar = document.querySelector<HTMLElement>('#sidebar')!;
@@ -15,34 +16,43 @@ let sessionStart = Date.now();
 
 // ── Routing ──────────────────────────────────────────────────
 
-function navigate(path: string, pushState = true): void {
-  if (pushState) history.pushState(null, '', path);
+function navigate(path: string): void {
+  writeHistory(path);
   window.scrollTo(0, 0);
-  destroyChatWidget();
-  closeSidebar();
-  route(path);
+  route(location.pathname);
 }
 
+let activeRoute: AbortController;
+
 function route(path: string): void {
+  activeRoute?.abort();
+  activeRoute = new AbortController();
+  destroyChatWidget();
+  closeSidebar();
   app.classList.remove('topic-layout-wide');
   if (path === '/contact') {
     renderContact();
   } else if (path === '/about') {
     renderAboutPage(app, navigate);
   } else if (path.startsWith('/topic/')) {
-    openTopic(path.slice('/topic/'.length));
+    openTopic(path.slice('/topic/'.length), activeRoute.signal);
   } else if (path.startsWith('/module/')) {
-    navigate(`/topic/${path.slice('/module/'.length)}`);
+    writeHistory(`/topic/${path.slice('/module/'.length)}${location.search}${location.hash}`, 'replace');
+    route(location.pathname);
     return;
   } else if (path === '/' || path === '') {
     renderHomePage(app, navigate, () => renderSidebar());
+    if (location.hash) focusSection(location.hash);
   } else {
     renderNotFound();
   }
   updateSidebarActive(path);
 }
 
-window.addEventListener('popstate', () => route(location.pathname));
+window.addEventListener('popstate', () => {
+  if (pageChangedOnTraversal()) route(location.pathname);
+  else if (location.hash) focusSection(location.hash);
+});
 window.addEventListener('navigate', ((e: CustomEvent) => navigate(e.detail)) as EventListener);
 
 // ── Sidebar ──────────────────────────────────────────────────
@@ -161,10 +171,11 @@ overlay.addEventListener('click', closeSidebar);
 
 // ── Topic view ───────────────────────────────────────────────
 
-async function openTopic(id: string): Promise<void> {
+async function openTopic(id: string, signal: AbortSignal): Promise<void> {
   app.innerHTML = `<div class="loading-state"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div>`;
 
   const content = await loadModuleContent(id);
+  if (signal.aborted) return;
   if (content) {
     const meta = MODULE_INDEX.find(m => m.id === id);
     if (meta) {
@@ -186,13 +197,15 @@ async function openTopic(id: string): Promise<void> {
     return;
   }
   document.title = content.title + ' — Banking Rails to Digital Finance';
-  await renderModule(app, content);
+  await renderModule(app, content, signal);
+  if (signal.aborted) return;
   app.querySelector<HTMLElement>('#backBtn')!.addEventListener('click', () => navigate('/'));
 
   const footer = document.createElement('div');
   footer.className = 'complete-footer';
   app.appendChild(footer);
   renderCompleteButton(footer, id);
+  if (location.hash) focusSection(location.hash);
 }
 
 function renderCompleteButton(footer: HTMLElement, moduleId: string): void {

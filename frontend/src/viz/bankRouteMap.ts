@@ -2,6 +2,7 @@ import {
   ROUTE_NODES, ROUTE_DECISION_CHIPS, SCENARIOS,
   type RouteScenario,
 } from '../data/bankRouteMap';
+import { writeHistory } from '../utils/navigation';
 
 const NODE_MAP = new Map(ROUTE_NODES.map(n => [n.id, n]));
 
@@ -26,8 +27,9 @@ let seqToken = 0;
 const prefersReducedMotion = (): boolean =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-export function renderBankRouteMap(container: HTMLElement): void {
-  let current = SCENARIOS[0];
+export function renderBankRouteMap(container: HTMLElement, showLink: (scenario: RouteScenario) => void): void {
+  const selected = new URLSearchParams(location.search).get('scenario');
+  let current = SCENARIOS.find(s => s.id === selected) ?? SCENARIOS[0];
 
   const wrapper = document.createElement('div');
   wrapper.className = 'brm-wrapper';
@@ -40,6 +42,11 @@ export function renderBankRouteMap(container: HTMLElement): void {
       if (!s || s.id === current.id) return;
       current = s;
       applyScenario(wrapper, current);
+      showLink(current);
+      const url = new URL(location.href);
+      url.searchParams.set('scenario', current.id);
+      url.hash = 'route-section';
+      writeHistory(url, 'replace');
     });
     btn.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
@@ -47,6 +54,7 @@ export function renderBankRouteMap(container: HTMLElement): void {
   });
 
   applyScenario(wrapper, current);
+  showLink(current);
 }
 
 // ─── HTML shell ──────────────────────────────────────────────────────────────

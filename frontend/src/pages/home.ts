@@ -3,6 +3,8 @@ import { isComplete } from '../progress';
 import { staggerEntrance } from '../animate';
 import { renderRailExplorer } from '../viz/railExplorer';
 import { renderBankRouteMap } from '../viz/bankRouteMap';
+import { isPlainClick, paymentJourneyPath } from '../utils/share';
+import { focusSection, writeHistory } from '../utils/navigation';
 
 export function renderHomePage(
   app: HTMLElement,
@@ -16,6 +18,10 @@ export function renderHomePage(
       <h1 class="landing-title">Banking Rails<br>to Digital Finance</h1>
       <p class="landing-thesis">Today's payments digitised the instruction. Digital finance digitises the instrument, the rules, the settlement and the audit trail.</p>
       <p class="landing-positioning">An authored practitioner reference for where today's payment rails end and where digital finance genuinely changes settlement, liquidity and reconciliation. Not a course, not a vendor pitch.</p>
+      <nav class="landing-actions" aria-label="Get started">
+        <a class="jump-link landing-primary" href="${paymentJourneyPath('correspondent')}">Follow a £1,000 payment</a>
+        <a class="jump-link" href="#topics-section">Browse all topics</a>
+      </nav>
     </div>
 
     <div class="hero-contrast">
@@ -43,25 +49,24 @@ export function renderHomePage(
       <a href="#route-section" class="jump-link">Route map</a>
       <a href="#rails-section" class="jump-link">Explore rails</a>
       <a href="#finality-section" class="jump-link">See finality gap</a>
-      <a href="#topics-section" class="jump-link">Browse topics</a>
     </nav>
 
-    <section class="brm-section" id="route-section">
+    <section class="brm-section" id="route-section" tabindex="-1">
       <h2 class="section-heading">From instruction to evidence</h2>
       <p class="brm-supporting">One instruction can travel through many rails. The bank's job is to choose the route that satisfies liability, liquidity, finality, compliance, reconciliation and evidence.</p>
       <div id="bankRouteMapMount"></div>
       <div class="brm-topics-cta">
-        <a href="#topics-section" class="brm-topics-link">Explore all 23 topics →</a>
+        <a href="#topics-section" class="brm-topics-link">Browse all topics →</a>
       </div>
     </section>
 
-    <section class="rail-explorer-section" id="rails-section">
+    <section class="rail-explorer-section" id="rails-section" tabindex="-1">
       <h2 class="section-heading">Explore the rails</h2>
       <p class="section-intro">Ten rails, compared on what actually matters operationally: what moves, where finality sits, who carries settlement risk in the gap, and where reconciliation still happens by hand.</p>
       <div id="railExplorerMount"></div>
     </section>
 
-    <section class="finality-section" id="finality-section">
+    <section class="finality-section" id="finality-section" tabindex="-1">
       <h2 class="section-heading">Payment speed is not settlement speed</h2>
       <p class="section-intro">A payment can feel complete before it is legally final, funded and reconciled. Select a rail to see where the customer experience ends and where the banking operation actually completes.</p>
       <div id="finalityMount">
@@ -69,27 +74,34 @@ export function renderHomePage(
       </div>
     </section>
 
-    <p class="landing-start" id="topics-section">Start with <strong>Payments fundamentals</strong> if you're new, or jump to any topic. Topics build on each other in the order shown, but each one stands on its own.</p>
-
     ${renderRecentlyUpdated()}
 
-    <div id="topicIndex">
-      ${renderCategoryIndex()}
-    </div>
+    <section id="topics-section" tabindex="-1" aria-label="All topics">
+      <p class="landing-start">Start with <strong>Payments fundamentals</strong> if you're new, or jump to any topic. Topics build on each other in the order shown, but each one stands on its own.</p>
+      <div id="topicIndex">${renderCategoryIndex()}</div>
+    </section>
   `;
 
-  // Smooth scroll for all anchor links in the homepage (jump links + topic CTA)
-  app.querySelectorAll<HTMLElement>('.jump-link, .brm-topics-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = app.querySelector(link.getAttribute('href')!);
-      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+  const mapLink = app.querySelector<HTMLAnchorElement>('.brm-topics-link')!;
+  const routeMapMount = app.querySelector<HTMLElement>('#bankRouteMapMount');
+  if (routeMapMount) renderBankRouteMap(routeMapMount, scenario => {
+    const supplier = scenario.id === 'cross-border';
+    mapLink.href = supplier ? paymentJourneyPath('compare', 'bank-only') : '#topics-section';
+    mapLink.textContent = supplier ? 'Compare four ways to pay this supplier →' : 'Browse all topics →';
   });
 
-  // Bank Route Map
-  const routeMapMount = app.querySelector<HTMLElement>('#bankRouteMapMount');
-  if (routeMapMount) renderBankRouteMap(routeMapMount);
+  app.querySelectorAll<HTMLAnchorElement>('.jump-link, .brm-topics-link').forEach(link => {
+    link.addEventListener('click', e => {
+      if (!isPlainClick(e)) return;
+      e.preventDefault();
+      if (link.pathname !== location.pathname) {
+        navigate(link.pathname + link.search + link.hash);
+        return;
+      }
+      if (link.hash !== location.hash) writeHistory(link.hash);
+      focusSection(link.hash, matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth');
+    });
+  });
 
   // Rail Explorer — load immediately (already bundled)
   const explorerMount = app.querySelector<HTMLElement>('#railExplorerMount');

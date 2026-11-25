@@ -1,5 +1,18 @@
 import type { ComparisonColumn } from '../types';
+import type { RouteId } from '../content/stablecoins/journey';
 import { showToast } from './toast';
+
+export const PAYMENT_SCENE = 'payment-journey';
+
+export function paymentJourneyPath(view: RouteId | 'compare', scenario?: string): string {
+  const query = new URLSearchParams({ view });
+  if (scenario) query.set('scenario', scenario);
+  return `/topic/stablecoins?${query}#${PAYMENT_SCENE}`;
+}
+
+export function isPlainClick(event: MouseEvent): boolean {
+  return !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+}
 
 export async function copyToClipboard(text: string): Promise<boolean> {
   try {
