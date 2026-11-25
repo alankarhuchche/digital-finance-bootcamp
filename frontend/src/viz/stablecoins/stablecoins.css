@@ -32,6 +32,9 @@
 
 /* ── Header line ── */
 .sc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.sc-journey-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.sc-journey { scroll-margin-top: 80px; }
+.sc-situation summary [data-situation-label] { color: var(--text-dim); font-weight: normal; }
 .sc-contract { margin: 0; color: var(--text-dim); max-width: 72ch; }
 .sc-contract b { color: var(--text); font-weight: 600; }
 .sc-tag {
@@ -84,6 +87,7 @@
   color: var(--text); font: 500 12px 'Inter', sans-serif; padding: 7px 11px; min-height: 34px; cursor: pointer;
 }
 .sc-chip:hover { border-color: var(--amber); }
+.sc-chip[aria-pressed="true"] { border-color: var(--amber); background: rgba(232, 163, 61, 0.10); }
 
 /* ── Segmented radio groups ── */
 .sc-seg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px 16px; }

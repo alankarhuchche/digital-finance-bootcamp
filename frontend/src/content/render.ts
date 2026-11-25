@@ -29,17 +29,12 @@ function formatTopicDate(iso: string): string {
   return `${d} ${months[m - 1]} ${y}`;
 }
 
-// Each render gets a sequence number. If the reader moves to another topic while an older
-// render is still awaiting a chunk, the older render stops instead of writing into the new page.
-let renderSeq = 0;
-
-export async function renderModule(container: HTMLElement, mod: ModuleContent): Promise<void> {
-  const seq = ++renderSeq;
+export async function renderModule(container: HTMLElement, mod: ModuleContent, signal: AbortSignal): Promise<void> {
   // Apply or remove wide layout class before rendering
   container.classList.toggle('topic-layout-wide', mod.layout === 'wide');
 
   const { MODULE_INDEX, findCategory } = await import('./registry');
-  if (seq !== renderSeq) return;
+  if (signal.aborted) return;
   const curIdx = MODULE_INDEX.findIndex(m => m.id === mod.id);
   const category = findCategory(mod.id);
   const topicUrl = buildTopicLink(mod.id);
@@ -69,7 +64,7 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
     btn.addEventListener('click', () => {
       const action = btn.dataset.action;
       if (action === 'link') {
-        copyAndToast(topicUrl, 'link');
+        copyAndToast(location.href, 'link');
       } else if (action === 'summary') {
         copyAndToast(buildTopicSummaryText(mod.title, mod.summary, topicUrl), 'summary');
       } else if (action === 'linkedin') {
@@ -96,7 +91,7 @@ export async function renderModule(container: HTMLElement, mod: ModuleContent): 
     section.className = 'block';
     body.appendChild(section);
     await renderBlock(section, block, topicUrl, inChapter ? 'h3' : 'h2');
-    if (seq !== renderSeq) return;
+    if (signal.aborted) return;
   }
 
   // Previous / Next topic navigation

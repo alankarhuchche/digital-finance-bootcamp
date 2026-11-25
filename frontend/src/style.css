@@ -176,6 +176,7 @@ h2, .block-heading {
   margin: 0 0 12px; color: var(--text);
 }
 @media (max-width: 600px) { .landing-title { font-size: 26px; } }
+@media (max-width: 767px) { .landing-header { padding-top: 22px; } }
 .landing-thesis {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 17px; color: var(--amber); line-height: 1.5;
@@ -187,6 +188,10 @@ h2, .block-heading {
 }
 
 /* ============ Jump navigation ============ */
+.landing-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 20px; }
+.landing-actions .jump-link { display: inline-flex; align-items: center; min-height: 44px; }
+.landing-actions .landing-primary { background: var(--amber); border-color: var(--amber); color: var(--ink); font-weight: 600; }
+.landing-actions .landing-primary:hover { background: var(--text); border-color: var(--text); color: var(--ink); }
 .homepage-jump {
   display: flex; gap: 8px; margin: 20px 0 4px;
   flex-wrap: wrap;
@@ -3274,6 +3279,7 @@ svg.world-map { width: 100%; height: auto; display: block; }
 }
 .chn--open .chn-list { display: grid; gap: 2px; }
 .chn-item {
+  text-decoration: none;
   width: 100%; display: flex; align-items: center; gap: 10px;
   min-height: 44px; padding: 6px 10px; border: 0; border-radius: 8px;
   background: none; color: var(--text-dim); font: 500 14px 'Inter', sans-serif; text-align: left; cursor: pointer;

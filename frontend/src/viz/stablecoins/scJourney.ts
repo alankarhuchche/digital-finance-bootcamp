@@ -2,15 +2,18 @@
 // Teaches that a token arriving and a supplier holding spendable money are different events.
 
 import {
-  ROUTES, LAYER_ORDER, LAYER_LABELS, SCENARIO, CORRIDOR_PRESETS, DEFAULT_CONDITIONS, DEFAULT_FEES, FEE_LIMITS,
+  ROUTES, LAYER_ORDER, LAYER_LABELS, SCENARIO, CORRIDOR_PRESETS, FEE_LIMITS,
   evaluateRoute, traceValue, summariseRoute, routeById, activeSteps, breakEvenFxPct,
   type JourneyConditions, type RouteId, type FeeInputs, type StepStatus, type RouteEvaluation, type JourneyRoute,
 } from '../../content/stablecoins/journey.ts';
 import {
   segmented, readSeg, writeSeg, liveRegion, announce, askButton, bindAsk, reducedMotion, esc, fmtGBP, basis,
 } from './ui.ts';
-
-type View = RouteId | 'compare';
+import {
+  conditionKeys, CONDITION_CONTROLS, matchingPreset, readJourneySelection, writeJourneySelection, type JourneySelection,
+} from '../../content/stablecoins/journeyLink.ts';
+import { copyAndToast, PAYMENT_SCENE } from '../../utils/share';
+import { writeHistory } from '../../utils/navigation';
 
 const STATUS_TEXT: Record<StepStatus, string> = {
   done: 'Done', waits: 'Waits', pending: 'Later', held: 'Held', blocked: 'Blocked', 'not-reached': 'Not reached',
@@ -27,21 +30,23 @@ const MARK: Record<string, { glyph: string; label: string }> = {
 
 export function renderJourney(mount: HTMLElement): void {
   mount.classList.add('block-wide');
-  let view: View = 'sandwich';
-  let idx = -1;
-  let cond: JourneyConditions = { ...DEFAULT_CONDITIONS };
-  let fees: FeeInputs = { ...DEFAULT_FEES };
+  const initial = readJourneySelection(new URLSearchParams(location.search));
+  let { view, conditions: cond, fees } = initial;
+  let idx = initial.step - 1;
   let timer = 0;
 
   mount.innerHTML = `
-  <div class="sc sc-journey cq" data-scene="journey">
+  <div class="sc sc-journey cq" data-scene="journey" id="${PAYMENT_SCENE}" role="region" aria-label="Follow a £1,000 payment" tabindex="-1">
     <div class="sc-head">
       <p class="sc-contract">
         <span class="sc-tag">Scenario</span>
-        ${esc(SCENARIO.invoice)} from ${esc(SCENARIO.sender.toLowerCase())} to ${esc(SCENARIO.beneficiary.toLowerCase())}.
+        ${esc(SCENARIO.invoice)} from ${esc(SCENARIO.sender.replace(/^A /, 'a '))} to ${esc(SCENARIO.beneficiary.replace(/^A /, 'a '))}.
         <b>Paid means</b> the supplier holds what it asked for: local currency it can spend from its bank account, or dollar tokens in its own wallet.
       </p>
-      ${askButton('Ask about this scene')}
+      <div class="sc-journey-actions">
+        <button type="button" class="sc-ask" data-copy-scenario>Copy scenario link</button>
+        ${askButton('Ask about this scene')}
+      </div>
     </div>
 
     <div class="sc-routes" role="group" aria-label="Choose a route">
@@ -49,33 +54,16 @@ export function renderJourney(mount: HTMLElement): void {
       <button type="button" class="sc-route-btn sc-route-btn--compare" data-route="compare" aria-pressed="false">Compare all four</button>
     </div>
 
-    <details class="sc-panel sc-situation" open>
-      <summary>Change the situation</summary>
+    <details class="sc-panel sc-situation"${location.hash === '#' + PAYMENT_SCENE ? '' : ' open'}>
+      <summary>Change the situation <span data-situation-label></span></summary>
       <div class="sc-presets" role="group" aria-label="Situation presets">
         ${CORRIDOR_PRESETS.map(p => `<button type="button" class="sc-chip" data-preset="${p.id}" title="${esc(p.note)}">${esc(p.label)}</button>`).join('')}
       </div>
       <div class="sc-seg-grid">
-        ${segmented('objective', 'Supplier needs', [
-          { value: 'local', label: 'Local currency in its bank' }, { value: 'tokens', label: 'Dollar tokens in its wallet' },
-        ], cond.objective)}
-        ${segmented('bankReach', 'Banks and payment firms', [
-          { value: 'normal', label: 'Serve this corridor' }, { value: 'withdrawn', label: 'Have withdrawn' },
-        ], cond.bankReach)}
-        ${segmented('wallet', 'Supplier’s stablecoin wallet', [
-          { value: 'none', label: 'None' }, { value: 'hosted', label: 'At an exchange' },
-        ], cond.wallet)}
-        ${segmented('offramp', 'Licensed off-ramp in the destination', [
-          { value: 'liquid', label: 'Funded' }, { value: 'thin', label: 'Short of cash' }, { value: 'none', label: 'None' },
-        ], cond.offramp)}
-        ${segmented('localRail', 'Destination payout system', [
-          { value: 'instant', label: 'Instant, 24/7' }, { value: 'hours', label: 'Banking hours' },
-        ], cond.localRail)}
-        ${segmented('when', 'Business presses send', [
-          { value: 'weekday', label: 'Tue 10:00' }, { value: 'evening', label: 'Fri 18:00' }, { value: 'weekend', label: 'Sat 11:00' },
-        ], cond.when)}
-        ${segmented('screening', 'Payee screening', [
-          { value: 'clear', label: 'Clear' }, { value: 'review', label: 'Possible match' },
-        ], cond.screening)}
+        ${conditionKeys.map(key => {
+          const { label, options } = CONDITION_CONTROLS[key];
+          return segmented<string>(key, label, options, cond[key]);
+        }).join('')}
       </div>
       <p class="sc-note" data-preset-note></p>
     </details>
@@ -100,6 +88,23 @@ export function renderJourney(mount: HTMLElement): void {
   const compare = root.querySelector<HTMLElement>('[data-compare]')!;
   const presetNote = root.querySelector<HTMLElement>('[data-preset-note]')!;
 
+  function scenarioUrl(): URL {
+    const url = new URL(location.href);
+    url.hash = PAYMENT_SCENE;
+    writeJourneySelection(url.searchParams, { view, conditions: cond, fees, step: idx + 1 });
+    return url;
+  }
+
+  function updateScenarioLink(): void {
+    const url = scenarioUrl();
+    if (url.hash !== location.hash) writeHistory(url);
+    else if (url.href !== location.href) writeHistory(url, 'replace');
+  }
+
+  root.querySelector('[data-copy-scenario]')!.addEventListener('click', () => {
+    copyAndToast(scenarioUrl().href, 'scenario link');
+  });
+
   bindAsk(root, 'journey', () => view === 'compare'
     ? 'In Follow £1,000, why do the routes reach the supplier at different times even when the token moves in seconds?'
     : `In Follow £1,000, on the ${routeById(view as RouteId).name.toLowerCase()} route, what has actually happened by step ${Math.max(1, idx + 1)}, and is the supplier paid yet?`);
@@ -111,29 +116,34 @@ export function renderJourney(mount: HTMLElement): void {
     if (play) play.textContent = 'Play';
   };
 
-  const setView = (v: View) => {
-    stopTimer();
-    view = v;
-    idx = -1;
-    root.querySelectorAll<HTMLButtonElement>('[data-route]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.route === v)));
-    stage.hidden = v === 'compare';
-    compare.hidden = v !== 'compare';
-    render();
-  };
-
   const maxIdx = (ev: RouteEvaluation): number => {
     if (ev.result === 'not-applicable') return -1;
     const stop = ev.steps.findIndex(s => s.status === 'blocked' || s.status === 'held');
     return stop >= 0 ? stop : ev.steps.length - 1;
   };
 
-  function render(): void {
-    if (view === 'compare') { renderCompare(); return; }
-    const route = routeById(view);
-    const ev = evaluateRoute(route, cond);
-    idx = Math.min(idx, maxIdx(ev));
-    stage.innerHTML = stageHtml(route, ev, idx, fees, cond);
-    bindStage(route, ev);
+  function render(updateLink = true): void {
+    root.querySelectorAll<HTMLButtonElement>('[data-route]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.route === view)));
+    stage.hidden = view === 'compare';
+    compare.hidden = view !== 'compare';
+    if (view === 'compare') {
+      renderCompare();
+    } else {
+      const route = routeById(view);
+      const ev = evaluateRoute(route, cond);
+      idx = Math.min(idx, maxIdx(ev));
+      stage.innerHTML = stageHtml(route, ev, idx, fees, cond);
+      bindStage(route, ev);
+    }
+    if (updateLink) updateScenarioLink();
+  }
+
+  function markPreset(): void {
+    const preset = matchingPreset(cond);
+    root.querySelector<HTMLElement>('[data-situation-label]')!.textContent = preset?.label ?? 'Custom settings';
+    presetNote.textContent = preset?.note ?? '';
+    root.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach(b =>
+      b.setAttribute('aria-pressed', String(b.dataset.preset === preset?.id)));
   }
 
   function bindStage(route: JourneyRoute, ev: RouteEvaluation): void {
@@ -163,11 +173,12 @@ export function renderJourney(mount: HTMLElement): void {
     stage.querySelector('[data-act="play"]')?.addEventListener('click', () => {
       if (timer) { stopTimer(); return; }
       if (idx >= maxIdx(ev)) go(-1);
+      updateScenarioLink();
       const play = stage.querySelector<HTMLButtonElement>('[data-act="play"]')!;
       play.textContent = 'Pause';
       play.setAttribute('aria-pressed', 'true');
       timer = window.setInterval(() => {
-        if (!root.isConnected) { stopTimer(); return; }
+        if (!root.isConnected || location.hash !== '#' + PAYMENT_SCENE) { stopTimer(); return; }
         if (idx >= maxIdx(ev)) { stopTimer(); return; }
         go(idx + 1);
         const p = stage.querySelector<HTMLButtonElement>('[data-act="play"]');
@@ -201,8 +212,12 @@ export function renderJourney(mount: HTMLElement): void {
   }
 
   // Controls
-  root.querySelectorAll<HTMLButtonElement>('[data-route]').forEach(b =>
-    b.addEventListener('click', () => setView(b.dataset.route as View)));
+  root.querySelectorAll<HTMLButtonElement>('[data-route]').forEach(b => b.addEventListener('click', () => {
+    stopTimer();
+    view = b.dataset.route as JourneySelection['view'];
+    idx = -1;
+    render();
+  }));
 
   root.querySelector('.sc-seg-grid')?.addEventListener('change', () => {
     cond = {
@@ -214,7 +229,7 @@ export function renderJourney(mount: HTMLElement): void {
       when: (readSeg(root, 'when') ?? cond.when) as JourneyConditions['when'],
       screening: (readSeg(root, 'screening') ?? cond.screening) as JourneyConditions['screening'],
     };
-    presetNote.textContent = '';
+    markPreset();
     stopTimer();
     render();
   });
@@ -223,23 +238,26 @@ export function renderJourney(mount: HTMLElement): void {
     const p = CORRIDOR_PRESETS.find(x => x.id === b.dataset.preset)!;
     cond = { ...p.conditions };
     (Object.keys(cond) as (keyof JourneyConditions)[]).forEach(k => writeSeg(root, k, cond[k]));
-    presetNote.textContent = p.note;
+    markPreset();
     stopTimer();
     idx = -1;
     render();
     announce(root, `Preset: ${p.label}.`);
   }));
 
-  root.querySelector('.sc-sliders')?.addEventListener('input', e => {
+  const sliders = root.querySelector<HTMLElement>('.sc-sliders')!;
+  sliders.addEventListener('input', e => {
     const input = e.target as HTMLInputElement;
     const key = input.name as keyof FeeInputs;
     fees = { ...fees, [key]: Number(input.value) };
     const out = root.querySelector<HTMLOutputElement>(`output[data-for="${key}"]`);
     if (out) out.textContent = input.dataset.unit === '%' ? `${Number(input.value).toFixed(1)}%` : fmtGBP(Number(input.value), key === 'fixedGBP' ? 0 : 2);
-    render();
+    render(false);
   });
+  sliders.addEventListener('change', updateScenarioLink);
 
-  setView('sandwich');
+  markPreset();
+  render(false);
 }
 
 function slider(name: keyof FeeInputs, label: string, value: number, lim: { min: number; max: number; step: number }, fmt: (v: number) => string): string {
